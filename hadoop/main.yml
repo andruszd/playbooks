@@ -35,33 +35,33 @@
           tags:
             - check_vars
 
-    # - name: install dependencies
-    #   include_tasks:
-    #     file: tasks/dependencies.yml
-    #     apply:
-    #       tags:
-    #         - dependencies
+    - name: install dependencies
+      include_tasks:
+        file: tasks/dependencies.yml
+        apply:
+          tags:
+            - dependencies
 
-    # - name: create users
-    #   include_tasks:
-    #     file: tasks/users.yml
-    #     apply:
-    #       tags:
-    #         - users
+    - name: create users
+      include_tasks:
+        file: tasks/users.yml
+        apply:
+          tags:
+            - users
 
-    # - name: download packages
-    #   include_tasks:
-    #     file: tasks/download.yml
-    #     apply:
-    #       tags:
-    #         - download
+    - name: download packages
+      include_tasks:
+        file: tasks/download.yml
+        apply:
+          tags:
+            - download
 
-    # - name: install packages
-    #   include_tasks:
-    #     file: tasks/install.yml
-    #     apply:
-    #       tags:
-    #         - install
+    - name: install packages
+      include_tasks:
+        file: tasks/install.yml
+        apply:
+          tags:
+            - install
 
     - name: configure packages
       include_tasks:
@@ -84,16 +84,16 @@
           tags:
             - link
 
-    # - name: startup packages
-    #   include_tasks:
-    #     file: tasks/startup.yml
-    #     apply:
-    #       tags:
-    #         - startup
+    - name: startup packages
+      include_tasks:
+        file: tasks/startup.yml
+        apply:
+          tags:
+            - startup
 
-    # - name: cleanup packages
-    #   include_tasks:
-    #     file: tasks/cleanup.yml
-    #     apply:
-    #       tags:
-    #         - cleanup
+    - name: cleanup packages
+      include_tasks:
+        file: tasks/cleanup.yml
+        apply:
+          tags:
+            - cleanup
