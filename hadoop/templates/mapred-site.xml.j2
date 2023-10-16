@@ -5,7 +5,7 @@
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,8 +20,8 @@
 <configuration>
 <!-- Start Mapred Properties -->
 	<property>
-  		<name>mapreduce.jobhistory.admin.acl</name>
-  		<value>mapred hadoop-admins</value>
+		<name>mapreduce.jobhistory.admin.acl</name>
+		<value>mapred hadoop-admins</value>
 	</property>
 <!--Execution framework set to Hadoop YARN.-->
 	<property>
@@ -80,24 +80,24 @@
 		<value>-Xmx512m</value>
 	</property>
 	<property>
-    	<name>yarn.app.mapreduce.am.staging-dir</name>
-    	<value>/user</value>
+		<name>yarn.app.mapreduce.am.staging-dir</name>
+		<value>/user</value>
 	</property>
-  	<property>
-    	<name>mapreduce.jobhistory.address</name>
-    	<value>hdfsnn03.example.com:10020</value>
+	<property>
+		<name>mapreduce.jobhistory.address</name>
+		<value>hdfsnn03.example.com:10020</value>
 	</property>
 	<property>
 		<name>mapreduce.jobhistory.webapp.address</name>
 		<value>hdfsnn03.example.com:19888</value>
 	</property>
 	<property>
-     	<name>mapreduce.jobhistory.intermediate-done-dir</name>
-     	<value>${yarn.app.mapreduce.am.staging-dir}/history/done</value>
+		<name>mapreduce.jobhistory.intermediate-done-dir</name>
+		<value>${yarn.app.mapreduce.am.staging-dir}/history/done</value>
 	</property>
 	<property>
-    	 <name>mapreduce.jobhistory.done-dir</name>
-     	<value>${yarn.app.mapreduce.am.staging-dir}/history/done_intermediate</value>
+		 <name>mapreduce.jobhistory.done-dir</name>
+		<value>${yarn.app.mapreduce.am.staging-dir}/history/done_intermediate</value>
 	</property>
 <!-- END Mapred Properties -->
 </configuration>

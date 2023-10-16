@@ -25,7 +25,7 @@
         <name>dfs.cluster.administrators</name>
         <value>hdfs hadoop-admins</value>
     </property>
-    <!-- The minimum number of NameNodes for HA is two. 
+    <!-- The minimum number of NameNodes for HA is two.
     Its suggested to not exceed 5 - with a recommended 3 NameNodes - due to communication overheads. -->
     <property>
         <name>dfs.ha.namenodes.{{cluster_name}}</name>
@@ -85,22 +85,22 @@
         <name>dfs.ha.automatic-failover.enabled</name>
         <value>true</value>
     </property>
+	<!--The number of replicas for HDFS this should  equal the number of DataNodes you have-->
     <property>
-        <!--The number of replicas for HDFS this should  equal the number of DataNodes you have-->
         <name>dfs.replication</name>
         <value>3</value>
     </property>
+	<!--HDFS blocksize of 256MB for large file-systems.-->
     <property>
-        <!--HDFS blocksize of 256MB for large file-systems.-->
         <name>dfs.blocksize</name>
         <value>268435456</value>
     </property>
-    <property> 
-        <name>dfs.permissions.superusergroup</name> 
+    <property>
+        <name>dfs.permissions.superusergroup</name>
         <value>superusergroup</value>
     </property>
+	<!--More NameNode server threads to handle RPCs from large number of DataNodes.-->
     <property>
-        <!--More NameNode server threads to handle RPCs from large number of DataNodes.-->
         <name>dfs.namenode.handler.count</name>
         <value>100</value>
     </property>
@@ -108,8 +108,8 @@
         <name>dfs.namenode.name.dir</name>
         <value>{{hdfs_namenode_dir}}</value>
     </property>
+	<!--List of allowable datanodes-->
     <property>
-        <!--List of allowable datanodes-->
         <name>dfs.hosts</name>
         <!-- Does it got to 11-->
         <value>{{location}}-hdfsdn01-{{sys_env}}-{{cluster_name}}.{{domain_name}},

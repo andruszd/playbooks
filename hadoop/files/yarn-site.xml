@@ -4,7 +4,7 @@
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,148 +13,151 @@
   limitations under the License. See accompanying LICENSE file.
 -->
 <configuration>
-  <!--Start Common Properties-->
-  <property>
-    <name>yarn.acl.enable</name>
-    <value>false</value>
-  </property>
-  <property>
-    <name>yarn.admin.acl</name>
-    <value>root, hdfs, hadoop, yarn, mapred</value>
-  </property>
-  <property>
-    <name>yarn.log-aggregation-enable</name>
-    <value>false</value>
-  </property>
-  <!--End Common Properties-->
-  <!--Start -ResourceManager Properties-->
-  <property>
-    <!--ResourceManager host:port for clients to submit jobs-->
-    <name>yarn.resourcemanager.address</name>
-    <value></value>
-  </property>
-  <property>
-    <!--ResourceManager host:port for Application Masters to talk to Scheduler to obtain resources-->
-    <name>yarn.resourcemanager.scheduler.address</name>
-    <value></value>
-  </property>
-  <property>
-    <!--ResourceManager host:port for NodeManagers.-->
-    <name>yarn.resourcemanager.resource-tracker.address</name>
-    <value></value>
-  </property>
-  <property>
-    <!--ResourceManager host:port for administrative commands.-->
-    <name>yarn.resourcemanager.admin.address</name>
-    <value></value>
-  </property>
-  <property>
-    <!--ResourceManager web-ui host:port.-->
-    <name>yarn.resourcemanager.webapp.address</name>
-    <value></value>
-  </property>
-  <property>
-    <!--ResourceManager host.-->
-    <name>yarn.resourcemanager.hostname</name>
-    <value>hdfsnn03</value>
-  </property>
-  <property>
-    <!--ResourceManager Scheduler class.-->
-    <name>yarn.resourcemanager.scheduler.class</name>
-    <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler</value>
-  </property>
-  <property>
-    <!--Minimum limit of memory to allocate to each container request at the Resource Manager.-->
-    <name>yarn.scheduler.minimum-allocation-mb</name>
-    <value>100</value>
-  </property>
-  <property>
-    <!--Maximum limit of memory to allocate to each container request at the Resource Manager.-->
-    <name>yarn.scheduler.maximum-allocation-mb</name>
-    <value>500</value>
-  </property>
-  <property>
-    <!--List of allowable NodeManagers-->
-    <name>yarn.resourcemanager.nodes.include-path</name>
-    <value>hdfsnn02,hdfsnn03,hdfsnn04</value>
-  </property>
-  <property>
-    <name>yarn.resourcemanager.nodes.exclude-path</name>
-    <value>hdfsnn05</value>
-  </property>
-    <name>yarn.application.classpath</name> 
-	  <value>
-      $HADOOP_CLIENT_CONF_DIR
-      $HADOOP_CONF_DIR,
-      $HADOOP_COMMON_ HOME/*,
-      $HADOOP_COMMON_HOME/lib/*,
-      $HADOOP_HDFS_HOME/*,
-      $HADOOP_HDFS_HOME/ lib/*,
-      $HADOOP_YARN_HOME/*,
-      $HADOOP_YARN_HOME/lib/*,
-      /usr/lib/avro/avro.jar,
-      /usr/lib/avro/avro-mapred.jar,
-      /usr/lib/mahout/lib/commons-lang3-3.1.jar
-	  </value>
-  </property>
-  <!--END -ResourceManager Properties-->
-  <!--Start NodeManager Properties-->
-  <property>
-    <!--Resource i.e. available physical memory, in MB, for given NodeManager-->
-    <name>yarn.nodemanager.resource.memory-mb</name>
-    <value>1024</value>
-  </property>
-  <property>
-    <!--Maximum ratio by which virtual memory usage of tasks may exceed physical memory-->
-    <name>yarn.nodemanager.vmem-pmem-ratio</name>
-    <value>10</value>
-  </property>
-  <property>
-    <!--Comma-separated list of paths on the local filesystem where intermediate data is written.-->
-    <name>yarn.nodemanager.local-dirs</name>
-    <value></value>
-  </property>
-  <property>
-    <!--Comma-separated list of paths on the local filesystem where logs are written.-->
-    <name>yarn.nodemanager.log-dirs</name>
-    <value></value>
-  </property>
-  <property>
-    <!--Default time (in seconds) to retain log files on the NodeManager Only applicable if log-aggregation is disabled.-->
-    <name>yarn.nodemanager.log.retain-seconds</name>
-    <value>10800</value>
-  </property>
-  <property>
-    <!--HDFS directory where the application logs are moved on application completion. 
-        Need to set appropriate permissions. 
-        Only applicable if log-aggregation is enabled.-->
-    <name>yarn.nodemanager.remote-app-log-dir</name>
-    <value>/logs</value>
-  </property>
-  <property>
-    <!--Suffix appended to the remote log dir. 
-        Logs will be aggregated to ${yarn.nodemanager.remote-app-log-dir}/${user}/${thisParam} 
-        Only applicable if log-aggregation is enabled.-->
-    <name>yarn.nodemanager.remote-app-log-dir-suffix</name>
-    <value>logs</value>
-  </property>
-  <property>
-    <!--Shuffle service that needs to be set for Map Reduce applications.-->
-    <name>yarn.nodemanager.aux-services</name>
-    <value>mapreduce_shuffle</value>
-  </property>
-  <property>
-    <name>yarn.nodemanager.env-whitelist</name>
-    <value>JAVA_HOME,
-    HADOOP_COMMON_HOME,
-    HADOOP_HDFS_HOME,
-    HADOOP_CONF_DIR,
-    CLASSPATH_PREPEND_DISTCACHE,
-    HADOOP_YARN_HOME,
-    HADOOP_HOME,
-    PATH,LANG,
-    TZ,
-    HADOOP_MAPRED_HOME</value>
-  </property>
-  <!--End NodeManager Properties-->
+	<!--Start Common Properties-->
+	<property>
+		<name>yarn.acl.enable</name>
+		<value>false</value>
+	</property>
+	<property>
+		<name>yarn.admin.acl</name>
+		<value>root, hdfs, hadoop, yarn, mapred</value>
+	</property>
+	<property>
+		<name>yarn.log-aggregation-enable</name>
+		<value>false</value>
+	</property>
+	<!--End Common Properties-->
+	<!--Start -ResourceManager Properties-->
+	<property>
+		<!--ResourceManager host:port for clients to submit jobs-->
+		<name>yarn.resourcemanager.address</name>
+		<value></value>
+	</property>
+	<property>
+		<!--ResourceManager host:port for Application Masters to talk to Scheduler to obtain resources-->
+		<name>yarn.resourcemanager.scheduler.address</name>
+		<value></value>
+	</property>
+	<property>
+		<!--ResourceManager host:port for NodeManagers.-->
+		<name>yarn.resourcemanager.resource-tracker.address</name>
+		<value></value>
+	</property>
+	<property>
+		<!--ResourceManager host:port for administrative commands.-->
+		<name>yarn.resourcemanager.admin.address</name>
+		<value></value>
+	</property>
+	<property>
+		<!--ResourceManager web-ui host:port.-->
+		<name>yarn.resourcemanager.webapp.address</name>
+		<value></value>
+	</property>
+	<property>
+		<!--ResourceManager host.-->
+		<name>yarn.resourcemanager.hostname</name>
+		<value>hdfsnn03</value>
+	</property>
+	<property>
+		<!--ResourceManager Scheduler class.-->
+		<name>yarn.resourcemanager.scheduler.class</name>
+		<value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler</value>
+	</property>
+	<property>
+		<!--Minimum limit of memory to allocate to each container request at the Resource Manager.-->
+		<name>yarn.scheduler.minimum-allocation-mb</name>
+		<value>100</value>
+	</property>
+	<property>
+		<!--Maximum limit of memory to allocate to each container request at the Resource Manager.-->
+		<name>yarn.scheduler.maximum-allocation-mb</name>
+		<value>500</value>
+	</property>
+	<property>
+		<!--List of allowable NodeManagers-->
+		<name>yarn.resourcemanager.nodes.include-path</name>
+		<value>hdfsnn02,hdfsnn03,hdfsnn04</value>
+	</property>
+	<property>
+		<name>yarn.resourcemanager.nodes.exclude-path</name>
+		<value>hdfsnn05</value>
+	</property>
+	<property>
+	<name>yarn.application.classpath</name>
+	<value>
+		$HADOOP_CLIENT_CONF_DIR
+		$HADOOP_CONF_DIR,
+		$HADOOP_COMMON_ HOME/*,
+		$HADOOP_COMMON_HOME/lib/*,
+		$HADOOP_HDFS_HOME/*,
+		$HADOOP_HDFS_HOME/ lib/*,
+		$HADOOP_YARN_HOME/*,
+		$HADOOP_YARN_HOME/lib/*,
+		/usr/lib/avro/avro.jar,
+		/usr/lib/avro/avro-mapred.jar,
+		/usr/lib/mahout/lib/commons-lang3-3.1.jar
+	</value>
+	</property>
+	<!--END -ResourceManager Properties-->
+	<!--Start NodeManager Properties-->
+	<property>
+		<!--Resource i.e. available physical memory, in MB, for given NodeManager-->
+		<name>yarn.nodemanager.resource.memory-mb</name>
+		<value>1024</value>
+	</property>
+	<property>
+		<!--Maximum ratio by which virtual memory usage of tasks may exceed physical memory-->
+		<name>yarn.nodemanager.vmem-pmem-ratio</name>
+		<value>10</value>
+	</property>
+	<property>
+		<!--Comma-separated list of paths on the local filesystem where intermediate data is written.-->
+		<name>yarn.nodemanager.local-dirs</name>
+		<value></value>
+	</property>
+	<property>
+		<!--Comma-separated list of paths on the local filesystem where logs are written.-->
+		<name>yarn.nodemanager.log-dirs</name>
+		<value></value>
+	</property>
+	<property>
+		<!--Default time (in seconds) to retain log files on the NodeManager Only applicable if log-aggregation is disabled.-->
+		<name>yarn.nodemanager.log.retain-seconds</name>
+		<value>10800</value>
+	</property>
+	<property>
+		<!--HDFS directory where the application logs are moved on application completion. 
+		Need to set appropriate permissions. 
+		Only applicable if log-aggregation is enabled.-->
+		<name>yarn.nodemanager.remote-app-log-dir</name>
+		<value>/logs</value>
+	</property>
+	<property>
+		<!--Suffix appended to the remote log dir. 
+		Logs will be aggregated to ${yarn.nodemanager.remote-app-log-dir}/${user}/${thisParam} 
+		Only applicable if log-aggregation is enabled.-->
+		<name>yarn.nodemanager.remote-app-log-dir-suffix</name>
+		<value>logs</value>
+	</property>
+	<property>
+		<!--Shuffle service that needs to be set for Map Reduce applications.-->
+		<name>yarn.nodemanager.aux-services</name>
+		<value>mapreduce_shuffle</value>
+	</property>
+	<property>
+		<name>yarn.nodemanager.env-whitelist</name>
+		<value>
+			JAVA_HOME,
+			HADOOP_COMMON_HOME,
+			HADOOP_HDFS_HOME,
+			HADOOP_CONF_DIR,
+			CLASSPATH_PREPEND_DISTCACHE,
+			HADOOP_YARN_HOME,
+			HADOOP_HOME,
+			PATH,LANG,
+			TZ,
+			HADOOP_MAPRED_HOME
+		</value>
+	</property>
+	<!--End NodeManager Properties-->
 </configuration>
