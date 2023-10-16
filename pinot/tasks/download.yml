@@ -1,0 +1,58 @@
+---
+- name: download hadoop
+  get_url:
+    url: "{{ pinot_download_url }}"
+    dest: "{{ pinot_download_dest }}"
+    mode: u=rw,g=r,o=r
+    timeout: 600
+    validate_certs: false
+  register: download_pinot
+  when: pinot_download_url is defined
+
+- name: create pinot destination directory
+  file:
+    path: /opt/pinot
+    state: directory
+    owner: "{{ pinot_user }}"
+    group: "{{ pinot_group }}"
+    mode: u=rwx,g=rx,o=rx
+  when: download_pinot.changed
+
+- name: extract pinot
+  unarchive:
+    src: "{{ pinot_download_dest }}"
+    dest: /opt/pinot
+    remote_src: true
+    creates: "{{ pinot_home }}"
+    owner: "{{ pinot_user }}"
+    group: "{{ pinot_group }}"
+  when: download_pinot.changed
+
+- name: download zookeeper
+  get_url:
+    url: "{{ zookeeper_download_url }}"
+    dest: "{{ zookeeper_download_dest }}"
+    timeout: 600
+    mode: u=rw,g=r,o=r
+    validate_certs: false
+  register: download_zookeeper
+  when: zookeeper_download_url is defined
+
+- name: create zookeeper destination directory
+  file:
+    path: /usr/lib/zookeeper
+    state: directory
+    owner: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
+    mode: u=rwx,g=rx,o=rx
+  when: download_zookeeper.changed
+
+- name: extract zookeeper
+  unarchive:
+    src: "{{ zookeeper_download_dest }}"
+    dest: /usr/lib/zookeeper
+    remote_src: true
+    creates: "{{ zookeeper_home }}"
+    owner: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
+  when: download_zookeeper.changed

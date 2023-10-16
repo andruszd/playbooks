@@ -1,0 +1,60 @@
+---
+# Variables
+location: enf
+# Environment Configuration = dev, test, prod, qa, uat
+sys_env: dev
+pinot_version: 0.12.1
+zookeeper_version: 3.8.2
+zookeepers:
+      - name: ptzkpr01
+        ip: 10.10.1.101
+        myid: 1
+      - name: ptzkpr02
+        ip: 10.10.1.102
+        myid: 2
+      - name: ptzkpr03
+        ip: 10.10.1.103
+        myid: 3
+# Pinot Configuration
+pinot_download_url: "https://downloads.apache.org/incubator/pinot/apache-pinot-{{ pinot_version }}/apache-pinot-{{ pinot_version }}-bin.tar.gz"
+pinot_download_dest: /tmp/apache-pinot-{{ pinot_version }}-bin.tar.gz
+pinot_user: pinot
+pinot_group: pinot
+pinot_home: /opt/apache-pinot-{{ pinot_version }}-bin
+pinot_conf_dir: "/etc/pinot"
+pinot_data_dir: /data/pinot
+pinot_log_dir: /var/log/pinot
+pinot_pid_dir: /var/run/pinot
+pinot_tmp_dir: /tmp/pinot
+pinot_controller_port: 9000
+pinot_broker_port: 8099
+pinot_server_port: 8098
+pinot_minion_port: 8097
+pinot_admin_port: 9001
+pinot_zookeeper_port: 2181
+# For using Zookeeper locally for testing purposes
+pinot_zookeeper_data_dir: "{{ pinot_data_dir }}/zookeeper"
+pinot_zookeeper_log_dir: "{{ pinot_log_dir }}/zookeeper"
+pinot_zookeeper_pid_dir: "{{ pinot_pid_dir }}/zookeeper"
+pinot_zookeeper_tmp_dir: "{{ pinot_tmp_dir }}/zookeeper"
+pinot_zookeeper_servers: "{{ zookeepers | map(attribute='ip') | list }}"
+pinot_zookeeper_servers_string: "{{ pinot_zookeeper_servers | join(',') }}"
+# Zookeeper Configuration
+zookeeper_download_url: "https://dlcdn.apache.org/zookeeper/zookeeper-{{ zookeeper_version }}/apache-zookeeper-{{ zookeeper_version }}.tar.gz"
+zookeeper_download_dest: /tmp/zookeeper-{{ zookeeper_version }}.tar.gz
+zookeeper_user: zookeeper
+zookeeper_group: zookeeper
+zookeeper_home: /usr/lib/zookeeper/apache-zoopkeeper-{{ zookeeper_version }}
+zookeeper_conf_dir: /etc/zookeeper/conf
+zookeeper_log_dir: /var/log/zookeeper
+zookeeper_pid_dir: /var/run/zookeeper
+zookeeper_data_dir: /data/zkpr/data
+zookeeper_data_log_dir: /data/zkpr/data-log
+zookeeper_myid_file: "{{ zookeeper_data_dir }}/myid"
+zookeeper_client_port: 2181
+zookeeper_peer_port: 2888
+zookeeper_leader_port: 3888
+zookeeper_server_id: 1
+zookeeper_servers: "server.1=localhost:2888:3888 server.2=localhost:2888:3888 server.3=localhost:2888:3888"
+zookeeper_servers_list: "server.1=localhost:2888:3888 server.2=localhost:2888:3888 server.3=localhost:2888:3888"
+

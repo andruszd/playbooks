@@ -1,0 +1,56 @@
+---
+- name: Install Default Packages
+  yum:
+    name:
+      - unzip
+      - tar
+      - pdsh
+      - dos2unix
+      - git
+      - sshrc
+      # change for which java version you want to install
+      - java-latest-openjdk
+      - java-latest-openjdk-devel
+      #- java-17-openjdk
+      #- java-17-openjdk-devel
+      - python3
+      # Performace Monitoring Tools
+      - htop
+      - atop
+      - tree
+      - bcc
+      - bpfmon
+      - bpftool
+      - bcc-tools
+      - python-bcc
+      - nmon
+      - openssl-devel
+      - cowsay
+      # VIM Specific plugins
+      - vim
+      - awesome-vim-colorschemes
+      - neovim
+      - vim-ale
+      - neovim-ale
+      - vim-enhanced
+      - vim-common
+      - vim-data
+      - vim-filesystem
+      - vim-fugitive
+      - vim-ansible
+      - vim-devicons
+      - vim-editorconfig
+      - vim-syntastic-vim
+      - vim-syntastic
+      - vim-trailing-whitespace
+      - vim-syntastic-yaml
+      - vim-syntastic-python
+      - vim-syntastic-bash  
+      - vim-syntastic-xmllint
+      - vim-syntastic-sh
+      - vim-nerdtree
+      - vim-nerdtree-git-plugin
+    state: present
+  become: true
+  become_user: root
+  tags: [dependencies]

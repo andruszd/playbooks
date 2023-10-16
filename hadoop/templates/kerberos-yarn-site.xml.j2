@@ -1,0 +1,50 @@
+<!-- START Kerberos Properties -->
+<!-- 
+  WARNING: REMEMBER TO COPY THE KEYTAB FILES TO ALL NODES IN THE CLUSTER
+  file location : /etc/hadoop/conf/
+ -->
+<property>
+  <name>yarn.resourcemanager.principal</name>
+  <value>yarn/_HOST@{{domain_name}}/value>
+</property>
+<property>
+  <name>yarn.resourcemanager.keytab</name>
+  <value>/etc/hadoop/conf/yarn.keytab</value>
+</property>
+<property>
+  <name>yarn.nodemanager.principal</name>
+  <value>yarn/_HOST@{{domain_name}}</value>
+</property>
+<property>
+  <name>yarn.nodemanager.keytab</name>
+  <value>/etc/hadoop/conf/yarn.keytab</value>
+</property>
+<property>
+  <name>yarn.nodemanager.container-executor.class</name>
+  <value>org.apache.hadoop.yarn.server.nodemanager.LinuxContainerExecutor</value>
+</property>
+<property>
+  <name>yarn.nodemanager.linux-container-executor.group</name>
+  <value>yarn</value>
+</property>
+<property>
+ <name>yarn.nodemanager.log-dirs</name>
+  <value></value>
+</property>
+<property>
+  <name>yarn-manager.local-dirs</name>
+  <value></value>
+</property>
+<property>
+  <name>yarn.nodemanager.linux-container-executor.group</name>
+  <value></value>
+</property>
+<property>
+  <name>banned.users</name>
+  <value>hdfs,yarn,mapred,bin</value>
+</property>
+<property>
+  <name>min.user.id</name>
+  <value>1000</value>
+</property>
+<!-- END Kerberos Properties -->

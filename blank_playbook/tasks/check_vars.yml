@@ -1,0 +1,9 @@
+---
+- name: check for ansible 1.x
+  fail:
+    msg: >
+      "This role no longer supports Ansible 1.x. The last known good tag
+      for Ansible 1.x support in this role is 1.2.5."
+  when:
+    - ansible_version.major < 2
+  tags: [check_vars, skip_ansible2]

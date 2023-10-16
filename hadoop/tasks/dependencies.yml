@@ -1,0 +1,99 @@
+---
+- name: install default dependencies
+  yum:
+    name:
+      - unzip
+      - tar
+      - pdsh
+      - dos2unix
+      - java-11-openjdk
+      - java-11-openjdk-devel
+      - python3
+      - htop
+      - atop
+      - tree
+      - bcc
+      - bpfmon
+      - bpftool
+      - bcc-tools
+      - python-bcc
+      - openssl-devel
+      - redhat-lsb-core
+      - fuse
+      - elinks
+      - autoconf
+      - krb5-workstation.x86_64 
+      - krb5-libs
+      - rpcbind
+      - tzdata-java
+      - checkpolicy
+      - secilc
+      - secilc-doc
+      - setroubleshoot-server
+      - setroubleshoot
+      - selinux-policy
+      - selinux-policy-devel
+      - selinux-policy-minimum
+      - selinux-policy-mls
+      - selinux-policy-targeted
+    state: present
+  become: true
+  become_user: root
+  when: ansible_distribution == "OracleLinux" and ansible_distribution_major_version == '7'
+  tags: [dependencies Oracle7]
+
+- name: install oracle8 dependencies
+  yum:
+    name:
+      - unzip
+      - tar
+      - pdsh
+      - dos2unix
+      - java-11-openjdk
+      - java-11-openjdk-devel
+      - python3
+      - htop
+      - atop
+      - tree
+      - bcc
+      - bpfmon
+      - bpftool
+      - bcc-tools
+      - python-bcc
+      - openssl-devel
+      - redhat-lsb-core
+      - fuse
+      - elinks
+      - autoconf
+      - krb5-workstation.x86_64 
+      - krb5-libs
+      - rpcbind
+      - tzdata-java
+      - checkpolicy
+      - secilc
+      - secilc-doc
+      - setroubleshoot-server
+      - setroubleshoot
+      - selinux-policy
+      - selinux-policy-devel
+      - selinux-policy-minimum
+      - selinux-policy-mls
+      - selinux-policy-targeted
+      - fuse-common
+      - fuse-libs
+      - fuse-sshfs
+      - policycoreutils
+      - policycoreutils-python-utils
+      - policycoreutils-python
+      - policycoreutils-devel
+      - policycoreutils-sandbox
+      - policycoreutils-rescue
+      - policycoreutils-newrole
+      - policycoreutils-restorecond
+      - python3-policycoreutils
+      - python3-setools
+    state: present
+  become: true
+  become_user: root
+  when: ansible_distribution == "OracleLinux" and ansible_distribution_major_version >= '8'
+  tags: [dependencies Oracle8]

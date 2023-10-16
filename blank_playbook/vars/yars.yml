@@ -1,0 +1,5 @@
+---
+# Variables
+location: enf
+# Environment Configuration = dev, test, prod, qa, uat
+sys_env: dev

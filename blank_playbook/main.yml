@@ -1,0 +1,39 @@
+---
+- name: Pinot
+  hosts: all
+  gather_facts: true
+  become: true
+
+  vars_files:
+    - vars/vars.yml
+
+  pre_tasks:
+    - name: update all packages
+      yum:
+        name: '*'
+        state: latest
+
+  tasks:
+    - debug:
+        msg: "Running {{ ansible_play_name }} on {{ inventory_hostname }}"
+        verbosity: 1
+
+    - name: check variables
+      include_tasks:
+        file: tasks/check_vars.yml
+        apply:
+          tags:
+            - check_vars
+
+    - name: Install Default Packages
+      include_tasks:
+        file: tasks/default_packages.yml
+        apply:
+          tags:
+            - dependencies
+
+  handlers:
+    - name: Restart Service <nanme>
+      ansible.builtin.service:
+        name: systemcld
+        state: restarted

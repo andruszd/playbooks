@@ -1,0 +1,15 @@
+[enfield]
+{{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}
+{{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}
+{{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}
+{{location}}-hdfsdn01-{{cluster_name}}.{{domain_name}}
+{{location}}-hdfsdn02-{{cluster_name}}.{{domain_name}}
+{{location}}-hdfsdn03-{{cluster_name}}.{{domain_name}}
+
+[birmingham]
+{{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}
+{{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}
+{{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}
+{{location}}-hdfsdn01-{{cluster_name}}.{{domain_name}}
+{{location}}-hdfsdn02-{{cluster_name}}.{{domain_name}}
+{{location}}-hdfsdn03-{{cluster_name}}.{{domain_name}}

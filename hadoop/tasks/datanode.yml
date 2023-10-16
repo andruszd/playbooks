@@ -1,0 +1,69 @@
+---
+#  hadoop_datanode
+- name: Configuring core-site.xml file
+  template:
+      src: "templates/datanode-core-site.xml.j2"
+      dest: "/etc/hadoop/conf/core-site.xml"
+      owner: root
+      group: root
+      mode: u=rw,g=r,o=r
+      backup: true
+
+- name: Configuring hdfs-site.xml file
+  template:
+      src: "templates/datanode-hdfs-site.xml.j2"
+      dest: "/etc/hadoop/conf/hdfs-site.xml"
+      owner: root
+      group: root
+      mode: u=rw,g=r,o=r
+      backup: true
+
+- name: Checking if Data Node Directory already present
+  command: "ls -l {{ hdfs_datanode_data_dir }}"
+  ignore_errors: true
+  changed_when: false
+  register: data_node_directory_check
+- debug:
+      msg: "Data Node Directory Already exists"
+  when: data_node_directory_check.rc == 0
+- debug:
+      msg: "Data Node Directory doesnot exists"
+  when: data_node_directory_check.rc != 0
+- name: Creating Data Node Directory
+  file:
+      path: "{{ hdfs_datanode_data_dir }}"
+      state: directory
+      owner: "{{ hdfs_user }}"
+      group: "{{ hdfs_group }}"
+      mode: u=rwx,g=rwx,o=rwx
+  when: data_node_directory_check.rc != 0
+  register: data_node_directory_status
+  
+- name: Checking if Data Node service already running
+  command: "jps"
+  ignore_errors: true
+  changed_when: false
+  register: hadoop_datanode_service_check
+- debug:
+      msg: Hadoop Data Node service already running
+  when: hadoop_datanode_service_check.stdout |
+    regex_search('(DataNode)') == "DataNode"
+- debug:
+      msg: Hadoop Data Node service not running
+  when: hadoop_datanode_service_check.stdout |
+    regex_search('(DataNode)') != "DataNode"
+
+- name: Include nodemanager.yml
+  include_task: nodemanager.yml
+  when: hadoop_datanode_service_check.stdout |
+    regex_search('(DataNode)') != "DataNode"
+
+- name: Include kerberos-datanode.yml
+  include_task: kerberos-datanode.yml
+  when: kerberos_enabled == true
+
+- name: Starting Hadoop Data Node Service
+  command: "hdfs --deamon start datanode"
+  become_user: hdfs
+  when: hadoop_datanode_service_check.stdout |
+    regex_search('(DataNode)') != "DataNode"

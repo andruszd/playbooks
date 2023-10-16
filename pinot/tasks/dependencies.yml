@@ -1,0 +1,27 @@
+---
+- name: install dependencies
+  yum:
+    name:
+      - checkpolicy
+      - policycoreutils
+      - policycoreutils-devel
+      - policycoreutils-python-utils
+      - policycoreutils-restorecond
+      - policycoreutils-sandbox
+      - python3-policycoreutils
+      - python3-setools
+      - secilc
+      - secilc-doc
+      - setools
+      - setools-console-analyses
+      - setroubleshoot-server
+      - setroubleshoot
+      - selinux-policy
+      - selinux-policy-devel
+      - selinux-policy-minimum
+      - selinux-policy-mls
+      - selinux-policy-targeted
+    state: present
+  become: true
+  become_user: root
+  tags: [dependencies]

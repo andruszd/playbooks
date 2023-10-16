@@ -1,0 +1,99 @@
+---
+- name: Hadoop
+# Remove the next 3 line if you are calling  from another main.
+  hosts: namenode 
+  gather_facts: true
+  become: true
+
+  vars_files:
+    - vars/vars.yml
+
+  pre_tasks:
+  # Remove update packages if calling main already does this job
+    - name: update all packages
+      yum:
+        name: '*'
+        state: latest
+
+  handlers:
+    - import_tasks: handlers/handlers.yml
+      when: handlers_file.stat.exists
+
+  tasks:
+    - debug:
+        msg: "Running {{ ansible_play_name }} on {{ inventory_hostname }}"
+        verbosity: 1
+
+    - debug:
+        msg: "Running on {{ansible_distribution }} version {{ansible_distribution_major_version}}"
+        verbosity: 1
+
+    - name: check variables
+      include_tasks:
+        file: tasks/check_vars.yml
+        apply:
+          tags:
+            - check_vars
+
+    # - name: install dependencies
+    #   include_tasks:
+    #     file: tasks/dependencies.yml
+    #     apply:
+    #       tags:
+    #         - dependencies
+
+    # - name: create users
+    #   include_tasks:
+    #     file: tasks/users.yml
+    #     apply:
+    #       tags:
+    #         - users
+
+    # - name: download packages
+    #   include_tasks:
+    #     file: tasks/download.yml
+    #     apply:
+    #       tags:
+    #         - download
+
+    # - name: install packages
+    #   include_tasks:
+    #     file: tasks/install.yml
+    #     apply:
+    #       tags:
+    #         - install
+
+    - name: configure packages
+      include_tasks:
+        file: tasks/config.yml
+        apply:
+          tags:
+            - config
+
+    - name: set enviroment variables
+      include_tasks:
+        file: tasks/env.yml
+        apply:
+          tags:
+            - env
+
+    - name: setup symbolic links
+      include_tasks:
+        file: tasks/link.yml
+        apply:
+          tags:
+            - link
+
+    # - name: startup packages
+    #   include_tasks:
+    #     file: tasks/startup.yml
+    #     apply:
+    #       tags:
+    #         - startup
+
+    # - name: cleanup packages
+    #   include_tasks:
+    #     file: tasks/cleanup.yml
+    #     apply:
+    #       tags:
+    #         - cleanup

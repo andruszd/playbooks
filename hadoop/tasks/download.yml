@@ -1,0 +1,58 @@
+---
+- name: download hadoop
+  get_url:
+    url: "{{ hadoop_download_url }}"
+    dest: "{{ hadoop_download_dest }}"
+    mode: u=rw,g=r,o=r
+    timeout: 600
+    validate_certs: false
+  register: download_hadoop
+  when: hadoop_download_url is defined
+
+- name: create hadoop destination directory
+  file:
+    path: /usr/lib/hadoop
+    state: directory
+    owner: "{{ hadoop_user }}"
+    group: "{{ hadoop_group }}"
+    mode: u=rwx,g=rx,o=rx
+  when: download_hadoop.changed
+
+- name: extract hadoop
+  unarchive:
+    src: "{{ hadoop_download_dest }}"
+    dest: /usr/lib/hadoop
+    remote_src: true
+    creates: "{{ hadoop_home }}"
+    owner: "{{ hadoop_user }}"
+    group: "{{ hadoop_group }}"
+  when: download_hadoop.changed
+
+- name: download zookeeper
+  get_url:
+    url: "{{ zookeeper_download_url }}"
+    dest: "{{ zookeeper_download_dest }}"
+    timeout: 600
+    mode: u=rw,g=r,o=r
+    validate_certs: false
+  register: download_zookeeper
+  when: zookeeper_download_url is defined
+
+- name: create zookeeper destination directory
+  file:
+    path: /usr/lib/zookeeper
+    state: directory
+    owner: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
+    mode: u=rwx,g=rx,o=rx
+  when: download_zookeeper.changed
+
+- name: extract zookeeper
+  unarchive:
+    src: "{{ zookeeper_download_dest }}"
+    dest: /usr/lib/zookeeper
+    remote_src: true
+    creates: "{{ zookeeper_home }}"
+    owner: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
+  when: download_zookeeper.changed

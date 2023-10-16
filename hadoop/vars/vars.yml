@@ -1,0 +1,126 @@
+---
+# NEXT SECTION IS HERE FOR DEV ONLY NOT PROD
+## Installation options
+cluster_name: CLusterX
+domain_name: yourdomain.com
+kerberos_enabled: false
+location: enf
+# Environment Configuration = dev, test, prod, qa, uat
+sys_env: dev
+hadoop_version: 3.3.6
+zookeeper_version: 3.8.3
+zookeepers:
+      - name: hdfsnn01
+        ip: 192.168.1.128
+        myid: 1
+      - name: hdfsnn02
+        ip: 192.168.1.115
+        myid: 2
+      - name: hdfsnn03
+        ip: 192.168.1.132
+        myid: 3
+# MOVE THE ABOVE TO YOU MAIN YML FILE 
+# Hadoop Configuration
+hadoop_download_url: "https://archive.apache.org/dist/hadoop/common/hadoop-{{ hadoop_version }}/hadoop-{{ hadoop_version }}.tar.gz"
+hadoop_download_dest: /tmp/hadoop-{{ hadoop_version }}.tar.gz
+hadoop_user: hadoop
+hadoop_group: hadoop
+hadoop_jobtracker: hdfsnn02
+hadoop_home: /usr/lib/hadoop/hadoop-{{ hadoop_version }}/
+hadoop_common_home: "{{ hadoop_home }}"
+hadoop_hdfs_home: "{{ hadoop_home }}"
+hadoop_yarn_home: "{{ hadoop_home }}"
+hadoop_mapred_home: "{{ hadoop_home }}"
+hadoop_comon_lib_native_dir: "{{ hadoop_home }}/lib/native"
+hadoop_conf_dir: "{{ hadoop_home }}/etc/hadoop"
+hadoop_data_dir: /var/lib/hadoop
+hadoop_log_dir: /var/log/hadoop
+hadoop_pid_dir: /var/run/hadoop
+hadoop_tmp_dir: /tmp/hadoop
+hadoop_mapred_local_dir: "{{ hadoop_tmp_dir }}/mapred/local"
+hadoop_mapred_system_dir: "{{ hadoop_tmp_dir }}/mapred/system"
+hadoop_mapred_temp_dir: "{{ hadoop_tmp_dir }}/mapred/temp"
+hadoop_mapred_jobtracker_staging_root_dir: "{{ hadoop_tmp_dir }}/mapred/staging"
+hadoop_mapred_jobtracker_completed_jobs_store_dir: "{{ hadoop_tmp_dir }}/mapred/history"
+# HDFS Configuration
+hdfs_user: hdfs
+hdfs_group: hdfs
+hdfs_namenode: hdfsnn
+hdfs_datanode: hdfsdn
+hdfs_tasktracker: hdfsdn
+hdfs_home: /var/lib/hadoop-hdfs
+hdfs_data_dir: "/data/hdfs/"
+hdfs_log_dir: /var/log/hadoop-hdfs
+hdfs_pid_dir: /var/run/hadoop-hdfs
+hdfs_tmp_dir: /tmp/hadoop-hdfs
+hdfs_namenode_dir: "{{ hdfs_data_dir }}/nn"
+hdfs_datanode_data_dir: "{{ hdfs_data_dir }}/dn"
+hdfs_journal_dir: "{{ hdfs_data_dir }}/journal"
+hdfs_checkpoint_dir: "{{ hdfs_data_dir }}/checkpoint"
+hdfs_secondary_name_dir: "{{ hdfs_data_dir }}/secondary"
+hdfs_namenode_port: 9020
+hdfs_namenode_http_port: 9870
+hdfs_namenode_https_port: 9871
+hdfs_namenode_rpc_port: 8020
+hdfs_datanode_port: 9866
+hdfs_datanode_http_port: 9864
+hdfs_datanode_ipc_port: 9867
+hdfs_datanode_https_port: 9865
+hdfs_datanode_balancer_port: 8021
+hdfs_datanode_transfer_port: 8011
+hdfs_journalnode_port: 8485
+hdfs_journalnode_http_port: 8480
+hdfs_journalnode_https_port: 8481
+hdfs_journalnode_edits_dir: "{{ hdfs_journal_dir }}/current"
+hdfs_journalnode_edits_inprogress_dir: "{{ hdfs_journal_dir }}/inprogress"
+hdfs_journalnode_checkpoint_dir: "{{ hdfs_checkpoint_dir }}"
+hdfs_journalnode_checkpoint_inprogress_dir: "{{ hdfs_checkpoint_dir }}/inprogress"
+hdfs_journalnode_checkpoint_edits_dir: "{{ hdfs_checkpoint_dir }}/current"
+hdfs_journalnode_checkpoint_image_dir: "{{ hdfs_checkpoint_dir }}/current"
+hdfs_journalnode_checkpoint_txid_dir: "{{ hdfs_checkpoint_dir }}/current"
+hdfs_journalnode_checkpoint_txid_inprogress_dir: "{{ hdfs_checkpoint_dir }}/inprogress"
+hdfs_journalnode_checkpoint_txid_last_gzxid: "{{ hdfs_checkpoint_dir }}/last_gzxid"
+hdfs_journalnode_checkpoint_txid_last_written: "{{ hdfs_checkpoint_dir }}/last_written_txid"
+hdfs_journalnode_checkpoint_txid_last_promised: "{{ hdfs_checkpoint_dir }}/last_promised_epoch"
+hdfs_journalnode_checkpoint_txid_last_accepted: "{{ hdfs_checkpoint_dir }}/last_accepted_epoch"
+# Java Configuration
+java_home: /etc/alternatives/jre
+# YARN Configuration
+yarn_user: yarn
+yarn_group: yarn
+yarn_home: /var/lib/hadoop-yarn
+yarn_log_dir: /var/log/hadoop-yarn
+yarn_pid_dir: /var/run/hadoop-yarn
+yarn_tmp_dir: /tmp/hadoop-yarn
+yarn_nodemanager_local_dirs: "{{ yarn_tmp_dir }}/nm-local-dir"
+yarn_nodemanager_log_dirs: "{{ yarn_log_dir }}/userlogs"
+yarn_nodemanager_remote_app_log_dir: "{{ yarn_log_dir }}/userlogs"
+yarn_nodemanager_remote_app_log_dir_suffix: logs
+# MapReduce Configuration
+mapred_user: mapred
+mapred_group: mapred
+mapred_home: /var/lib/hadoop-mapred
+mapred_log_dir: /var/log/hadoop-mapred
+mapred_pid_dir: /var/run/hadoop-mapred
+mapred_tmp_dir: /tmp/hadoop-mapred
+mapred_local_dir: "{{ mapred_tmp_dir }}/mapred/local"
+mapred_system_dir: "{{ mapred_tmp_dir }}/mapred/system"
+mapred_temp_dir: "{{ mapred_tmp_dir }}/mapred/temp"
+# Zookeeper Configuration
+zookeeper_download_url: "https://dlcdn.apache.org/zookeeper/zookeeper-{{ zookeeper_version }}/apache-zookeeper-{{ zookeeper_version }}-bin.tar.gz"
+zookeeper_download_dest: /tmp/zookeeper-{{ zookeeper_version }}-bin.tar.gz
+zookeeper_user: zookeeper
+zookeeper_group: zookeeper
+zookeeper_home: /usr/lib/zookeeper/apache-zookeeper-{{ zookeeper_version }}-bin
+zookeeper_conf_dir: /etc/zookeeper/conf
+zookeeper_log_dir: /var/log/zookeeper
+zookeeper_pid_dir: /var/run/zookeeper
+zookeeper_data_dir: /zkpr/data
+zookeeper_data_log_dir: /zkpr/data-log
+zookeeper_myid_file: "{{ zookeeper_data_dir }}/myid"
+zookeeper_client_port: 2181
+zookeeper_peer_port: 2888
+zookeeper_leader_port: 3888
+zookeeper_server_id: 1
+zookeeper_servers: "server.1=localhost:2888:3888 server.2=localhost:2888:3888 server.3=localhost:2888:3888"
+zookeeper_servers_list: "server.1=localhost:2888:3888 server.2=localhost:2888:3888 server.3=localhost:2888:3888"

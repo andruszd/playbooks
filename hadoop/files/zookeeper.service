@@ -1,0 +1,20 @@
+[Unit]
+Description=Zookeeper Service
+ 
+[Service]
+Type=forking
+WorkingDirectory=/zkpr/
+PIDFile=/var/run/zookeeper/zookeeper_server.pid
+SyslogIdentifier=zookeeper
+User=zookeeper
+Group=zookeeper
+ExecStart=$ZOOKEEPER_HOME/bin/zkServer.sh start /etc/zookeeper/conf/zoo.cfg
+ExecStop=$ZOOKEEPER_HOME/bin/zkServer.sh stop /etc/zookeeper/conf/zoo.cfg
+ExecReload=$ZOOKEEPER_HOME/bin/zkServer.sh restart /etc/zookeeper/conf/zoo.cfg
+Restart=always
+TimeoutSec=20
+SuccessExitStatus=130 143
+Restart=on-failure
+ 
+[Install]
+WantedBy=multi-user.target

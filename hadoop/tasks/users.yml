@@ -1,0 +1,75 @@
+---
+- name: ensure group hadoop exists
+  group:
+    name: hadoop
+    state: present
+  become: true
+
+- name: create hadoop user
+  user:
+    name: "{{ hadoop_user }}"
+    group: "{{ hadoop_group }}"
+    state: present
+    create_home: true
+  become: true
+  when: hadoop_user is defined and hadoop_group is defined
+
+- name: ensure group hdfs exists
+  group:
+    name: hdfs
+    state: present
+  become: true
+
+- name: create hdfs user
+  user:
+    name: "{{ hdfs_user }}"
+    group: "{{  hadoop_group }}"
+    state: present
+    create_home: true
+  become: true
+  when: hdfs_user is defined and hdfs_group is defined
+
+- name: ensure group yarn exists
+  group:
+    name: yarn
+    state: present
+  become: true
+
+- name: create yarn user
+  user:
+    name: "{{ yarn_user }}"
+    group: "{{  hadoop_group }}"
+    state: present
+    create_home: true
+  become: true
+  when: yarn_user is defined and yarn_group is defined
+
+- name: ensure group mapred exists
+  group:
+    name: mapred
+    state: present
+  become: true
+
+- name: create mapred user
+  user:
+    name: "{{ mapred_user }}"
+    group: "{{  hadoop_group }}"
+    state: present
+    create_home: true
+  become: true
+  when: mapred_user is defined and mapred_group is defined
+
+- name: ensure group zookeeper exists
+  group:
+    name: zookeeper
+    state: present
+  become: true
+
+- name: create zookeeper user
+  user:
+    name: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
+    state: present
+    create_home: true
+  become: true
+  when: zookeeper_user is defined and zookeeper_group is defined

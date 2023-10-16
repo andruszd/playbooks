@@ -1,0 +1,30 @@
+---
+- name: ensure group pinot exists
+  group:
+    name: pinot
+    state: present
+  become: true
+
+- name: create pinot user
+  user:
+    name: "{{ pinot_user }}"
+    group: "{{ pinot_group }}"
+    state: present
+    create_home: true
+  become: true
+  when: pinot_user is defined and pinot_group is defined
+
+- name: ensure group zookeeper exists
+  group:
+    name: zookeeper
+    state: present
+  become: true
+
+- name: create zookeeper user
+  user:
+    name: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
+    state: present
+    create_home: true
+  become: true
+  when: zookeeper_user is defined and zookeeper_group is defined

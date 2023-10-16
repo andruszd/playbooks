@@ -1,0 +1,24 @@
+---
+# start hadoop zookeeper
+- name: "Checking if Zookeeper service already running"
+  command: "jps"
+  become: true
+  become_user: root
+  ignore_errors: true
+  changed_when: false
+  register: zookeeper_service_check
+- debug:
+            msg: " Zookeeper service already running"
+  when: zookeeper_service_check.stdout |
+   regex_search('(QuorumPeerMain)') == "QuorumPeerMain"
+- debug:
+            msg: "Zookeeper service not running"
+  when: zookeeper_service_check.stdout |
+    regex_search('(QuorumPeerMain)') != "QuorumPeerMain"
+
+- name: "Start Zookeeper"
+  command: "systemctl start zookeeper"
+  become: true
+  become_user: root
+  when: zookeeper_service_check.stdout |
+   regex_search('(QuorumPeerMain)') != "QuorumPeerMain"

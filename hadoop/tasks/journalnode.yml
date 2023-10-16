@@ -1,0 +1,53 @@
+---
+# Start Journal Node
+- name: Checking if Journal Node service already running
+  command: "jps"
+  become: true
+  become_user: root
+  ignore_errors: true
+  changed_when: false
+  register: hadoop_journalnode_service_check
+
+- debug:
+            msg: "Hadoop Journal Node service already running"
+            verbosity: 1
+  when: hadoop_journalnode_service_check.stdout |
+   regex_search('(JournalNode)') == "JournalNode"
+
+- debug:
+            msg: "Hadoop Journal Node service not running"
+            verbosity: 1
+  when: hadoop_journalnode_service_check.stdout |
+   regex_search('(JournalNode)') != "JournalNode"
+
+- name: "Starting Hadoop Journal Node Service"
+  # shell: "{{ hadoop_home }}/bin/hdfs --deamon start journalnode"  
+  shell: "hdfs --deamon start journalnode"
+  become: true
+  become_user: hdfs
+  args:
+    executable: /bin/bash
+  environment:
+    PATH: '{{ hadoop_home }}:{{ hadoop_common_home }}:{{ hadoop_hdfs_home }}:{{ hadoop_yarn_home }}:{{ hadoop_mapred_home }}:{{ hadoop_comon_lib_native_dir }}:{{ ansible_env.PATH }}'
+  when: hadoop_journalnode_service_check.stdout |
+   regex_search('(JournalNode)') != "JournalNode"
+
+- name: Checking if Journal Node service has started
+  command: "jps"
+  become: true
+  become_user: root
+  ignore_errors: true
+  changed_when: false
+  register: hadoop_journalnode_service_check
+
+- debug:
+            msg: "Hadoop Journal Node service started !!!!"
+            verbosity: 1
+  when: hadoop_journalnode_service_check.stdout |
+   regex_search('(JournalNode)') == "JournalNode"
+
+- debug:
+            msg: "ERROR: Hadoop Journal Node service NOT started !!!!"
+            verbosity: 1
+  when: hadoop_journalnode_service_check.stdout |
+   regex_search('(JournalNode)') != "JournalNode"

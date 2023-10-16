@@ -1,0 +1,20 @@
+[Unit]
+Description=Zookeeper Service
+ 
+[Service]
+Type=forking
+WorkingDirectory=/data/zkpr/zookeeper/
+PIDFile=$ZOOKEEPER_PID/zookeeper_server.pid
+SyslogIdentifier=zookeeper
+User=zookeeper
+Group=zookeeper
+ExecStart=$ZOOKEEPER_HOME/bin/zkServer.sh start
+ExecStop=$ZOOKEEPER_HOME/bin/zkServer.sh stop
+ExecReload=$ZOOKEEPER_HOME/zkServer.sh restart
+Restart=always
+TimeoutSec=20
+SuccessExitStatus=130 143
+Restart=on-failure
+ 
+[Install]
+WantedBy=multi-user.target
