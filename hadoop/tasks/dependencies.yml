@@ -4,7 +4,6 @@
     name:
       - unzip
       - tar
-      - pdsh
       - dos2unix
       - java-11-openjdk
       - java-11-openjdk-devel
@@ -47,6 +46,7 @@
     name:
       - unzip
       - tar
+      - dnf
       - pdsh
       - dos2unix
       - java-11-openjdk

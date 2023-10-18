@@ -23,7 +23,7 @@
     </property>
     <property>
         <name>fs.default.name</name>
-        <value>hdfs://{{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}</value>
+        <value>hdfs://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}</value>
     </property>
     <!-- START HDFS HA -->
     <property>
@@ -36,9 +36,9 @@
     </property>
     <property>
         <name>ha.zookeeper.quorum</name>
-        <value>{{location}}-hdfsnn01-{{sys_env}}-{{cluster_name}}.{{domain_name}}:2181,
-        {{location}}-hdfsnn02-{{sys_env}}-{{cluster_name}}.{{domain_name}}:2181,
-        {{location}}-hdfsnn03-{{sys_env}}-{{cluster_name}}.{{domain_name}}:2181</value>
+        <value>{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:2181,
+        {{location}}-{{sys_env}}-hdfsnn02.{{domain_name}}:2181,
+        {{location}}-{{sys_env}}-hdfsnn03.{{domain_name}}:2181</value>
     </property>
     <!-- END HDFS HA -->
     <property>
@@ -56,60 +56,60 @@
     </property>
     <property>
       <name>mapred.job.tracker</name>
-      <value>{{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}:54311</value>
+      <value>{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:54311</value>
     </property>
    <!-- START Mount Table -->
    <!-- Add your mount table entries here. -->
     <property>
         <name>fs.viewfs.mounttable.{{cluster_name}}.link./data</name>
-        <value>hdfs://{{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}:8020/data</value>
+        <value>hdfs://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8020/data</value>
     </property>
    <!-- END Mount Table -->  
    <!-- START Default File Loactions -->
    <!-- DO NOT MODIFY THIS SECTION -->
     <property>
         <name>fs.viewfs.mounttable.{{cluster_name}}.link./user</name>
-        <value>hdfs://{{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}:8020/user</value>
+        <value>hdfs://{{location}}-{{sys_env}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8020/user</value>
     </property>
     <property>
         <name>fs.viewfs.mounttable.{{cluster_name}}.link./home</name>
-        <value>hdfs://{{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}:8020/home</value>
+        <value>hdfs://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8020/home</value>
     </property>
     <property>
         <name>fs.viewfs.mounttable.{{cluster_name}}.link./tmp</name>
-        <value>hdfs://{{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}:8020/tmp</value>
+        <value>hdfs://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8020/tmp</value>
     </property>
     <property>
         <name>fs.viewfs.mounttable.{{cluster_name}}.link./var</name>
-        <value>hdfs://{{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}:8020/var</value>
+        <value>hdfs://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8020/var</value>
     </property>
     <property>
         <name>fs.viewfs.mounttable.{{cluster_name}}.link./var/log</name>
-        <value>hdfs://{{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}:8020/var/log</value>
+        <value>hdfs://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8020/var/log</value>
     </property>
     <property>
         <name>fs.viewfs.mounttable.{{cluster_name}}.link./var/log/hadoop-yarn</name>
-        <value>hdfs://{{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}:8020/var/log/hadoop-yarn</value>
+        <value>hdfs://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8020/var/log/hadoop-yarn</value>
     </property>
     <property>
         <name>fs.viewfs.mounttable.{{cluster_name}}.link./var/log/hadoop-yarn/apps</name>
-        <value>hdfs://{{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}:8020/var/log/hadoop-yarn/apps</value>
+        <value>hdfs://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8020/var/log/hadoop-yarn/apps</value>
     </property>
     <property>
         <name>fs.viewfs.mounttable.{{cluster_name}}.link./var/log/hadoop-yarn/apps/jobhistory</name>
-        <value>hdfs://{{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}:8020/var/log/hadoop-yarn/apps/jobhistory</value>
+        <value>hdfs://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8020/var/log/hadoop-yarn/apps/jobhistory</value>
     </property>
     <property>
         <name>fs.viewfs.mounttable.{{cluster_name}}.link./var/log/hadoop-yarn/apps/staging</name>
-        <value>hdfs://{{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}:8020/var/log/hadoop-yarn/apps/staging</value>
+        <value>hdfs://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8020/var/log/hadoop-yarn/apps/staging</value>
     </property>
     <property>
         <name>fs.viewfs.mounttable.{{cluster_name}}.link./var/log/hadoop-yarn/apps/staging/history/done_intermediate</name>
-        <value>hdfs://{{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}:8020/var/log/hadoop-yarn/apps/staging/history/done_intermediate</value>
+        <value>hdfs://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8020/var/log/hadoop-yarn/apps/staging/history/done_intermediate</value>
     </property>
     <property>
         <name>fs.viewfs.mounttable.{{cluster_name}}.linkFallback</name>
-        <value>hdfs://{{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}:8020/home</value>
+        <value>hdfs://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8020/home</value>
     </property>
     <!-- END Default File Loactions -->
 </configuration>

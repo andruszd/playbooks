@@ -2,11 +2,11 @@
 # NEXT SECTION IS HERE FOR DEV ONLY NOT PROD
 ## Installation options
 cluster_name: CLusterX
-domain_name: yourdomain.com
+domain_name: 
 kerberos_enabled: false
-location: enf
+location: 
 # Environment Configuration = dev, test, prod, qa, uat
-sys_env: dev
+sys_env: 
 hadoop_version: 3.3.6
 zookeeper_version: 3.8.3
 zookeepers:
@@ -49,7 +49,7 @@ hdfs_namenode: hdfsnn
 hdfs_datanode: hdfsdn
 hdfs_tasktracker: hdfsdn
 hdfs_home: /var/lib/hadoop-hdfs
-hdfs_data_dir: "/data/hdfs/"
+hdfs_data_dir: "/data/hdfs"
 hdfs_log_dir: /var/log/hadoop-hdfs
 hdfs_pid_dir: /var/run/hadoop-hdfs
 hdfs_tmp_dir: /tmp/hadoop-hdfs

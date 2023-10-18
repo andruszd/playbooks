@@ -1,7 +1,7 @@
 ---
 - name: Hadoop
 # Remove the next 3 line if you are calling  from another main.
-  hosts: namenode 
+  hosts: datanode 
   gather_facts: true
   become: true
 
@@ -84,16 +84,16 @@
           tags:
             - link
 
-    - name: startup packages
-      include_tasks:
-        file: tasks/startup.yml
-        apply:
-          tags:
-            - startup
+    # - name: startup packages
+    #   include_tasks:
+    #     file: tasks/startup.yml
+    #     apply:
+    #       tags:
+    #         - startup
 
-    - name: cleanup packages
-      include_tasks:
-        file: tasks/cleanup.yml
-        apply:
-          tags:
-            - cleanup
+    # - name: cleanup packages
+    #   include_tasks:
+    #     file: tasks/cleanup.yml
+    #     apply:
+    #       tags:
+    #         - cleanup

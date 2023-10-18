@@ -25,43 +25,43 @@
         <name>dfs.cluster.administrators</name>
         <value>hdfs hadoop-admins</value>
     </property>
-    <!-- The minimum number of NameNodes for HA is two.
+    <!-- The minimum number of NameNodes for HA is two. 
     Its suggested to not exceed 5 - with a recommended 3 NameNodes - due to communication overheads. -->
     <property>
         <name>dfs.ha.namenodes.{{cluster_name}}</name>
-        <value>{{location}}-hdfsnn01-{{sys_env}}-{{cluster_name}}.{{domain_name}},
-        {{location}}-hdfsnn02-{{sys_env}}-{{cluster_name}}.{{domain_name}},
-        {{location}}-hdfsnn03-{{sys_env}}-{{cluster_name}}.{{domain_name}}</value>
+        <value>{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}},
+        {{location}}-{{sys_env}}-hdfsnn02.{{domain_name}},
+        {{location}}-{{sys_env}}-hdfsnn03.{{domain_name}}</value>
     </property>
     <property>
         <name>dfs.namenode.rpc-address.{{cluster_name}}.hdfsnn01</name>
-        <value>{{location}}-hdfsnn01-{{sys_env}}-{{cluster_name}}.{{domain_name}}:8020</value>
+        <value>{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8020</value>
     </property>
     <property>
         <name>dfs.namenode.rpc-address.{{cluster_name}}.hdfsnn02</name>
-        <value>{{location}}-hdfsnn02-{{sys_env}}-{{cluster_name}}.{{domain_name}}:8020</value>
+        <value>{{location}}-{{sys_env}}-hdfsnn02.{{domain_name}}:8020</value>
     </property>
     <property>
         <name>dfs.namenode.rpc-address.{{cluster_name}}.hdfsnn03</name>
-        <value>{{location}}-hdfsnn03-{{sys_env}}-{{cluster_name}}.{{domain_name}}:8020</value>
+        <value>{{location}}-{{sys_env}}-hdfsnn03.{{domain_name}}:8020</value>
     </property>
     <property>
         <name>dfs.namenode.http-address.{{cluster_name}}.hdfsnn01</name>
-        <value>{{location}}-hdfsnn01-{{sys_env}}-{{cluster_name}}.{{domain_name}}:9870</value>
+        <value>{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:9870</value>
     </property>
     <property>
         <name>dfs.namenode.http-address.{{cluster_name}}.hdfsnn02</name>
-        <value>{{location}}-hdfsnn02-{{sys_env}}-{{cluster_name}}.{{domain_name}}:9870</value>
+        <value>{{location}}-{{sys_env}}-hdfsnn02.{{domain_name}}:9870</value>
     </property>
     <property>
         <name>dfs.namenode.http-address.{{cluster_name}}.hdfsnn03</name>
-        <value>{{location}}-hdfsnn03-{{sys_env}}-{{cluster_name}}.{{domain_name}}:9870</value>
+        <value>{{location}}-{{sys_env}}-hdfsnn03.{{domain_name}}:9870</value>
     </property>
     <property>
         <name>dfs.namenode.shared.edits.dir</name>
-        <value>qjournal://{{location}}-hdfsnn01-{{sys_env}}-{{cluster_name}}.{{domain_name}}:8485;
-        {{location}}-hdfsnn02-{{sys_env}}-{{cluster_name}}.{{domain_name}}:8485;
-        {{location}}-hdfsnn03-{{sys_env}}-{{cluster_name}}.{{domain_name}}:8485/{{cluster_name}}</value>
+        <value>qjournal://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8485;
+        {{location}}-{{sys_env}}-hdfsnn02.{{domain_name}}:8485;
+        {{location}}-{{sys_env}}-hdfsnn03.{{domain_name}}:8485/{{cluster_name}}</value>
     </property>
     <property>
         <name>dfs.client.failover.proxy.provider.{{cluster_name}}</name>
@@ -85,22 +85,22 @@
         <name>dfs.ha.automatic-failover.enabled</name>
         <value>true</value>
     </property>
-	<!--The number of replicas for HDFS this should  equal the number of DataNodes you have-->
     <property>
+        <!--The number of replicas for HDFS this should  equal the number of DataNodes you have-->
         <name>dfs.replication</name>
         <value>3</value>
     </property>
-	<!--HDFS blocksize of 256MB for large file-systems.-->
     <property>
+        <!--HDFS blocksize of 256MB for large file-systems.-->
         <name>dfs.blocksize</name>
         <value>268435456</value>
     </property>
-    <property>
-        <name>dfs.permissions.superusergroup</name>
+    <property> 
+        <name>dfs.permissions.superusergroup</name> 
         <value>superusergroup</value>
     </property>
-	<!--More NameNode server threads to handle RPCs from large number of DataNodes.-->
     <property>
+        <!--More NameNode server threads to handle RPCs from large number of DataNodes.-->
         <name>dfs.namenode.handler.count</name>
         <value>100</value>
     </property>
@@ -108,25 +108,29 @@
         <name>dfs.namenode.name.dir</name>
         <value>{{hdfs_namenode_dir}}</value>
     </property>
-	<!--List of allowable datanodes-->
+        <property>
+        <name>dfs.datanode.name.dir</name>
+        <value>{{hdfs_datanode_data_dir}}</value>
+    </property>
     <property>
+        <!--List of allowable datanodes-->
         <name>dfs.hosts</name>
         <!-- Does it got to 11-->
-        <value>{{location}}-hdfsdn01-{{sys_env}}-{{cluster_name}}.{{domain_name}},
-        {{location}}-hdfsdn02-{{sys_env}}-{{cluster_name}}.{{domain_name}},
-        {{location}}-hdfsdn03-{{sys_env}}-{{cluster_name}}.{{domain_name}},
-        {{location}}-hdfsdn04-{{sys_env}}-{{cluster_name}}.{{domain_name}},
-        {{location}}-hdfsdn05-{{sys_env}}-{{cluster_name}}.{{domain_name}},
-        {{location}}-hdfsdn06-{{sys_env}}-{{cluster_name}}.{{domain_name}},
-        {{location}}-hdfsdn07-{{sys_env}}-{{cluster_name}}.{{domain_name}},
-        {{location}}-hdfsdn08-{{sys_env}}-{{cluster_name}}.{{domain_name}},
-        {{location}}-hdfsdn09-{{sys_env}}-{{cluster_name}}.{{domain_name}},
-        {{location}}-hdfsdn010-{{sys_env}}-{{cluster_name}}.{{domain_name}},
-        {{location}}-hdfsdn11-{{sys_env}}-{{cluster_name}}.{{domain_name}}</value>
+        <value>{{location}}-{{sys_env}}-hdfsdn01.{{domain_name}},
+        {{location}}-{{sys_env}}-hdfsdn02.{{domain_name}},
+        {{location}}-{{sys_env}}-hdfsdn03.{{domain_name}},
+        {{location}}-{{sys_env}}-hdfsdn04.{{domain_name}},
+        {{location}}-{{sys_env}}-hdfsdn05.{{domain_name}},
+        {{location}}-{{sys_env}}-hdfsdn06.{{domain_name}},
+        {{location}}-{{sys_env}}-hdfsdn07.{{domain_name}},
+        {{location}}-{{sys_env}}-hdfsdn08.{{domain_name}},
+        {{location}}-{{sys_env}}-hdfsdn09.{{domain_name}},
+        {{location}}-{{sys_env}}-hdfsdn010.{{domain_name}},
+        {{location}}-{{sys_env}}-hdfsdn11.{{domain_name}}</value>
     </property>
     <property>
         <name>dfs.hosts.exclude</name>
-        <value>{{location}}-hdfsdn12-{{sys_env}}-{{cluster_name}}.{{domain_name}}</value>
+        <value>{{location}}-{{sys_env}}-hdfsdn12.{{domain_name}}</value>
     </property>
 </configuration>
 

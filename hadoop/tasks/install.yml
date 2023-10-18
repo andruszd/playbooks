@@ -15,7 +15,7 @@
 - name: Set File limits in /etc/security
   template:
     src: "files/limits.conf"
-    dest: "/etc/security/linits.conf"
+    dest: "/etc/security/limits.conf"
     owner: root
     group: root
     mode: u=rw,g=r,o=r
@@ -63,8 +63,8 @@
   file:
     path: /etc/hadoop/
     state: directory
-    owner: "{{ hadoop_user }}"
-    group: "{{ hadoop_group }}"
+    owner: "{{hadoop_user}}"
+    group: "{{hadoop_group}}"
     mode: u=rwx,g=rx,o=rx
   become: true
 
@@ -72,8 +72,8 @@
   file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ hdfs_user }}"
-    group: "{{ hdfs_group }}"
+    owner: "{{hdfs_user}}"
+    group: "{{hadoop_group}}"
     mode: u=rwx,g=rx,o=rx
   become: true
   with_items:
@@ -167,6 +167,7 @@
     mode: u=rw,g=r,o=r
   become: true
   when: zookeeper_user is defined and zookeeper_group is defined
+  
 
 - name: Set up java.sh in /etc/profile.d/
   template:
@@ -257,19 +258,24 @@
     state: restarted
     enabled: true
 
-- name: add hadoop service to firewalld
-  firewalld:
-    service: hadoop
-    permanent: true
-    state: enabled
-    immediate: true
+# - name: add hadoop service to firewalld
+#   firewalld:
+#     service: hadoop
+#     permanent: true
+#     state: enabled
+#     immediate: true
+#     vars:
+#       ansible_python_interpreter: /usr/bin/python3
 
-- name: add kerberos service to firewalld
-  firewalld:
-    service: kerberos
-    permanent: true
-    state: enabled
-    immediate: true
+# - name: add kerberos service to firewalld
+#   firewalld:
+#     service: kerberos
+#     permanent: true
+#     state: enabled
+#     immediate: true
+#     vars:
+#       ansible_python_interpreter: /usr/bin/python3
+
 # After installation clean the RAM so that we get the required free space
 # so that name node can start/stop without any issues.
 - name: Clean Ram Cache

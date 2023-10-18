@@ -1,32 +1,32 @@
   <!-- START Kerberos Properties -->
-  <!--
-	 WARNING: REMEMBER TO COPY THE KEYTAB FILES TO ALL NODES IN THE CLUSTER
-	 file location : /etc/hadoop/conf/
+  <!-- 
+     WARNING: REMEMBER TO COPY THE KEYTAB FILES TO ALL NODES IN THE CLUSTER
+     file location : /etc/hadoop/conf/
   -->
-	 <property>
-		  <name>hadoop.security.authentication</name> 
-		  <value>kerberos</value>
-	 </property>
-	 <property>
-		  <name>hadoop.security.authorization</name>
-		  <value>true</value>
-	 </property>
-	 <property>
-		  <name>hadoop.security.auth_to_local</name>
-		  <value>
-			RULE:[2:$1/$2@$0]([ndj]n/.*@REALM.\TLD)s/.*/hdfs/
-			RULE:[2:$1/$2@$0]([rn]m/.*@REALM\.TLD)s/.*/yarn/
-			RULE:[2:$1/$2@$0](jhs/.*@REALM\.TLD)s/.*/mapred/
-			[2:$1]kerberos
-			DEFAULT
+     <property> 
+          <name>hadoop.security.authentication</name> 
+          <value>kerberos</value>
+     </property>
+     <property>
+          <name>hadoop.security.authorization</name>
+          <value>true</value>
+     </property>
+     <property>
+          <name>hadoop.security.auth_to_local</name>
+          <value>
+		    RULE:[2:$1/$2@$0]([ndj]n/.*@REALM.\TLD)s/.*/hdfs/
+		    RULE:[2:$1/$2@$0]([rn]m/.*@REALM\.TLD)s/.*/yarn/
+		    RULE:[2:$1/$2@$0](jhs/.*@REALM\.TLD)s/.*/mapred/
+		    [2:$1]kerberos
+		    DEFAULT
 		</value>
-	 </property>
-	 <property>
-		  <name>hadoop.rpc.protection</name>
-		  <value>privacy</value>
-	 </property>
-	 <property>
-		  <name>hadoop.rpc.protection</name>
-		  <value>privacy</value>
-	 </property>
+     </property>
+     <property>
+          <name>hadoop.rpc.protection</name>
+          <value>privacy</value>
+     </property> 
+     <property>
+          <name>hadoop.rpc.protection</name>
+          <value>privacy</value>
+     </property>
 <!-- END Kerberos Properties -->
