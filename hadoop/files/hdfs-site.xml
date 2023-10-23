@@ -25,7 +25,11 @@
         <property>
         <!--HDFS blocksize of 256MB for large file-systems.-->
         <name>dfs.blocksize</name>
-        <value>268435456</value>
+        <value>256m</value>
+    </property>
+    <property>
+         <name> dfs.namenode.fs-limits.min-block-size </name>
+         <value>16m</value>
     </property>
     <property>
         <!--More NameNode server threads to handle RPCs from large number of DataNodes.-->
@@ -36,8 +40,13 @@
         <name>dfs.namenode.name.dir</name>
         <value>{{ hdfs_namenode_dir }}</value>
     </property>
-            <name>dfs.datanode.name.dir</name>
+        <name>dfs.datanode.name.dir</name>
         <value>{{ hdfs_datanode_data_dir }}</value>
+    </property>
+    <property>
+       <name>dfs.datanode.failed.volumes.tolerated</name>
+       <value>1</value>
+       <final>true</final>
     </property>
     <property>
         <!--List of allowable datanodes-->

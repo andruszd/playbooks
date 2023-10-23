@@ -1,6 +1,5 @@
----
 # Create Links for HDFS
-- name: container-executor
+- name: Create Links for container-executor
   file:
     src: /usr/lib/hadoop/hadoop-{{ hadoop_version }}/bin/container-executor
     dest: /usr/bin/container-executor
@@ -8,8 +7,12 @@
     owner: root
     group: root
     mode: u=rwx,g=rwx,o=rwx
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
 
-- name: hadoop
+- name: Create Links for hadoop
   file:
     src: /usr/lib/hadoop/hadoop-{{ hadoop_version }}/bin/hadoop
     dest: /usr/bin/hadoop
@@ -17,8 +20,12 @@
     owner: root
     group: root
     mode: u=rwx,g=rwx,o=rwx
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
 
-- name: hdfs
+- name: Create Links for hdfs
   file:
     src: /usr/lib/hadoop/hadoop-{{ hadoop_version }}/bin/hdfs
     dest: /usr/bin/hdfs
@@ -26,8 +33,12 @@
     owner: root
     group: root
     mode: u=rwx,g=rwx,o=rwx
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
 
-- name: mapred
+- name: Create Links for mapred
   file:
     src: /usr/lib/hadoop/hadoop-{{ hadoop_version }}/bin/mapred
     dest: /usr/bin/mapred
@@ -35,8 +46,12 @@
     owner: root
     group: root
     mode: u=rwx,g=rwx,o=rwx
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
 
-- name: oom-listener
+- name: Create Links for oom-listener
   file:
     src: /usr/lib/hadoop/hadoop-{{ hadoop_version }}/bin/oom-listener
     dest: /usr/bin/oom-listener
@@ -44,8 +59,12 @@
     owner: root
     group: root
     mode: u=rwx,g=rwx,o=rwx
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
 
-- name: test-container-executor
+- name: Create Links for test-container-executor
   file:
     src: /usr/lib/hadoop/hadoop-{{ hadoop_version }}/bin/test-container-executor
     dest: /usr/bin/test-container-executor
@@ -53,8 +72,12 @@
     owner: root
     group: root
     mode: u=rwx,g=rwx,o=rwx
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
 
-- name: yarn
+- name: Create Links for yarn
   file:
     src: /usr/lib/hadoop/hadoop-{{ hadoop_version }}/bin/yarn
     dest: /usr/bin/yarn
@@ -62,3 +85,7 @@
     owner: root
     group: root
     mode: u=rwx,g=rwx,o=rwx
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true

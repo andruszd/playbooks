@@ -17,6 +17,7 @@
 <!-- Put site-specific property overrides in this file. -->
 
 <configuration>
+    <!--Start Common Properties-->
     <property>
         <name>fs.defaultFS</name>
         <value>viewfs://{{cluster_name}}</value>
@@ -25,22 +26,6 @@
         <name>fs.default.name</name>
         <value>hdfs://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}</value>
     </property>
-    <!-- START HDFS HA -->
-    <property>
-        <name>dfs.journalnode.edits.dir</name>
-        <value>{{hdfs_journal_dir}}</value>
-    </property>
-    <property>
-        <name>dfs.ha.nn.not-become-active-in-safemode</name>
-        <value>true</value>
-    </property>
-    <property>
-        <name>ha.zookeeper.quorum</name>
-        <value>{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:2181,
-        {{location}}-{{sys_env}}-hdfsnn02.{{domain_name}}:2181,
-        {{location}}-{{sys_env}}-hdfsnn03.{{domain_name}}:2181</value>
-    </property>
-    <!-- END HDFS HA -->
     <property>
         <name>hadoop.http.staticuser.user</name>
         <value>{{hdfs_user}}</value>
@@ -59,12 +44,30 @@
       <value>{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:54311</value>
     </property>
    <!-- START Mount Table -->
+   <!-- WARNING -->
+>  <!-- 
+
+    You need to create a mount table entry for each mount point you want to expose to the cluster.
+    Also you need to create the mount point in HDFS before you can use it.
+    For example, if you want to expose /data to the cluster, you need to create /data in HDFS first.
+    You can do this by running the following command:
+    su - hdfs
+    hdfs dfs -mkdir -p /data
+    Note: - You will not see this directory in the HDFS web UI and at the OS level
+          - You can verify that the directory exists by running the following command:
+            hdfs dfs -ls  -R /
+    Don't forget to set the permissions on the mount point. For example:
+    hdfs dfs -chown -R hdfs:hdadoop /data
+    hdfs dfs -chmod -R g+w /data
+    Note: - Users and  Groups need to match OS level groups or Kerberos users and groups
+          - You can verify that the permissions are set correctly by running the following command:
+            hdfs dfs -ls -R /data
+    -->
    <!-- Add your mount table entries here. -->
     <property>
         <name>fs.viewfs.mounttable.{{cluster_name}}.link./data</name>
         <value>hdfs://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8020/data</value>
     </property>
-   <!-- END Mount Table -->  
    <!-- START Default File Loactions -->
    <!-- DO NOT MODIFY THIS SECTION -->
     <property>
@@ -112,4 +115,6 @@
         <value>hdfs://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8020/home</value>
     </property>
     <!-- END Default File Loactions -->
+    <!-- END Mount Table -->  
+    <!--END Common Properties-->
 </configuration>

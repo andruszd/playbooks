@@ -1,4 +1,3 @@
----
 - name: download hadoop
   get_url:
     url: "{{ hadoop_download_url }}"
@@ -7,7 +6,9 @@
     timeout: 600
     validate_certs: false
   register: download_hadoop
-  when: hadoop_download_url is defined
+  when:
+  - hadoop_download_url is defined
+  - hadoop_enabled == true
 
 - name: create hadoop destination directory
   file:
@@ -16,7 +17,9 @@
     owner: "{{ hadoop_user }}"
     group: "{{ hadoop_group }}"
     mode: u=rwx,g=rx,o=rx
-  when: download_hadoop.changed
+  when:
+  - download_hadoop.changed
+  - hadoop_enabled == true
 
 - name: extract hadoop
   unarchive:
@@ -26,7 +29,9 @@
     creates: "{{ hadoop_home }}"
     owner: "{{ hadoop_user }}"
     group: "{{ hadoop_group }}"
-  when: download_hadoop.changed
+  when:
+  - download_hadoop.changed
+  - hadoop_enabled == true
 
 - name: download zookeeper
   get_url:
@@ -36,7 +41,9 @@
     mode: u=rw,g=r,o=r
     validate_certs: false
   register: download_zookeeper
-  when: zookeeper_download_url is defined
+  when:
+  - zookeeper_download_url is defined
+  - zookeeper_enabled == true
 
 - name: create zookeeper destination directory
   file:
@@ -45,7 +52,9 @@
     owner: "{{ zookeeper_user }}"
     group: "{{ zookeeper_group }}"
     mode: u=rwx,g=rx,o=rx
-  when: download_zookeeper.changed
+  when:
+  - download_zookeeper.changed
+  - zookeeper_enabled == true
 
 - name: extract zookeeper
   unarchive:
@@ -55,4 +64,6 @@
     creates: "{{ zookeeper_home }}"
     owner: "{{ zookeeper_user }}"
     group: "{{ zookeeper_group }}"
-  when: download_zookeeper.changed
+  when:
+  - download_zookeeper.changed
+  - zookeeper_enabled == true

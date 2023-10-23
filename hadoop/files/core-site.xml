@@ -21,6 +21,7 @@
   All hostnames should be FQDNs.
  -->
 <configuration>
+    <!--Start Common Properties-->
     <property>
         <name>fs.defaultFS</name>
         <value>viewfs://{{cluster_name}}</value>
@@ -61,12 +62,33 @@
     <name>io.file.buffer.size</name>
         <value>131072</value>
     </property>
-    <!-- Mount Table -->
+   <!-- START Mount Table -->
+   <!-- WARNING -->
+>  <!-- 
+
+    You need to create a mount table entry for each mount point you want to expose to the cluster.
+    Also you need to create the mount point in HDFS before you can use it.
+    For example, if you want to expose /data to the cluster, you need to create /data in HDFS first.
+    You can do this by running the following command:
+    su - hdfs
+    hdfs dfs -mkdir -p /data
+    Note: - You will not see this directory in the HDFS web UI and at the OS level
+          - You can verify that the directory exists by running the following command:
+            hdfs dfs -ls  -R /
+    Don't forget to set the permissions on the mount point. For example:
+    hdfs dfs -chown -R hdfs:hdadoop /data
+    hdfs dfs -chmod -R g+w /data
+    Note: - Users and  Groups need to match OS level groups or Kerberos users and groups
+          - You can verify that the permissions are set correctly by running the following command:
+            hdfs dfs -ls -R /data
+    -->
+    <!-- Add your mount table entries here. -->
     <property>
         <name>fs.viewfs.mounttable.{{cluster_name}}.link./data</name>
         <value>hdfs://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8020/data</value>
     </property>
-   <!-- Default File Loactions -->
+    <!-- START Default File Loactions -->
+    <!-- DO NOT MODIFY THIS SECTION -->
     <property>
         <name>fs.viewfs.mounttable.{{cluster_name}}.link./user</name>
         <value>hdfs://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8020/user</value>
@@ -111,4 +133,7 @@
         <name>fs.viewfs.mounttable.{{cluster_name}}.linkFallback</name>
         <value>hdfs://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8020/home</value>
     </property>
+    <!-- END Default File Loactions -->
+    <!-- END Mount Table -->  
+    <!--END Common Properties-->
 </configuration>

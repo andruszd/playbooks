@@ -17,121 +17,71 @@
 <!-- Put site-specific property overrides in this file. -->
 
 <configuration>
+    <!--Start Common Properties-->
     <property>
 	    <name>dfs.nameservices</name>
 	    <value>{{cluster_name}}</value>
     </property>
     <property>
-        <name>dfs.cluster.administrators</name>
-        <value>hdfs hadoop-admins</value>
-    </property>
-    <!-- The minimum number of NameNodes for HA is two. 
-    Its suggested to not exceed 5 - with a recommended 3 NameNodes - due to communication overheads. -->
-    <property>
-        <name>dfs.ha.namenodes.{{cluster_name}}</name>
-        <value>{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsnn02.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsnn03.{{domain_name}}</value>
-    </property>
-    <property>
-        <name>dfs.namenode.rpc-address.{{cluster_name}}.hdfsnn01</name>
-        <value>{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8020</value>
-    </property>
-    <property>
-        <name>dfs.namenode.rpc-address.{{cluster_name}}.hdfsnn02</name>
-        <value>{{location}}-{{sys_env}}-hdfsnn02.{{domain_name}}:8020</value>
-    </property>
-    <property>
-        <name>dfs.namenode.rpc-address.{{cluster_name}}.hdfsnn03</name>
-        <value>{{location}}-{{sys_env}}-hdfsnn03.{{domain_name}}:8020</value>
-    </property>
-    <property>
-        <name>dfs.namenode.http-address.{{cluster_name}}.hdfsnn01</name>
-        <value>{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:9870</value>
-    </property>
-    <property>
-        <name>dfs.namenode.http-address.{{cluster_name}}.hdfsnn02</name>
-        <value>{{location}}-{{sys_env}}-hdfsnn02.{{domain_name}}:9870</value>
-    </property>
-    <property>
-        <name>dfs.namenode.http-address.{{cluster_name}}.hdfsnn03</name>
-        <value>{{location}}-{{sys_env}}-hdfsnn03.{{domain_name}}:9870</value>
-    </property>
-    <property>
-        <name>dfs.namenode.shared.edits.dir</name>
-        <value>qjournal://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8485;
-        {{location}}-{{sys_env}}-hdfsnn02.{{domain_name}}:8485;
-        {{location}}-{{sys_env}}-hdfsnn03.{{domain_name}}:8485/{{cluster_name}}</value>
-    </property>
-    <property>
-        <name>dfs.client.failover.proxy.provider.{{cluster_name}}</name>
-        <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
-    </property>
-    <property>
-        <name>dfs.ha.fencing.methods</name>
-        <value>sshfence</value>
-    </property>
-    <property>
-        <name>dfs.ha.fencing.ssh.connect-timeout</name>
-        <value>30000</value>
-    </property>
-    <!-- Remeber to copy the private key to the other nodes(NameNode Only) -->
-    <!-- i.e. node1 to all node , node2 to all node , node3 to all node -->
-    <property>
-        <name>dfs.ha.fencing.ssh.private-key-files</name>
-        <value>/home/hdfs/.ssh/id_rsa</value>
-    </property>
-    <property>
-        <name>dfs.ha.automatic-failover.enabled</name>
-        <value>true</value>
-    </property>
-    <property>
-        <!--The number of replicas for HDFS this should  equal the number of DataNodes you have-->
-        <name>dfs.replication</name>
-        <value>3</value>
-    </property>
-    <property>
-        <!--HDFS blocksize of 256MB for large file-systems.-->
-        <name>dfs.blocksize</name>
-        <value>268435456</value>
-    </property>
-    <property> 
-        <name>dfs.permissions.superusergroup</name> 
-        <value>superusergroup</value>
-    </property>
-    <property>
-        <!--More NameNode server threads to handle RPCs from large number of DataNodes.-->
-        <name>dfs.namenode.handler.count</name>
-        <value>100</value>
-    </property>
-    <property>
         <name>dfs.namenode.name.dir</name>
         <value>{{hdfs_namenode_dir}}</value>
     </property>
-        <property>
+    <property>
         <name>dfs.datanode.name.dir</name>
         <value>{{hdfs_datanode_data_dir}}</value>
     </property>
     <property>
-        <!--List of allowable datanodes-->
+        <name>dfs.cluster.administrators</name>
+        <value>hdfs hadoop-admins</value>
+    </property>
+    <!--The super user who can perform all HDFS operations.-->
+    <property> 
+        <name>dfs.permissions.superusergroup</name> 
+        <value>hdfs</value>
+    </property>
+    <!--The number of replicas for HDFS this should  equal the number of DataNodes you have-->
+    <property>
+        <name>dfs.replication</name>
+        <value>3</value>
+    </property>
+    <!--HDFS blocksize of 256MB for large file-systems.-->
+    <property>
+        <name>dfs.blocksize</name>
+        <value>256m</value>
+    <!--HDFS blocksize of 16MB for small file-systems.-->
+    </property>
+        <property>
+         <name> dfs.namenode.fs-limits.min-block-size </name>
+         <value>16m</value>
+    </property>
+    <!--More NameNode server threads to handle RPCs from large number of DataNodes.-->
+    <property>
+        <name>dfs.namenode.handler.count</name>
+        <value>100</value>
+    </property>
+    <!--List of allowable datanodes-->
+    <property>
         <name>dfs.hosts</name>
         <!-- Does it got to 11-->
-        <value>{{location}}-{{sys_env}}-hdfsdn01.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsdn02.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsdn03.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsdn04.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsdn05.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsdn06.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsdn07.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsdn08.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsdn09.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsdn010.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsdn11.{{domain_name}}</value>
+        <value>
+            {{location}}-{{sys_env}}-hdfsdn01.{{domain_name}},
+            {{location}}-{{sys_env}}-hdfsdn02.{{domain_name}},
+            {{location}}-{{sys_env}}-hdfsdn03.{{domain_name}},
+            {{location}}-{{sys_env}}-hdfsdn04.{{domain_name}},
+            {{location}}-{{sys_env}}-hdfsdn05.{{domain_name}},
+            {{location}}-{{sys_env}}-hdfsdn06.{{domain_name}},
+            {{location}}-{{sys_env}}-hdfsdn07.{{domain_name}},
+            {{location}}-{{sys_env}}-hdfsdn08.{{domain_name}},
+            {{location}}-{{sys_env}}-hdfsdn09.{{domain_name}},
+            {{location}}-{{sys_env}}-hdfsdn10.{{domain_name}},
+            {{location}}-{{sys_env}}-hdfsdn11.{{domain_name}}
+        </value>
     </property>
     <property>
         <name>dfs.hosts.exclude</name>
         <value>{{location}}-{{sys_env}}-hdfsdn12.{{domain_name}}</value>
     </property>
+    <!--END Common Properties-->
 </configuration>
 
 

@@ -17,6 +17,7 @@
 <!-- Put site-specific property overrides in this file. -->
 
 <configuration>
+    <!--Start Common Properties-->
     <property>
         <name>fs.defaultFS</name>
         <value>viewfs:/{{cluster_name}}</value>
@@ -42,4 +43,5 @@
         <name>fs.viewfs.mounttable.ClusterX.linkFallback</name>
         <value>hdfs://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8020/home</value>
     </property>
+    <!--END Common Properties-->
 </configuration>

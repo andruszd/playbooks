@@ -17,6 +17,7 @@
 <!-- Put site-specific property overrides in this file. -->
 
 <configuration>
+   <!--Start Common Properties-->
     <property>
         <!--The number of replicas for HDFS this should  equal the number of DataNodes you have-->
         <name>dfs.replication</name>
@@ -34,25 +35,28 @@
     </property>
     <property>
         <name>dfs.datanode.data.dir</name>
-        <value>{{ hdfs_datanode_data_dir }}</value>
+        <value>{{hdfs_datanode_data_dir}}</value>
     </property>
     <property>
         <!--List of allowable datanodes-->
         <name>dfs.hosts</name>
-        <value>{{location}}-{{sys_env}}-hdfsdn01.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsdn02.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsdn03.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsdn04.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsdn05.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsdn06.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsdn07.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsdn08.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsdn09.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsdn010.{{domain_name}},
-        {{location}}-{{sys_env}}-hdfsdn11.{{domain_name}}</value>
+        <value>
+            {{location}}-{{sys_env}}-hdfsdn01.{{domain_name}},
+            {{location}}-{{sys_env}}-hdfsdn02.{{domain_name}},
+            {{location}}-{{sys_env}}-hdfsdn03.{{domain_name}},
+            {{location}}-{{sys_env}}-hdfsdn04.{{domain_name}},
+            {{location}}-{{sys_env}}-hdfsdn05.{{domain_name}},
+            {{location}}-{{sys_env}}-hdfsdn06.{{domain_name}},
+            {{location}}-{{sys_env}}-hdfsdn07.{{domain_name}},
+            {{location}}-{{sys_env}}-hdfsdn08.{{domain_name}},
+            {{location}}-{{sys_env}}-hdfsdn09.{{domain_name}},
+            {{location}}-{{sys_env}}-hdfsdn10.{{domain_name}},
+            {{location}}-{{sys_env}}-hdfsdn11.{{domain_name}}
+        </value>
     </property>
     <property>
         <name>dfs.hosts.exclude</name>
         <value>{{location}}-{{sys_env}}-hdfsdn12.{{domain_name}}</value>
     </property>
+    <!--END Common Properties-->
 </configuration>

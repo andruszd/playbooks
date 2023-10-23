@@ -39,21 +39,20 @@
       net.ipv6.conf.default.disable_ipv6 = 1
       net.ipv6.conf.lo.disable_ipv6 = 1
 
-
 - name: Set up bash_rc
   blockinfile:
     path: /root/.bashrc
     create: yes
     backup: true
     block: |
-       shopt -s histappend histreedit histverify
-       shopt -s no_empty_cmd_completion
-       export HISTCONTROL=ignoreboth:erasedups
-       export HISTTIMEFORMAT="%Y-%m-%d:%T:-> "
-       export HISTIGNORE="pwd:bg:fg:history"
-       export HISTFILE=$HOME/.bash_history
-       export HISTFILESIZE=1000000000
-       export HISTSIZE=10000000
+      shopt -s histappend histreedit histverify
+      shopt -s no_empty_cmd_completion
+      export HISTCONTROL=ignoreboth:erasedups
+      export HISTTIMEFORMAT="%Y-%m-%d:%T:-> "
+      export HISTIGNORE="pwd:bg:fg:history"
+      export HISTFILE=$HOME/.bash_history
+      export HISTFILESIZE=1000000000
+      export HISTSIZE=10000000
 
 - name: Source the bashrc file
   shell: source /root/.bashrc
@@ -67,6 +66,47 @@
     group: "{{hadoop_group}}"
     mode: u=rwx,g=rx,o=rx
   become: true
+  when:
+  - hadoop_enabled == true
+
+- name: create yarn directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ yarn_user }}"
+    group: "{{ yarn_group }}"
+    mode: u=rwx,g=rx,o=rx
+  become: true
+  with_items:
+  - "{{ yarn_home }}"
+  - "{{ yarn_log_dir }}"
+  - "{{ yarn_pid_dir }}"
+  - "{{ yarn_tmp_dir }}"
+  - "{{ yarn_nodemanager_local_dirs }}"
+  - "{{ yarn_nodemanager_log_dirs }}"
+  - "{{ yarn_nodemanager_remote_app_log_dir }}"
+  when:
+  - yarn_user is defined
+  - yarn_group is defined
+  - hadoop_enabled == true
+
+- name: create mapred directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ mapred_user }}"
+    group: "{{ mapred_group }}"
+    mode: u=rwx,g=rx,o=rx
+  become: true
+  with_items:
+  - "{{ mapred_home }}"
+  - "{{ mapred_log_dir }}"
+  - "{{ mapred_pid_dir }}"
+  - "{{ mapred_tmp_dir }}"
+  when:
+  - mapred_user is defined
+  - mapred_group is defined
+  - hadoop_enabled == true
 
 - name: create hdfs directories
   file:
@@ -77,7 +117,9 @@
     mode: u=rwx,g=rx,o=rx
   become: true
   with_items:
+  - "{{ hadoop_home }}"
   - "{{ hadoop_log_dir }}"
+  - "{{ hadoop_pid_dir }}"
   - "{{ hdfs_data_dir }}"
   - "{{ hdfs_log_dir }}"
   - "{{ hdfs_pid_dir }}"
@@ -99,39 +141,10 @@
   - "{{ hdfs_journalnode_checkpoint_txid_last_written }}"
   - "{{ hdfs_journalnode_checkpoint_txid_last_promised }}"
   - "{{ hdfs_journalnode_checkpoint_txid_last_accepted }}"
-  when: hdfs_user is defined and hdfs_group is defined
-
-- name: create yarn directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ yarn_user }}"
-    group: "{{ yarn_group }}"
-    mode: u=rwx,g=rx,o=rx
-  become: true
-  with_items:
-  - "{{ yarn_home }}"
-  - "{{ yarn_log_dir }}"
-  - "{{ yarn_pid_dir }}"
-  - "{{ yarn_tmp_dir }}"
-  - "{{ yarn_nodemanager_local_dirs }}"
-  - "{{ yarn_nodemanager_log_dirs }}"
-  - "{{ yarn_nodemanager_remote_app_log_dir }}"
-  when: yarn_user is defined and yarn_group is defined
-
-- name: create mapred directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ mapred_user }}"
-    group: "{{ mapred_group }}"
-    mode: u=rwx,g=rx,o=rx
-  become: true
-  with_items:
-  - "{{ mapred_home }}"
-  - "{{ mapred_log_dir }}"
-  - "{{ mapred_pid_dir }}"
-  when: mapred_user is defined and mapred_group is defined
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
 
 - name: create zookeeper config directory
   file:
@@ -141,6 +154,10 @@
     group: "{{ zookeeper_group }}"
     mode: u=rwx,g=rx,o=rx
   become: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
 
 - name: create zookeeper directories
   file:
@@ -155,7 +172,10 @@
   - "{{ zookeeper_data_log_dir }}"
   - "{{ zookeeper_log_dir }}"
   - "{{ zookeeper_pid_dir }}"
-  when: zookeeper_user is defined and zookeeper_group is defined
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
 
 # Setup Appliacation Enviroment Files
 - name: Create Hadoop Node Zookeeper myid
@@ -166,8 +186,10 @@
     group: "{{ zookeeper_group }}"
     mode: u=rw,g=r,o=r
   become: true
-  when: zookeeper_user is defined and zookeeper_group is defined
-  
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
 
 - name: Set up java.sh in /etc/profile.d/
   template:
@@ -186,6 +208,10 @@
     group: root
     mode: u=rw,g=r,o=r
     backup: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
 
 - name: Set up zookeeper.sh in /etc/profile.d
   template:
@@ -195,6 +221,10 @@
     group: root
     mode: u=rw,g=r,o=r
     backup: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
 
 - name: Setup zookeeper service file in /usr/lib/systemd/system
   template:
@@ -204,6 +234,10 @@
     group: root
     mode: u=rw,g=r,o=r
     backup: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
 
 # Upload Generic Configuration Files.
 - name: Set up core-site.xml
@@ -214,6 +248,10 @@
     group: hadoop
     mode: u=rw,g=r,o=r
     backup: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
 
 - name: Set up hdfs-site.xml
   template:
@@ -223,6 +261,10 @@
     group: hadoop
     mode: u=rw,g=r,o=r
     backup: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
 
 - name: Set up yarn-site.xml
   template:
@@ -232,6 +274,10 @@
     group: hadoop
     mode: u=rw,g=r,o=r
     backup: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
 
 - name: Set up workers
   template:
@@ -241,6 +287,10 @@
     group: hadoop
     mode: u=rw,g=r,o=r
     backup: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
 
 # Genric Configuration Files for OS
 - name: setup firewall ports
@@ -251,6 +301,10 @@
     group: root
     mode: u=rw,g=r,o=r
     backup: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
 
 - name: restart firewalld
   service:

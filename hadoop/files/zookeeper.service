@@ -3,7 +3,7 @@ Description=Zookeeper Service
  
 [Service]
 Type=forking
-WorkingDirectory=/zkpr/
+WorkingDirectory=
 PIDFile=/var/run/zookeeper/zookeeper_server.pid
 SyslogIdentifier=zookeeper
 User=zookeeper

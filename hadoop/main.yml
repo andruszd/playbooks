@@ -1,7 +1,7 @@
 ---
 - name: Hadoop
 # Remove the next 3 line if you are calling  from another main.
-  hosts: datanode 
+  hosts: all
   gather_facts: true
   become: true
 
@@ -20,11 +20,12 @@
       when: handlers_file.stat.exists
 
   tasks:
-    - debug:
+    - name: Runing Play
+      debug:
         msg: "Running {{ ansible_play_name }} on {{ inventory_hostname }}"
         verbosity: 1
-
-    - debug:
+    - name: Os level
+      debug:
         msg: "Running on {{ansible_distribution }} version {{ansible_distribution_major_version}}"
         verbosity: 1
 
@@ -83,7 +84,8 @@
         apply:
           tags:
             - link
-
+    # TODO: startup packages
+    # 
     # - name: startup packages
     #   include_tasks:
     #     file: tasks/startup.yml
@@ -91,6 +93,7 @@
     #       tags:
     #         - startup
 
+    # TODO: Cleanup packages
     # - name: cleanup packages
     #   include_tasks:
     #     file: tasks/cleanup.yml
