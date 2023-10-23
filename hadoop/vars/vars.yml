@@ -28,7 +28,7 @@ hadoop_download_url: "https://archive.apache.org/dist/hadoop/common/hadoop-{{ ha
 hadoop_download_dest: /tmp/hadoop-{{ hadoop_version }}.tar.gz
 hadoop_user: hadoop
 hadoop_group: hadoop
-hadoop_jobtracker: hdfsnn02
+hadoop_jobtracker: hdfsnn03
 hadoop_home: /usr/lib/hadoop/hadoop-{{ hadoop_version }}/
 hadoop_common_home: "{{ hadoop_home }}"
 hadoop_hdfs_home: "{{ hadoop_home }}"

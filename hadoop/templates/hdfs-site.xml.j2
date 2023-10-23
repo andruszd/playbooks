@@ -34,6 +34,23 @@
         <name>dfs.cluster.administrators</name>
         <value>hdfs hadoop-admins</value>
     </property>
+    <!-- The IP Address that the HDFS NameNode server listens on.-->
+    <property>
+        <name>dfs.namenode.rpc.bind-host</name>
+        <value>0.0.0.0</value>
+    </property>
+        <property>
+        <name>dfs.namenode.servicerpc-bind.host</name>
+        <value>0.0.0.0</value>
+    </property>
+        <property>
+        <name>dfs.namenode.http-bind-host</name>
+        <value>0.0.0.0</value>
+    </property>
+        <property>
+        <name>dfs.namenode.https-bind.host</name>
+        <value>0.0.0.0</value>
+    </property>
     <!--The super user who can perform all HDFS operations.-->
     <property> 
         <name>dfs.permissions.superusergroup</name> 
@@ -53,6 +70,11 @@
         <property>
          <name> dfs.namenode.fs-limits.min-block-size </name>
          <value>16m</value>
+    </property>
+    <!-- Space Reserved for non HDFS use as a percentage of the total space.-->
+    <property>
+      <name>dfs.datanode.du.reserved</name>
+      <value>20</value>
     </property>
     <!--More NameNode server threads to handle RPCs from large number of DataNodes.-->
     <property>

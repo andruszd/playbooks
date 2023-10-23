@@ -1,4 +1,4 @@
-[enfield]
+[Home]
 {{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}
 {{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}
 {{location}}-hdfsnn01-{{cluster_name}}.{{domain_name}}
