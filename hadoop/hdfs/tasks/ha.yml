@@ -1,0 +1,13 @@
+- name: append ha info to core-site.xml
+  blockinfile:
+    block: "{{lookup('file', 'templates/core-site-ha.xml.j2')}}"
+    dest: /etc/hadoop/conf/core-site.xml
+    insertbefore: '</configuration>'
+    backup: true
+
+- name: append ha info to hdfs-site.xml
+  blockinfile:
+    block: "{{lookup('file', 'templates/hdfs-site-ha.xml.j2')}}"
+    dest: /etc/hadoop/conf/hdfs-site.xml
+    insertbefore: '</configuration>'
+    backup: true

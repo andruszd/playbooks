@@ -1,0 +1,17 @@
+---
+# Start Node Manager
+- name: "Checking if Node Manager service already running"
+  command: "jps"
+  become: true
+  become_user: root
+  ignore_errors: true
+  changed_when: false
+  register: hadoop_nodemanager_service_check
+
+- name: "Start node manager"
+  command: "yarn --daemon start nodemanager"
+  become: true
+  become_user: yarn
+  changed_when: false
+  when: hadoop_nodemanager_service_check.stdout |
+    regex_search('(NodeManager)') != "NodeManager"

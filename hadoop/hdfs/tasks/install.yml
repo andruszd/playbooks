@@ -1,0 +1,340 @@
+# Update OS configuration files
+
+# FIXME: hosts file is not updated. Need to fix this.
+#  hostname
+# - name: Updating /etc/hosts File on All Cluster Nodes
+#   template:
+#         src: "templates/hosts.j2"
+#         dest: "/etc/hosts"
+#         force: true
+#         owner: root
+#         group: root
+#         mode: u=rw,g=r,o=r
+#         backup: true
+
+- name: Set File limits in /etc/security
+  template:
+    src: "files/limits.conf"
+    dest: "/etc/security/limits.conf"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup: true
+
+- name: proccess sysctl.conf
+  blockinfile:
+    path: /etc/sysctl.conf
+    backup: true
+    block: |
+      fs.file-max=6815744
+      fs.aio-max-nr=1048576
+      net.core.rmem_default=262144
+      net.core.wmem_default=262144
+      net.core.rmem_max=16777216
+      net.core.wmem_max=16777216
+      net.ipv4.tcp_rmem=4096 262144 16777216
+      net.ipv4.tcp_wmem=4096 262144 16777216
+      vm.swappiness=10
+      net.ipv6.conf.all.disable_ipv6 = 1
+      net.ipv6.conf.default.disable_ipv6 = 1
+      net.ipv6.conf.lo.disable_ipv6 = 1
+
+- name: Set up bash_rc
+  blockinfile:
+    path: /root/.bashrc
+    create: yes
+    backup: true
+    block: |
+      shopt -s histappend histreedit histverify
+      shopt -s no_empty_cmd_completion
+      export HISTCONTROL=ignoreboth:erasedups
+      export HISTTIMEFORMAT="%Y-%m-%d:%T:-> "
+      export HISTIGNORE="pwd:bg:fg:history"
+      export HISTFILE=$HOME/.bash_history
+      export HISTFILESIZE=1000000000
+      export HISTSIZE=10000000
+
+- name: Source the bashrc file
+  shell: source /root/.bashrc
+
+# Create Directory Structure
+- name: create hadoop config directory
+  file:
+    path: /etc/hadoop/
+    state: directory
+    owner: "{{hadoop_user}}"
+    group: "{{hadoop_group}}"
+    mode: u=rwx,g=rx,o=rx
+  become: true
+  when:
+  - hadoop_enabled == true
+
+- name: create yarn directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ yarn_user }}"
+    group: "{{ yarn_group }}"
+    mode: u=rwx,g=rx,o=rx
+  become: true
+  with_items:
+  - "{{ yarn_home }}"
+  - "{{ yarn_log_dir }}"
+  - "{{ yarn_pid_dir }}"
+  - "{{ yarn_tmp_dir }}"
+  - "{{ yarn_nodemanager_local_dirs }}"
+  - "{{ yarn_nodemanager_log_dirs }}"
+  - "{{ yarn_nodemanager_remote_app_log_dir }}"
+  when:
+  - yarn_user is defined
+  - yarn_group is defined
+  - hadoop_enabled == true
+
+- name: create mapred directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ mapred_user }}"
+    group: "{{ mapred_group }}"
+    mode: u=rwx,g=rx,o=rx
+  become: true
+  with_items:
+  - "{{ mapred_home }}"
+  - "{{ mapred_log_dir }}"
+  - "{{ mapred_pid_dir }}"
+  - "{{ mapred_tmp_dir }}"
+  when:
+  - mapred_user is defined
+  - mapred_group is defined
+  - hadoop_enabled == true
+
+- name: create hdfs directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{hdfs_user}}"
+    group: "{{hadoop_group}}"
+    mode: u=rwx,g=rx,o=rx
+  become: true
+  with_items:
+  - "{{ hadoop_home }}"
+  - "{{ hadoop_log_dir }}"
+  - "{{ hadoop_pid_dir }}"
+  - "{{ hdfs_data_dir }}"
+  - "{{ hdfs_log_dir }}"
+  - "{{ hdfs_pid_dir }}"
+  - "{{ hdfs_tmp_dir }}"
+  - "{{ hdfs_namenode_dir }}"
+  - "{{ hdfs_datanode_data_dir }}"
+  - "{{ hdfs_journal_dir }}"
+  - "{{ hdfs_checkpoint_dir }}"
+  - "{{ hdfs_secondary_name_dir }}"
+  - "{{ hdfs_journalnode_edits_dir }}"
+  - "{{ hdfs_journalnode_edits_inprogress_dir }}"
+  - "{{ hdfs_journalnode_checkpoint_dir }}"
+  - "{{ hdfs_journalnode_checkpoint_inprogress_dir }}"
+  - "{{ hdfs_journalnode_checkpoint_edits_dir }}"
+  - "{{ hdfs_journalnode_checkpoint_image_dir }}"
+  - "{{ hdfs_journalnode_checkpoint_txid_dir }}"
+  - "{{ hdfs_journalnode_checkpoint_txid_inprogress_dir }}"
+  - "{{ hdfs_journalnode_checkpoint_txid_last_gzxid }}"
+  - "{{ hdfs_journalnode_checkpoint_txid_last_written }}"
+  - "{{ hdfs_journalnode_checkpoint_txid_last_promised }}"
+  - "{{ hdfs_journalnode_checkpoint_txid_last_accepted }}"
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: create zookeeper config directory
+  file:
+    path: /etc/zookeeper/
+    state: directory
+    owner: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
+    mode: u=rwx,g=rx,o=rx
+  become: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: create zookeeper directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
+    mode: u=rwx,g=rx,o=rx
+  become: true
+  with_items:
+  - "{{ zookeeper_data_dir }}"
+  - "{{ zookeeper_data_log_dir }}"
+  - "{{ zookeeper_log_dir }}"
+  - "{{ zookeeper_pid_dir }}"
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+# Setup Appliacation Enviroment Files
+- name: Create Hadoop Node Zookeeper myid
+  file:
+    path: "{{ zookeeper_myid_file }}"
+    state: touch
+    owner: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
+    mode: u=rw,g=r,o=r
+  become: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: Set up java.sh in /etc/profile.d/
+  template:
+    src: "files/java.sh"
+    dest: "/etc/profile.d/java.sh"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup: true
+
+- name: Set up hadoop.sh in /etc/profile.d
+  template:
+    src: "files/hadoop.sh"
+    dest: "/etc/profile.d/hadoop.sh"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: Set up zookeeper.sh in /etc/profile.d
+  template:
+    src: "files/zookeeper.sh"
+    dest: "/etc/profile.d/zookeeper.sh"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: Setup zookeeper service file in /usr/lib/systemd/system
+  template:
+    src: "files/zookeeper.service"
+    dest: "/usr/lib/systemd/system/zookeeper.service"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+# Upload Generic Configuration Files.
+- name: Set up core-site.xml
+  template:
+    src: files/core-site.xml
+    dest: "{{ hadoop_conf_dir }}/core-site.xml"
+    owner: hadoop
+    group: hadoop
+    mode: u=rw,g=r,o=r
+    backup: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: Set up hdfs-site.xml
+  template:
+    src: "files/hdfs-site.xml"
+    dest: "{{ hadoop_conf_dir }}/hdfs-site.xml"
+    owner: hadoop
+    group: hadoop
+    mode: u=rw,g=r,o=r
+    backup: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: Set up yarn-site.xml
+  template:
+    src: "files/yarn-site.xml"
+    dest: "{{ hadoop_conf_dir }}/yarn-site.xml"
+    owner: hadoop
+    group: hadoop
+    mode: u=rw,g=r,o=r
+    backup: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: Set up workers
+  template:
+    src: "files/workers"
+    dest: "{{ hadoop_conf_dir }}/workers"
+    owner: hadoop
+    group: hadoop
+    mode: u=rw,g=r,o=r
+    backup: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+# Genric Configuration Files for OS
+- name: setup firewall ports
+  template:
+    src: "files/hadoop.xml"
+    dest: "/usr/lib/firewalld/services"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: restart firewalld
+  service:
+    name: firewalld
+    state: restarted
+    enabled: true
+
+# - name: add hadoop service to firewalld
+#   firewalld:
+#     service: hadoop
+#     permanent: true
+#     state: enabled
+#     immediate: true
+#     vars:
+#       ansible_python_interpreter: /usr/bin/python3
+
+# - name: add kerberos service to firewalld
+#   firewalld:
+#     service: kerberos
+#     permanent: true
+#     state: enabled
+#     immediate: true
+#     vars:
+#       ansible_python_interpreter: /usr/bin/python3
+
+# After installation clean the RAM so that we get the required free space
+# so that name node can start/stop without any issues.
+- name: Clean Ram Cache
+  copy:
+    content: 3
+    dest: /proc/sys/vm/drop_caches
+    unsafe_writes: true
+  become: true

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>Hadoop</short>
+  <description>Hadoop Cluster Firewall Ports</description>
+
+  <!--HDFS Firewall Ports-->
+  <!--NameNode Firewall Ports-->
+  <!-- Port For : dfs.federation.router.http-address -->
+  <port protocol="tcp"
+        port="50071"/>
+  <!-- Port For : dfs.federation.router.https-address  -->
+  <port protocol="tcp"
+        port="50072"/>
+  <!-- Port For : dfs.federation.router.admin-address -->
+  <port protocol="tcp"
+        port="8111"/>
+  <!--Port For : fs.viewfs.mounttable.trakm8.linkFallback-->
+  <port protocol="tcp"
+        port="8020"/>
+  <!-- Port For : dfs.federation.router.rpc-address -->
+  <port protocol="tcp"
+        port="8888"/>
+  <!-- Port For : dfs.namenode.backup.address  -->
+  <port protocol="tcp"
+        port="50100"/>
+  <!-- Port For : dfs.namenode.backup.http-address  -->
+  <port protocol="tcp"
+        port="50105"/>
+  <!-- Port For : dfs.namenode.rpc-address  -->
+  <port protocol="tcp"
+        port="8020"/>
+  <!-- Port For : dfs.namenode.secondary.http-address -->
+  <port protocol="tcp"
+        port="9868"/>
+  <!-- Port For : dfs.namenode.secondary.https-address  -->
+  <port protocol="tcp"
+        port="9869"/>
+  <!-- Port For : dfs.namenode.http-address -->
+  <port protocol="tcp"
+        port="9870"/>
+  <!-- Port For : dfs.namenode.https-address  -->
+  <port protocol="tcp"
+        port="9871"/>
+
+  <!--Node Specific Firewall Ports-->
+
+  <!-- Port For : Zookepeer  -->
+  <port protocol="tcp"
+        port="2181"/>
+  <port protocol="tcp"
+        port="2888"/>
+  <port protocol="tcp"
+        port="3888"/>
+  <!-- Port For : dfs.ha.zkfc.port  -->
+  <port protocol="tcp"
+        port="8019"/>
+
+  <!--Journal Node Firewall Ports-->
+  <!-- Port For : dfs.journalnode.http-address  -->
+  <port protocol="tcp"
+        port="8480"/>
+  <!-- Port For : dfs.journalnode.https-address -->
+  <port protocol="tcp"
+        port="8481"/>
+  <!-- Port For : dfs.journalnode.rpc-address  -->
+  <port protocol="tcp"
+        port="8485"/>
+
+  <!--DataNode Firewall Ports-->
+  <!-- Port For : datanode.https.port   -->
+  <port protocol="tcp"
+        port="50475"/>
+  <!-- Port For : dfs.datanode.http.address -->
+  <port protocol="tcp"
+        port="9864"/>
+  <!-- Port For : dfs.datanode.https.address -->
+  <port protocol="tcp"
+        port="9865"/>
+  <!-- Port For : dfs.datanode.address  -->
+  <port protocol="tcp"
+        port="9866"/>
+  <!-- Port For : dfs.datanode.ipc.address -->
+  <port protocol="tcp"
+        port="9867"/>
+
+  <!--Yarn Firewall Ports-->
+  <!-- Port For : yarn.resourcemanager.scheduler.address -->
+  <port protocol="tcp"
+        port="8030"/>
+  <!-- Port For : yarn.resourcemanager.resource-tracker.address -->
+  <port protocol="tcp"
+        port="8031"/>
+  <!-- Port For : yarn.resourcemanager.address -->
+  <port protocol="tcp"
+        port="8032"/>
+  <!-- Port For : yarn.resourcemanager.admin.address -->
+  <port protocol="tcp"
+        port="8033"/>
+  <!-- Port For : yarn.nodemanager.localizer.address -->
+  <port protocol="tcp"
+        port="8040"/>
+  <!-- Port For : yarn.nodemanager.webapp.address -->
+  <port protocol="tcp"
+        port="8042"/>
+  <!-- Port For : yarn.nodemanager.webapp.https.address -->
+  <port protocol="tcp"
+        port="8044"/>
+  <!-- Port For : yarn.sharedcache.client-server.address -->
+  <port protocol="tcp"
+        port="8045"/>
+  <!-- Port For : yarn.sharedcache.uploader.server.address -->
+  <port protocol="tcp"
+        port="8046"/>
+  <!-- Port For : yarn.sharedcache.admin.address -->
+  <port protocol="tcp"
+        port="8047"/>
+  <!-- Port For : yarn.sharedcache.webapp.address -->
+  <port protocol="tcp"
+        port="8788"/>
+  <!-- Port For : yarn.nodemanager.collector-service.address -->
+  <port protocol="tcp"
+        port="8048"/>
+  <!-- Port For : yarn.nodemanager.amrmproxy.address -->
+  <port protocol="tcp"
+        port="8049"/>
+  <!-- Port For : yarn.resourcemanager.webapp.address -->
+  <port protocol="tcp"
+        port="8088"/>
+  <!-- Port For : yarn.resourcemanager.webapp.https.address -->
+  <port protocol="tcp"
+        port="8090"/>
+  <!-- Port For : yarn.resourcemanager.fs.state-store.uri -->
+  <port protocol="tcp"
+        port="9000"/>
+  <!-- Port For : yarn.router.webapp.address -->
+  <port protocol="tcp"
+        port="8089"/>
+  <!-- Port For : yarn.router.webapp.https.address -->
+  <port protocol="tcp"
+        port="8091"/>
+  <!-- Port For : yarn.timeline-service.webapp.address -->
+  <port protocol="tcp"
+        port="8188"/>
+  <!-- Port For : yarn.timeline-service.webapp.https.address -->
+  <port protocol="tcp"
+        port="8190"/>
+  <!-- Port For : yarn.timeline-service.address  -->
+  <port protocol="tcp"
+        port="10200"/>
+
+  <!--Mapreduce Firewall Ports-->
+  <!-- Port For : mapreduce.jobhistory.address -->
+  <port protocol="tcp"
+        port="10020"/>
+  <!-- Port For : mapreduce.jobhistory.admin.address -->
+  <port protocol="tcp"
+        port="10033"/>
+  <!-- Port For : mapreduce.jobhistory.webapp.address  -->
+  <port protocol="tcp"
+        port="19888"/>
+  <!-- Port For : mapreduce.jobhistory.webapp.https.address -->
+  <port protocol="tcp"
+        port="19890"/>
+
+  <!-- The END  -->
+</service>

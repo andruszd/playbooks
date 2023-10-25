@@ -1,0 +1,92 @@
+---
+# hadoop_namenode
+- name: "Configuring core-site.xml file"
+  template:
+            src: "templates/core-site.xml.j2"
+            dest: "/etc/hadoop/conf/core-site.xml"
+            owner: root
+            group: root
+            mode: u=rw,g=r,o=r
+            backup: true
+
+- name: "Configuring hdfs-site.xml file"
+  template:
+            src: "templates/hdfs-site.xml.j2"
+            dest: "/etc/hadoop/conf/hdfs-site.xml"
+            owner: root
+            group: root
+            mode: u=rw,g=r,o=r
+            backup: true
+
+- name: "Checking if Name Node Directories are already present"
+  command: "ls -l {{ hdfs_namenode_dir }}"
+  ignore_errors: true
+  changed_when: false
+  register: name_node_directory_check
+- debug:
+            msg: "Name Node Directory Already exists"
+  when: name_node_directory_check.rc == 0
+- debug:
+            msg: "Name Node Directory does not exist and will be created"
+  when: name_node_directory_check.rc != 0
+- name: "Creating Name Node Directory"
+  file:
+            path: "{{ hdfs_namenode_dir }}"
+            state: directory
+            owner: "{{ hdfs_user }}"
+            group: "{{ hdfs_group }}"
+            mode: u=rwx,g=rwx,o=rwx
+  when: name_node_directory_check.rc != 0
+  register: name_node_directory_status
+- debug:
+            msg: "Name Node Directory Created"
+  when: name_node_directory_status.changed == true
+- debug:
+            msg: "Name Node Directory not created"
+  when: name_node_directory_status.changed == false
+
+- name: "Formatting Name Node Directory"
+  command: hdfs namenode -format -nonInteractive
+   -force -clusterId {{ hdfs_cluster_id }}"
+  become: true
+  become_user: hdfs
+  when: name_node_directory_status.changed == true
+
+- name: "Checking if Name Node service already running"
+  command: "jps"
+  become: true
+  become_user: root
+  ignore_errors: true
+  changed_when: false
+  register: hadoop_namenode_service_check
+- debug:
+            msg: "Hadoop Name Node service already running"
+  when: hadoop_namenode_service_check.stdout |
+   regex_search('(NameNode)') == "NameNode"
+- debug:
+            msg: "Hadoop Name Node service not running"
+  when: hadoop_namenode_service_check.stdout |
+   regex_search('(NameNode)') != "NameNode"
+
+- name: Include resourcemanager.yml
+  include_task: resourcemanager.yml
+  when: hadoop_namenode_service_check.stdout |
+   regex_search('(NameNode)') != "NameNode"
+
+- name: Include journalnode.yml
+  include_task: journalnode.yml
+  when: hadoop_namenode_service_check.stdout |
+   regex_search('(NameNode)') != "NameNode"
+
+- name: Include kerberos-namenode.yml
+  include_task: kerberos-namenode.yml
+  when: kerberos_enabled == true
+
+- name: "Starting Hadoop Name Node Service"
+  command: "hdfs --deamon start namenode"
+  become: true
+  become_user: hdfs
+  when: hadoop_namenode_service_check.stdout |
+   regex_search('(NameNode)') != "NameNode"|
+   regex_search('(QuorumPeerMain)') == "QuorumPeerMain"|
+   regex_search('(JournalNode)') == "JournalNode"

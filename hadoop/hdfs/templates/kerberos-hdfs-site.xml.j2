@@ -1,0 +1,60 @@
+<!-- START Kerberos Properties -->
+<!-- 
+  WARNING: REMEMBER TO COPY THE KEYTAB FILES TO ALL NODES IN THE CLUSTER
+  file location : /etc/hadoop/conf/
+ -->
+    <property>
+      <name>dfs.block.access.token.enable</name>
+      <value>true</value>
+    </property>
+    <!-- Kerberos Principal Names -->
+    <property>
+      <name>dfs.namenode.kerberos.principal</name>
+      <value>hdfs/_HOST@REPLACEME</value>
+    </property>
+    <property>
+        <name>dfs.secondary.namenode.kerberos.principal</name>
+        <value>hdfs/_HOST@REPLACEME</value>
+    </property>
+    <property>
+      <name>dfs.datanode.kerberos.principal</name>
+      <value>hdfs/_HOST@REPLACEME</value>
+    </property>
+    <property>
+      <name>dfs.web.authentication.kerberos.principal</name>
+      <value>HTTP/_HOST@REPLACEME</value>
+    </property>
+    <property>
+      <name>dfs.namenode.kerberos.internal.spnego.principal</name>
+      <value>HTTP/_HOST@REPLACEME</value>
+    </property>
+    <property>
+      <name>dfs.secondary.namenode.kerberos.internal.spnego.principal</name>
+      <value>HTTP/_HOST@REPLACEME</value>
+    </property>
+    <!-- Keytab locations -->
+    <property>
+      <name>dfs.web.authentication.kerberos.keytab</name>
+      <value>/etc/hadoop/conf/spnego.service.keytab</value>
+    </property>
+    <property>
+      <name>dfs.namenode.keytab.file</name>
+      <value>/etc/hadoop/conf/nn.keytab</value>
+    </property>
+    <property>
+      <name>dfs.journalnode.kerberos.keytab.file</name>
+      <value>/etc/hadoop/conf/hdfs.keytab</value>
+    </property>
+    <property>
+      <name>dfs.secondary.namenode.keytab.file</name>
+      <value>/etc/hadoop/conf/nn.keytab</value>
+    </property>
+    <property>
+      <name>dfs.datanode.keytab.file</name>
+      <value>/etc/hadoop/conf/dn.keytab</value>
+    </property>
+    <property>
+      <name>dfs.web.authentication.kerberos.keytab</name>
+      <value>/etc/hadoop/conf/hdfs.keytab</value>
+    </property>
+<!-- END Kerberos Properties -->

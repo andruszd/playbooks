@@ -1,0 +1,109 @@
+- name: ensure group hadoop exists
+  group:
+    name: hadoop
+    state: present
+  become: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: create hadoop user
+  user:
+    name: "{{ hadoop_user }}"
+    group: "{{ hadoop_group }}"
+    state: present
+    create_home: true
+  become: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: ensure group hdfs exists
+  group:
+    name: hdfs
+    state: present
+  become: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: create hdfs user
+  user:
+    name: "{{ hdfs_user }}"
+    group: "{{  hadoop_group }}"
+    state: present
+    create_home: true
+  become: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: ensure group yarn exists
+  group:
+    name: yarn
+    state: present
+  become: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: create yarn user
+  user:
+    name: "{{ yarn_user }}"
+    group: "{{  hadoop_group }}"
+    state: present
+    create_home: true
+  become: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: ensure group mapred exists
+  group:
+    name: mapred
+    state: present
+  become: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: create mapred user
+  user:
+    name: "{{ mapred_user }}"
+    group: "{{  hadoop_group }}"
+    state: present
+    create_home: true
+  become: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: ensure group zookeeper exists
+  group:
+    name: zookeeper
+    state: present
+  become: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: create zookeeper user
+  user:
+    name: "{{ zookeeper_user }}"
+    group: "{{ zookeeper_group }}"
+    state: present
+    create_home: true
+  become: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true

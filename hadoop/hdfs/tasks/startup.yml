@@ -1,0 +1,35 @@
+---
+# - name: startup journal nodes.       
+#   include_tasks: 
+#     file: tasks/journalnode.yml
+#     apply:
+#       tags:
+#         - journalnode
+
+- name: startup zookeeper nodes.       
+  include_tasks: 
+    file: tasks/zookeeper.yml
+    apply:
+      tags:
+        - zookeeper
+
+- name: startup zkfc nodes.       
+  include_tasks: 
+    file: tasks/zkfc.yml
+    apply:
+      tags:
+        - zkfc
+
+- name: startup namenode nodes.
+  include_tasks: 
+    file: tasks/namenode.yml
+    apply:
+      tags:
+        - namenode
+
+- name: startup data nodes.
+  include_tasks: 
+    file: tasks/datanode.yml
+    apply:
+      tags:
+        - datanode
