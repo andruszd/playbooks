@@ -1,0 +1,22 @@
+[Unit]
+Description=Pinot Broker
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/pinot/
+EnvironmentFile=/etc/pinot/conf/pinot-bkr.env
+Environment=ZOO="-zkAddress ${ZOOKEEPER_ADDRESS}" CLUSTER="-clusterName ${CLUSTER_NAME}" CONF="-configFileName  /etc/pinot/conf/pinot-broker.conf"
+PIDFile=/dvar/run/pinot/pinot-brkr_server.pid
+SyslogIdentifier=pinot-broker
+User=pinot
+Group=pinot
+ExecStart=/bin/bash -c "/data/pinot/pinot/bin/pinot-admin.sh StartBroker" ${ZOO} ${CLUSTER} ${CONF}
+ExecStop=/bin/bash -c "/data/pinot/pinot/bin/pinot-admin.sh Stop"  ${CONF}
+Restart=on-abnormal
+TimeoutSec=20
+TimeoutStopSec=30
+Restart=on-failure
+
+[Install]
+Alias=pinotb
+WantedBy=multi-user.target

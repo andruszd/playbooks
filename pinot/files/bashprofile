@@ -9,6 +9,10 @@ fi
 export PS1="\e[0;34m[\u@\h \W]\$ \e[m "
 
 # Hadoop Exports needed for Hadoop to work as deep store
+# Only needed if you want to run Pinot Controller on the same machine as the Hadoop NameNode or access
+# HDFS from the same machine as the Pinot Controller
+# Check the Hadoop version and update the exports accordingly
+export HADOOP_CONF_DIR=/etc/hadoop/conf
 export HADOOP_VERSION=2.7.1
 export HADOOP_GUAVA_VERSION=11.0.2
 export HADOOP_GSON_VERSION=2.2.4
@@ -26,17 +30,15 @@ PATH=$PATH:$HOME/bin:$HADOOP_HOME
 
 
 # Pinot Exports
-
+# Only needed if you want to run Pinot Controller on the same machine as the Hadoop NameNode or access
+# HDFS from the same machine as the Pinot Controller
 export GC_LOG_LOCATION=/var/logs/gc/pinot-controller-gc.log
 export PINOT_VERSION=1.0.0
 export PINOT_DISTRIBUTION_DIR=/path/to/apache-pinot-${PINOT_VERSION}-bin/
 export SERVER_CONF_DIR=/etc/pinot
 export ZOOKEEPER_ADDRESS=localhost:2181
-
-
 export CLASSPATH_PREFIX="${HADOOP_HOME}/share/hadoop/hdfs/hadoop-hdfs-${HADOOP_VERSION}.jar:${HADOOP_HOME}/share/hadoop/common/lib/hadoop-annotations-${HADOOP_VERSION}.jar:${HADOOP_HOME}/share/hadoop/common/lib/hadoop-auth-${HADOOP_VERSION}.jar:${HADOOP_HOME}/share/hadoop/common/hadoop-common-${HADOOP_VERSION}.jar:${HADOOP_HOME}/share/hadoop/common/lib/guava-${HADOOP_GUAVA_VERSION}.jar:${HADOOP_HOME}/share/hadoop/common/lib/gson-${HADOOP_GSON_VERSION}.jar"
 export JAVA_OPTS="-Xms8G -Xmx12G -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xloggc:${GC_LOG_LOCATION}/gc-pinot-controller.log"
 ${PINOT_DISTRIBUTION_DIR}/bin/start-controller.sh -configFileName ${SERVER_CONF_DIR}/controller.conf
-
 export PATH=$PATH:$PINOT_DISTRIBUTION_DIR/bin
 export PINOT_HOME=$PINOT_DISTRIBUTION_DIR

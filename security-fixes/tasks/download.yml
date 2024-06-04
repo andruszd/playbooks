@@ -1,0 +1,29 @@
+---
+- name: download yara
+  get_url:
+    url: "{{ yara_url }}"
+    dest: "{{ yara_download_dest }}"
+    mode: u=rw,g=r,o=r
+    timeout: 600
+    validate_certs: false
+  register: download_yara
+  when: yara_url is defined
+
+- name: create yara destination directory
+  file:
+    path: /usr/local/bin/yara-{{ yara_version }}
+    state: directory
+    owner: "{{ pinot_user }}"
+    group: "{{ pinot_group }}"
+    mode: u=rwx,g=rx,o=rx
+  when: download_yara.changed
+
+- name: extract yara
+  unarchive:
+    src: "{{ yara_download_dest }}"
+    dest: "{{ yara_home }}"
+    remote_src: true
+    creates: "{{ yara_home }}"
+    owner: "{{ root }}"
+    group: "{{ root }}"
+  when: download_yara.changed

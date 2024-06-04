@@ -1,0 +1,22 @@
+[Unit]
+Description=
+After=network.target
+
+
+[Service]
+Type=forking
+WorkingDirectory=
+PIDFile=
+SyslogIdentifier=
+User=
+Group=
+ExecStart=
+ExecStop=
+ExecReload=
+Restart=always
+TimeoutSec=20
+SuccessExitStatus=130 143
+Restart=on-failure
+ 
+[Install]
+WantedBy=multi-user.target

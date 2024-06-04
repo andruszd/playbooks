@@ -1,0 +1,96 @@
+---
+# This is a simple playbook that will set the permissions
+# on the cron files to be more secure.
+# This will help prevent unauthorized users from running cron jobs.
+# This playbook will set the permissions on the following files:
+# /etc/crontab
+# /etc/cron.hourly
+# /etc/cron.daily
+# /etc/cron.weekly
+# /etc/cron.monthly
+# /etc/cron.d
+# /etc/cron.allow
+# /etc/at.allow
+# This playbook will also remove the following files:
+# /etc/cron.deny
+# /etc/at.deny
+- name: Cron Permissions
+  command: chown root:root /etc/crontab
+  tags:
+  - cron
+- name: Cron Permissions
+  command: chmod og-rwx /etc/crontab
+  tags:
+  - cron
+- name: Cron Permissions
+  command: chown root:root /etc/cron.hourly
+  tags:
+  - cron
+- name: Cron Permissions
+  command: chmod og-rwx /etc/cron.hourly
+  tags:
+  - cron
+- name: Cron Permissions
+  command: chown root:root /etc/cron.daily
+  tags:
+  - cron
+- name: Cron Permissions
+  command: chmod og-rwx /etc/cron.daily
+  tags:
+  - cron
+- name: Cron Permissions
+  command: chown root:root /etc/cron.weekly
+  tags:
+  - cron
+- name: Cron Permissions
+  command: chmod og-rwx /etc/cron.weekly
+  tags:
+  - cron
+- name: Cron Permissions
+  command: chown root:root /etc/cron.monthly
+  tags:
+  - cron
+- name: Cron Permissions
+  command: chmod og-rwx /etc/cron.monthly
+  tags:
+  - cron
+- name: Cron Permissions
+  command: chown root:root /etc/cron.d
+  tags:
+  - cron
+- name: Cron Permissions
+  command: chmod og-rwx /etc/cron.d
+  tags:
+  - cron
+- name: Cron Permissions
+  command: rm -rI /etc/cron.deny
+  tags:
+  - cron
+- name: Cron Permissions
+  command: rm -rI /etc/at.deny
+  tags:
+  - cron
+- name: Cron Permissions
+  command: touch /etc/cron.allow
+  tags:
+  - cron
+- name: Cron Permissions
+  command: touch /etc/at.allow
+  tags:
+  - cron
+- name: Cron Permissions
+  command: chmod og-rwx /etc/cron.allow
+  tags:
+  - cron
+- name: Cron Permissions
+  command: chmod og-rwx /etc/at.allow
+  tags:
+  - cron
+- name: Cron Permissions
+  command: chown root:root /etc/cron.allow
+  tags:
+  - cron
+- name: Cron Permissions
+  command: chown root:root /etc/at.allow
+  tags:
+  - cron

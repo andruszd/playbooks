@@ -1,0 +1,29 @@
+    <!-- START NFS Properties -->
+    <property>
+       <name>hadoop.proxyuser.nfsserver.groups</name>
+       <value>root,hadoop</value>
+       <description>
+         The 'nfsserver' user is allowed to proxy all members of the 'hadoop' group.
+         Note that in most cases you will need to include the
+         group "root" because the user "root" (which usually belonges to "root" group) will
+         generally be the user that initially executes the mount on the NFS client system.
+         Set this to '*' to allow nfsserver user to proxy any group.
+       </description>
+    </property>
+    <property>
+       <name>hadoop.proxyuser.nfsserver.hosts</name>
+       <value>{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}</value>
+       <description>
+         This is the host where the nfs gateway is running. Set this to '*' to allow
+         requests from any hosts to be proxied.
+       </description>
+    </property>
+    <property>
+       <name>hadoop.proxyuser.hdfs.groups</name>
+       <value>*</value>
+    </property>
+    <property>
+       <name>hadoop.proxyuser.hdfs.hosts</name>
+       <value>*</value>
+    </property>
+   <!-- END NFS Properties -->

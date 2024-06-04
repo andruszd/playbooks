@@ -1,0 +1,17 @@
+---
+- name: ensure group test exists
+  group:
+    name: pox
+    state: present
+  become: true
+
+- name: create test user
+  user:
+    name: "{{ test_user }}"
+    group: "{{ test_group }}"
+    password: "{{ test_user | password_hash('sha512') }}"
+    shell: /bin/bash
+    state: present
+    create_home: true
+  become: true
+  when: test_user is defined and test_group is defined

@@ -1,0 +1,30 @@
+    <!-- Start SSL Properties -->
+    <property>
+       <name>dfs.datanode.https.address</name>
+       <value>0.0.0.0:50470</value>
+    </property>
+    <property>
+       <name>dfs.namenode.https-address</name>
+       <value>{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:50470</value>
+    </property>
+    <property>
+       <name> dfs.namenode.secondary.http-address</name>
+       <value>{{location}}-{{sys_env}}-hdfsnn02.{{domain_name}}:50090</value>
+    </property>
+    <property>
+       <name>dfs.namenode.secondary.https-address</name>
+       <value>{{location}}-{{sys_env}}-hdfsnn02.{{domain_name}}:50470</value>
+    </property>
+    <property>
+        <name>dfs.client.https.need-auth</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>dfs.https.enable</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>dfs.http.policy</name>
+        <value>HTTPS_ONLY</value>
+    </property>
+    <!-- End SSL Properties -->

@@ -1,0 +1,23 @@
+[Unit]
+Description=Pinot Minion
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/pinot
+EnvironmentFile=/etc/pinot/conf/pinot-minion.env
+Environment=ZOO="-zkAddress ${ZOOKEEPER_ADDRESS}" CLUSTER="-clusterName ${CLUSTER_NAME}" CONF="-configFileName  /etc/pinot/conf/pinot-minion.conf"
+PIDFile=/var/run/pinot/pinot_minion.pid
+SyslogIdentifier=pinot-minion
+User=pinot
+Group=pinot
+ExecStart=/bin/sh -c "/opt/pinot/bin/pinot-admin.sh StartMinion" ${ZOO} ${CLUSTER} ${CONF}
+ExecStop=/bin/sh -c "/opt/pinot/bin/pinot-admin.sh Stop" ${CONF}
+Restart=on-abnormal
+TimeoutSec=20
+TimeoutStopSec=30
+Restart=on-failure
+
+[Install]
+Alias=pinots
+WantedBy=multi-user.target
+

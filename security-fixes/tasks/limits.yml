@@ -1,0 +1,24 @@
+---
+- name: Set limits
+  command: "{{ item }}"
+  become: true
+  backup: true
+  with_items:
+    - "echo '* soft core 0' >> /etc/security/limits.conf"
+    - "echo '* hard core 0' >> /etc/security/limits.conf"
+    - "echo '* soft nproc 65535' >> /etc/security/limits.conf"
+    - "echo '* hard nproc 65535' >> /etc/security/limits.conf"
+    - "echo '* soft nofile 65535' >> /etc/security/limits.conf"
+    - "echo '* hard nofile 65535' >> /etc/security/limits.conf"
+    - "echo 'root soft core 0' >> /etc/security/limits.conf"
+    - "echo 'root hard core 0' >> /etc/security/limits.conf"
+    - "echo 'root soft nproc 65535' >> /etc/security/limits.conf"
+    - "echo 'root hard nproc 65535' >> /etc/security/limits.conf"
+    - "echo 'root soft nofile 65535' >> /etc/security/limits.conf"
+    - "echo 'root hard nofile 65535' >> /etc/security/limits.conf"
+  tags: [limits]
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: true
+  tags: [limits]

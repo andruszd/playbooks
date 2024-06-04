@@ -1,0 +1,22 @@
+    <!-- START NFS Gateway Properties -->
+
+    <property>
+        <name>nfs.dump.dir</name>
+        <value>/tmp/.hdfs-nfs</value>
+    </property>
+    <property>
+        <name>nfs.exports.allowed.hosts</name>
+        <value>* rw</value>
+    </property>
+    <property>
+        <name>nfs.superuser</name>
+        <value>hdfs</value>
+    </property>
+    <property>
+        <name>nfs.metrics.percentiles.intervals</name>
+        <value>100</value>
+        <description>Enable the latency histograms for read, write and
+          commit requests. The time unit is 100 seconds in this example.
+        </description>
+    </property>
+    <!-- END NFS Gateway Properties -->

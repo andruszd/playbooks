@@ -1,0 +1,31 @@
+---
+# hadoop zookeeper failover controller
+- name: "Checking if Zookeeper service already running"
+  command: "jps"
+  become: true
+  become_user: root
+  ignore_errors: true
+  changed_when: false
+  register: hadoop_zookeeper_service_check
+- debug:
+            msg: "Hadoop Zookeeper service already running"
+  when: hadoop_zookeeper_service_check.stdout |
+   regex_search('(QuorumPeerMain)') == "QuorumPeerMain"
+- debug:
+            msg: "Hadoop Zookeeper service not running"
+  when: hadoop_zookeeper_service_check.stdout |
+    regex_search('(QuorumPeerMain)') != "QuorumPeerMain"
+
+- name: "Starting Hadoop Zookeeper Service"
+  command: "hdfs zkfc -formatZK -force -nonInteractive"
+  become: true
+  become_user: hdfs
+  when: hadoop_zookeeper_service_check.stdout |
+   regex_search('(QuorumPeerMain)') != "QuorumPeerMain"
+
+- name: "Start ZKFC"
+  command: "hdfs --deamon start zkfc"
+  become: true
+  become_user: hdfs
+  when: hadoop_zookeeper_service_check.stdout |
+   regex_search('(QuorumPeerMain)') != "QuorumPeerMain"

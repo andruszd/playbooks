@@ -1,0 +1,219 @@
+---
+- name: Configure Auditd
+  yum:
+    name: audit
+    state: latest
+  tags: [auditd]
+
+- name: Auditd Configuration
+  template:
+    src: "templates/auditd.conf.j2"
+    dest: "/etc/audit/auditd.conf"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  notify: Reload auditd
+  tags: [auditd]
+
+- name: Install Audit rules
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+    backup: true
+    with_items:
+      - src: "files/audit/10-base.rules"
+        dest: "{{ auditd_rules }}/10-base.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/10-no-audit.rules"
+        dest: "{{ auditd_rules }}/10-no-audit.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/11-loginuid.rules"
+        dest: "{{ auditd_rules }}/11-loginuid.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/12-cont-fail.rules"
+        dest: "{{ auditd_rules }}/12-cont-fail.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/20-donot-audit.rules"
+        dest: "{{ auditd_rules }}/20-do-not-audit.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/21-no32bit.rules"
+        dest: "{{ auditd_rules }}/21-no32bit.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/21-no64bit.rules"
+        dest: "{{ auditd_rules }}/21-no64bit.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/21-noexec.rules"
+        dest: "{{ auditd_rules }}/21-noexec.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r }
+      - src: "files/audit/21-nosuid.rules"
+        dest: "{{ auditd_rules }}/21-nosuid.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/22-ingnore-chrony.rules"
+        dest: "{{ auditd_rules }}/22-ignore-chrony.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/23-ignore-filesystem.rules"
+        dest: "{{ auditd_rules }}/23-ignore-filesystem.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/30-nispom.rules"
+        dest: "{{ auditd_rules }}/30-nispom.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/30-ospp-v42-1-create-failed.rules"
+        dest: "{{ auditd_rules }}/30-ospp-v42-1-create-failed.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/30-ospp-v42-1-create-success.rules"
+        dest: "{{ auditd_rules }}/30-ospp-v42-1-create-success.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/30-ospp-v42-2-modify-failed.rules"
+        dest: "{{ auditd_rules }}/30-ospp-v42-2-modify-failed.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/30-ospp-v42-2-modify-success.rules"
+        dest: "{{ auditd_rules }}/30-ospp-v42-2-modify-success.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/30-ospp-v42-3-access-failed.rules"
+        dest: "{{ auditd_rules }}/30-ospp-v42-3-access-failed.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/30-ospp-v42-3-access-success.rules"
+        dest: "{{ auditd_rules }}/30-ospp-v42-3-access-success.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/30-ospp-v42-4-delete-failed.rules"
+        dest: "{{ auditd_rules }}/30-ospp-v42-4-delete-failed.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/30-ospp-v42-4-delete-success.rules"
+        dest: "{{ auditd_rules }}/30-ospp-v42-4-delete-success.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/30-ospp-v42-5-perm-change-failed.rules"
+        dest: "{{ auditd_rules }}/30-ospp-v42-5-perm-change-failed.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/30-ospp-v42-5-perm-change-success.rules"
+        dest: "{{ auditd_rules }}/30-ospp-v42-5-perm-change-success.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/30-ospp-v42-6-owner-change-failed.rules"
+        dest: "{{ auditd_rules }}/30-ospp-v42-6-owner-change-failed.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/30-ospp-v42-6-owner-change-success.rules"
+        dest: "{{ auditd_rules }}/30-ospp-v42-6-owner-change-success.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/30-ospp-v42.rules"
+        dest: "{{ auditd_rules }}/30-ospp-v42.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/30-pci-dss-v31.rules"
+        dest: "{{ auditd_rules }}/30-pci-dss-v31.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/30-stig.rules"
+        dest: "{{ auditd_rules }}/30-stig.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/31-privileged.rules"
+        dest: "{{ auditd_rules }}/31-privileged.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/32-power-abuse.rules"
+        dest: "{{ auditd_rules }}/32-power-abuse.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/40-local.rules"
+        dest: "{{ auditd_rules }}/40-local.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/41-containers.rules"
+        dest: "{{ auditd_rules }}/41-containers.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/42-injection.rules"
+        dest: "{{ auditd_rules }}/42-injection.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/43-module-load.rules"
+        dest: "{{ auditd_rules }}/43-module-load.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/44-installers.rules"
+        dest: "{{ auditd_rules }}/44-installers.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r }
+      - src: "files/audit/70-einval.rules"
+        dest: "{{ auditd_rules }}/70-einval.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/71-networking.rules"
+        dest: "{{ auditd_rules }}/71-networking.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+      - src: "files/audit/99-finalize.rules"
+        dest: "{{ auditd_rules }}/99-finalize.rules"
+        owner: root
+        group: root
+        mode: u=rw,g=r,o=r
+
+- name: Reload auditd
+  systemd:
+    name: auditd
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  tags: [auditd]

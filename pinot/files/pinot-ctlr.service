@@ -1,0 +1,22 @@
+[Unit]
+Description=Pinot Controller
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/pinot/
+EnvironmentFile=/etc/pinot/conf/pinot-ctlr.env
+Environment=ZOO="-zkAddress ${ZOOKEEPER_ADDRESS}" CLUSTER="-clusterName ${CLUSTER_NAME}" CONF="-configFileName  /etc/conf/pinot-controller.conf"
+PIDFile=/var/run/pinot/pinot-ctlr_server.pid
+SyslogIdentifier=pinot-controller
+User=pinot
+Group=pinot
+ExecStart=/bin/sh -c "/opt/pinot/bin/pinot-admin.sh StartController" ${ZOO} ${CLUSTER} ${CONF}
+ExecStop=/bin/sh -c "/opt/pinot/bin/pinot-admin.sh StopProcess" ${CONF}
+Restart=on-abnormal
+TimeoutSec=20
+TimeoutStopSec=30
+Restart=on-failure
+
+[Install]
+Alias=pinotc
+WantedBy=multi-user.target

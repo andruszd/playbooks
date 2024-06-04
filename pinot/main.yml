@@ -9,6 +9,7 @@
     - vars/vars.yml
 
   pre_tasks:
+    # Remove this update task if your main yaml file already does this , saves on time.
     - name: update all packages
       yum:
         name: '*'
@@ -33,36 +34,44 @@
           tags:
             - dependencies
 
-    - name: create users
+    - name: Create Users
       include_tasks:
         file: tasks/users.yml
         apply:
           tags:
             - users
 
-    - name: download packages
+    - name: Download Packages (None Package Manager)
       include_tasks:
         file: tasks/download.yml
         apply:
           tags:
             - download
 
-    - name: install packages
+    - name: Install Packages (None Package Manager)
       include_tasks:
         file: tasks/install.yml
         apply:
           tags:
             - install
 
-    - name: configure packages
+    - name: Configure Enviroment Files (None Package Manager)
+      include_tasks:
+        file: tasks/env.yml
+        apply:
+          tags:
+            - config
+
+    - name: Configure Packages (None Package Manager)
       include_tasks:
         file: tasks/config.yml
         apply:
           tags:
             - config
 
+
   handlers:
     - name: Restart Service <nanme>
       ansible.builtin.service:
-        name: systemcld
+        name: systemctld
         state: restarted

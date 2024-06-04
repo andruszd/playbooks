@@ -1,0 +1,18 @@
+---
+domain_name: localdomain.com
+location: home
+# Environment Configuration = dev, test, prod, qa, uat
+sys_env: dev
+# MOVE THE ABOVE TO YOUR MAIN YML FILE
+# User Configuration
+test_user: pestilance
+test_group: pox
+# Audit Configuration
+auditd_enabled: true
+auditd_rules: /etc/audit/rules.d/
+auditd_conf: /etc/audit/auditd.conf
+auditd_log: /var/log/audit/audit.log
+yara_version: 4.5.0
+yara_url: https://github.com/VirusTotal/yara/archive/v{yara_version}.tar.gz
+yara_download_dest: /tmp/v{yara_version}.tar.gz
+yara_home: /usr/local/bin/yara-{yara_version}

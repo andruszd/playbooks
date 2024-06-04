@@ -1,0 +1,91 @@
+# Create Links for HDFS
+- name: Create Links for container-executor
+  file:
+    src: /usr/lib/hadoop/hadoop-{{ hadoop_version }}/bin/container-executor
+    dest: /usr/bin/container-executor
+    state: link
+    owner: root
+    group: root
+    mode: u=rwx,g=rwx,o=rwx
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: Create Links for hadoop
+  file:
+    src: /usr/lib/hadoop/hadoop-{{ hadoop_version }}/bin/hadoop
+    dest: /usr/bin/hadoop
+    state: link
+    owner: root
+    group: root
+    mode: u=rwx,g=rwx,o=rwx
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: Create Links for hdfs
+  file:
+    src: /usr/lib/hadoop/hadoop-{{ hadoop_version }}/bin/hdfs
+    dest: /usr/bin/hdfs
+    state: link
+    owner: root
+    group: root
+    mode: u=rwx,g=rwx,o=rwx
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: Create Links for mapred
+  file:
+    src: /usr/lib/hadoop/hadoop-{{ hadoop_version }}/bin/mapred
+    dest: /usr/bin/mapred
+    state: link
+    owner: root
+    group: root
+    mode: u=rwx,g=rwx,o=rwx
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: Create Links for oom-listener
+  file:
+    src: /usr/lib/hadoop/hadoop-{{ hadoop_version }}/bin/oom-listener
+    dest: /usr/bin/oom-listener
+    state: link
+    owner: root
+    group: root
+    mode: u=rwx,g=rwx,o=rwx
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: Create Links for test-container-executor
+  file:
+    src: /usr/lib/hadoop/hadoop-{{ hadoop_version }}/bin/test-container-executor
+    dest: /usr/bin/test-container-executor
+    state: link
+    owner: root
+    group: root
+    mode: u=rwx,g=rwx,o=rwx
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: Create Links for yarn
+  file:
+    src: /usr/lib/hadoop/hadoop-{{ hadoop_version }}/bin/yarn
+    dest: /usr/bin/yarn
+    state: link
+    owner: root
+    group: root
+    mode: u=rwx,g=rwx,o=rwx
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true

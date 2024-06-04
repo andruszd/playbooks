@@ -1,0 +1,19 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+# NameNode
+{% for i in groups['hdfs_namenode'] %}
+{{ i }} NameNode{{ loop.index }}  hadoop.{{ i }}.cluster.name.node.{{ loop.index }}
+{% endfor %}
+#DataNode
+{% for i in groups['hdfs_datanode'] %}
+{{ i }} DataNode{{ loop.index }}  hadoop.{{ i }}.cluster.data.node.{{ loop.index }}
+{% endfor %}
+# JobTracker
+{% for i in groups['hadoop_jobtracker'] %}
+{{ i }} JobTracker{{ loop.index }}  hadoop.{{ i }}.cluster.job.tracker.node.{{ loop.index }}
+{% endfor %}
+# TaskTracker
+{% for i in groups['hdfs_tasktracker'] %}
+{{ i }} TaskTracker{{ loop.index }}  hadoop.{{ i }}.cluster.task.tracker.node.{{ loop.index }}
+{% endfor %}

@@ -1,0 +1,377 @@
+- name: create link for /usr/lib/hadoop/conf to version
+  file:
+    src: /usr/lib/hadoop/hadoop-{{ hadoop_version }}/etc/hadoop
+    dest: /etc/hadoop/conf
+    owner: hadoop
+    group: hadoop
+    state: link
+  become: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: craete link for /lib/zookeeper/conf to version
+  file:
+    src: /usr/lib/zookeeper/apache-zookeeper-{{ zookeeper_version }}-bin/conf
+    dest: /etc/zookeeper/conf
+    owner: zookeeper
+    group: zookeeper
+    state: link
+  become: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: update hadoop-env
+  lineinfile:
+    path: /etc/hadoop/conf/hadoop-env.sh
+    state: present
+    backup: true
+    line: "{{ item.line }}"
+    regexp: "{{ item.regexp }}"
+  loop:
+  - regexp: "^# export JAVA_HOME"
+    line: "export JAVA_HOME=/etc/alternatives/jre/"
+  - regexp: "^# export HADOOP_HOME"
+    line: 'export HADOOP_HOME={{hadoop_home}}'
+  - regexp: "^# export HADOOP_LOG_DIR="
+    line: 'export export HADOOP_LOG_DIR={{hadoop_log_dir}}'
+  - regexp: "^# export HADOOP_CONF_DIR"
+    line: 'export HADOOP_CONF_DIR=/etc/hadoop/conf'
+  - regexp: "^# HADDOOP_OS_TYPE$"
+    line: 'export HADOOP_OS_TYPE=${HADOOP_OS_TYPE:-$(uname -s)}'
+  - regexp: "^# export HADOOP_WORKERS"
+    line: 'export HADOOP_WORKERS="${HADOOP_CONF_DIR}/workers"'
+  - regexp: "^# export HADOOP_IDENT_STRING="
+    line: 'export HADOOP_IDENT_STRING=$USER'
+  - regexp: "^# export HADOOP_STOP_TIMEOUT"
+    line: 'export HADOOP_STOP_TIMEOUT=5'
+  - regexp: "^# export HADOOP_PID_DIR"
+    line: 'export HADOOP_PID_DIR={{hadoop_pid_dir}}'
+  - regexp: "^# export HADOOP_ROOT_LOGGER"
+    line: 'export HADOOP_ROOT_LOGGER=INFO,console'
+  - regexp: "^# export HADOOP_DAEMON_ROOT_LOGGER"
+    line: 'export HADOOP_DAEMON_ROOT_LOGGER=INFO,RFA'
+  - regexp: "^# export HADOOP_SECURITY_LOGGER"
+    line: 'export HADOOP_SECURITY_LOGGER=INFO,NullAppender'
+  - regexp: "^# export HADOOP_POLICYFILE"
+    line: 'export HADOOP_POLICYFILE="hadoop-policy.xml"'
+  - regexp: "^# export JSVC_HOME"
+    line: 'export JSVC_HOME=/usr/bin'
+  - regexp: "^# export HADOOP_SECURE_PID_DIR"
+    line: 'export HADOOP_SECURE_PID_DIR=${HADOOP_PID_DIR}'
+  - regexp: "^# export HDFS_AUDIT_LOGGER="
+    line: 'export HDFS_AUDIT_LOGGER=INFO,NullAppender'
+  - regexp: "^# export HDFS_NAMENODE_OPTS"
+    line: 'export HDFS_NAMENODE_OPTS="-Dhadoop.security.logger=INFO,RFAS"'
+  - regexp: "^# export HDFS_DATANODE_OPTS"
+    line: 'export HDFS_DATANODE_OPTS="-Dhadoop.security.logger=ERROR,RFAS"'
+  - regexp: "^# export HDFS_NAMENODE_USER"
+    line: 'export HDFS_NAMENODE_USER=hdfs'
+  - regexp: "^# export HDFS_DATANODE_USER"
+    line: 'export HDFS_DATANODE_USER=hdfs'
+  - regexp: "^# export HDFS_SECONDARYNAMENODE_USER"
+    line: 'export HDFS_SECONDARYNAMENODE_USER=hdfs'
+  - regexp: "^# export HDFS_NFS3_USER"
+    line: 'export HDFS_NFS3_USER=hdfs'
+  - regexp: "^# export HDFS_ZKFC_USER"
+    line: 'export HDFS_ZKFC_USER=hdfs'
+  - regexp: "^# export HDFS_JOURNALNODE_USER="
+    line: 'export HDFS_JOURNALNODE_USER=hdfs'
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: update yarn-env
+  lineinfile:
+    path: /etc/hadoop/conf/yarn-env.sh
+    state: present
+    backup: true
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  loop:
+  - regexp: "^# export JAVA_HOME="
+    line: 'export JAVA_HOME=/etc/alternatives/jre/'
+  - regexp: "^# export HADOOP_HOME="
+    line: 'export HADOOP_HOME={{hadoop_home}}'
+  - regexp: "^# export HADOOP_CONF_DIR="
+    line: 'export HADOOP_CONF_DIR=/etc/hadoop/conf'
+  - regexp: "^# export YARN_RESOURCEMANAGER_OPTS="
+    line: 'export YARN_RESOURCEMANAGER_OPTS="-Drm.audit.logger=INFO,RMAUDIT"'
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: update mapred-env
+  lineinfile:
+    path: /etc/hadoop/conf/mapred-env.sh
+    state: present
+    backup: true
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  loop:
+  - regexp: "^# export JAVA_HOME="
+    line: 'export JAVA_HOME=/etc/alternatives/jre/'
+  - regexp: "^# export HADOOP_HOME="
+    line: 'export HADOOP_HOME={{hadoop_home}}'
+  - regexp: "^export HADOOP_LOG_DIR="
+    line: "export HADOOP_LOG_DIR=/var/log/hadoop"
+  - regexp: "^# export HADOOP_CONF_DIR="
+    line: 'export HADOOP_CONF_DIR=/etc/hadoop/conf'
+  - regexp: "^# export HADOOP_MAPRED_IDENT_STRING="
+    line: 'export HADOOP_MAPRED_IDENT_STRING=$USER'
+  - regexp: "^# export HADOOP_MAPRED_PID_DIR="
+    line: 'export HADOOP_MAPRED_PID_DIR={{mapred_pid_dir}}'
+  - regexp: "^# export HADOOP_MAPRED_ROOT_LOGGER="
+    line: 'export HADOOP_MAPRED_ROOT_LOGGER=INFO,RFA'
+  - regexp: "^# export HADOOP_JHS_LOGGER="
+    line: 'export HADOOP_JHS_LOGGER=INFO,RFA'
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: log4j.properties
+  lineinfile:
+    path: /etc/hadoop/conf/log4j.properties
+    state: present
+    backup: true
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  loop:
+  - regexp: "^hadoop.log.dir="
+    line: "hadoop.log.dir=/var/log/hadoop"
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: update core-site.xml
+  template:
+    src: "templates/core-site.xml.j2"
+    dest: "/etc/hadoop/conf/core-site.xml"
+    owner: hadoop
+    group: hadoop
+    mode: u=rw,g=r,o=r
+    backup: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: update hdfssite.xml
+  template:
+    src: "templates/hdfs-site.xml.j2"
+    dest: "/etc/hadoop/conf/hdfs-site.xml"
+    owner: hdfs
+    group: hadoop
+    mode: u=rw,g=r,o=r
+    backup: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: update yarn-site.xml
+  template:
+    src: "templates/yarn-site.xml.j2"
+    dest: "/etc/hadoop/conf/yarn-site.xml"
+    owner: yarn
+    group: hadoop
+    mode: u=rw,g=r,o=r
+    backup: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+- name: update mapred-site.xml
+  template:
+    src: "templates/mapred-site.xml.j2"
+    dest: "/etc/hadoop/conf/mapred-site.xml"
+    owner: mapred
+    group: hadoop
+    mode: u=rw,g=r,o=r
+    backup: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - hadoop_enabled == true
+
+# Configure Kerberos
+- name: update krb5.conf
+  template:
+    src: "templates/krb5.conf.j2"
+    dest: "/etc/krb5.conf"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup: true
+  when:
+  - hdfs_user is defined
+  - hdfs_group is defined
+  - kerberos_enabled == true
+
+# Configure Zookeeper
+- name: myid
+  debug:
+    var: myid
+
+- name: set fact
+  set_fact:
+    myid: "{{ ansible_hostname[-1:] }}"
+
+- name: myid
+  debug:
+    var: myid
+
+- name: Create server myid files
+  file:
+    dest: "{{ zookeeper_data_dir }}/myid"
+    owner: zookeeper
+    group: zookeeper
+    state: touch
+    mode: u=rw,g=r,o=r
+  become: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: shell id to myid
+  shell: echo "{{ myid }}" >"{{ zookeeper_data_dir }}/myid"
+  become: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: check if zoo.cfg exists
+  stat:
+    path: "{{ zookeeper_conf_dir }}/zoo.cfg"
+  register: zoo_cfg
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: create zoo.cfg
+  file:
+    dest: "{{ zookeeper_conf_dir }}/zoo.cfg"
+    owner: zookeeper
+    group: zookeeper
+    mode: u=rw,g=r,o=r
+    state: touch
+  become: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: populate zookeeper conf file with config
+  template:
+    src: templates/zoo.cfg.j2
+    dest: "{{ zookeeper_conf_dir }}/zoo.cfg"
+    owner: zookeeper
+    group: zookeeper
+    mode: u=rw,g=r,o=r
+    backup: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: zookeeper service file
+  template:
+    src: templates/zookeeper.service.j2
+    dest: "/etc/systemd/system/zookeeper.service"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup:
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: create zookeeper enviroment file
+  file:
+    dest: "{{ zookeeper_conf_dir }}/zoo.env"
+    owner: zookeeper
+    group: zookeeper
+    state: touch
+    mode: u=rw,g=r,o=r
+  become: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: zookeeper enviroment file
+  template:
+    src: templates/zoo.env.j2
+    dest: "{{ zookeeper_conf_dir }}/zoo.env"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: Install logback file
+  copy:
+    src: files/logback.xml
+    dest: "{{ zookeeper_conf_dir }}/logback.xml"
+    owner: zookeeper
+    group: zookeeper
+    mode: u=rw,g=r,o=r
+    backup: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: Install logback-test file
+  copy:
+    src: files/logback-test.xml
+    dest: "{{ zookeeper_conf_dir }}/logback-test.xml"
+    owner: zookeeper
+    group: zookeeper
+    mode: u=rw,g=r,o=r
+    backup: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: Copy rack configuration file
+  copy:
+    src: files/rack
+    dest: "/etc/hadoop/conf/rack"
+    owner: hdfs
+    group: hdfs
+    mode: u=rw,g=r,o=r
+    backup: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: reload systemd deamon
+  systemd:
+    daemon_reload: yes
+
+- name: enable zookeeper service
+  systemd:
+    name: zookeeper
+    enabled: yes
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true

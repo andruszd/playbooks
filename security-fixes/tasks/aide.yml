@@ -1,0 +1,27 @@
+---
+- name: Install Aide
+  dnf:
+    name: aide
+    state: present
+  tags:
+    - aide
+  notify: restart aide
+- name: Aide Permissions
+  command: aide --init
+  tags:
+    - aide
+  notify: restart aide
+- name: Aide Permissions
+  command: mv /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz
+  tags:
+    - aide
+  notify: restart aide
+
+- name: Restart Aide
+  systemd:
+    name: aide
+    state: restarted
+    enabled: true
+  tags:
+    - aide
+  notify: restart aide

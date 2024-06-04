@@ -1,0 +1,9 @@
+export HADOOP_HOME=/usr/lib/hadoop
+export HADOOP_COMMON_HOME=
+export HADOOP_HDFS_HOME=
+export HADOOP_MAPRED_HOME=
+export HADOOP_YARN_HOME=
+export JAVA_HOME=/etc/alternatives/jre/
+export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$JAVA_HOME/bin
+export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native/
+export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib/native/"

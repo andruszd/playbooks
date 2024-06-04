@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+-->
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+    <!--Start Common Properties-->
+    <property>
+        <name>fs.defaultFS</name>
+        <value>viewfs:/{{cluster_name}}</value>
+    </property>
+    <property>
+        <name>fs.default.name</name>
+        <value>hdfs://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}</value>
+    </property>
+    <property>
+        <!--Size of read/write buffer used in SequenceFiles.-->
+        <name>io.file.buffer.size</name>
+        <value>131072</value>
+    </property>
+    <property>
+        <name>mapred.job.tracker</name>
+        <value>{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:54311</value>
+    </property>
+    <property>
+        <name>fs.viewfs.mounttable.{{cluster_name}}.link./data</name>
+        <value>hdfs://{{location}}-{{sys_env}}-hdfsnn0.{{domain_name}}:8020/data</value>
+    </property>
+    <property>
+        <name>fs.viewfs.mounttable.ClusterX.linkFallback</name>
+        <value>hdfs://{{location}}-{{sys_env}}-hdfsnn01.{{domain_name}}:8020/home</value>
+    </property>
+    <!--END Common Properties-->
+</configuration>

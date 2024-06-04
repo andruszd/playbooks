@@ -1,0 +1,42 @@
+
+- name: Get Kerberos keytabs
+  fetch:
+    src: "/var/kerberos/krb5kdc//{{ item }}.keytab"
+    dest: "buffer/{{ item }}.keytab"
+    owner: "{{ hdfs_user }}"
+    group: "{{ hdfs_group }}"
+    hosts: {{ kerberos_service }}
+    fail_on_missing: false
+    run_once: true
+    with_items:
+          - hdfs
+          - HTTP
+          - yarn
+          - mapred
+          - nn
+          - dn
+          - snn
+          - jhs
+  when:
+     - kerberos_enabled == true
+
+- name: Deploy Kerberos keytabs
+  template:
+    src: "buffer/{{ item }}.keytab"
+    dest: "{{ hdfs_home }}/conf/{{ item }}.keytab"
+    owner: "{{ hdfs_user }}"
+    group: "{{ hdfs_group }}"
+    mode: 0600
+    backup: true
+  with_items:
+          - hdfs
+          - HTTP
+          - yarn
+          - mapred
+          - nn
+          - dn
+          - snn
+          - jhs
+  when:
+     - kerberos_enabled == true
+

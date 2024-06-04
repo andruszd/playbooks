@@ -45,7 +45,7 @@
       - vim-trailing-whitespace
       - vim-syntastic-yaml
       - vim-syntastic-python
-      - vim-syntastic-bash  
+      - vim-syntastic-bash
       - vim-syntastic-xmllint
       - vim-syntastic-sh
       - vim-nerdtree

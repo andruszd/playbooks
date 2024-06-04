@@ -1,0 +1,23 @@
+[Unit]
+Description=Pinot Server
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/pinot/
+EnvironmentFile=/etc/pinot/conf/pinot-svr.env
+Environment=ZOO="-zkAddress ${ZOOKEEPER_ADDRESS}" CLUSTER="-clusterName ${CLUSTER_NAME}" CONF="-configFileName  /etc/pinot/conf/pinot-server.conf"
+PIDFile=/dvar/run/pinot_server.pid
+SyslogIdentifier=pinot-server
+User=pinot
+Group=pinot
+ExecStart=/bin/sh -c "/opt/pinot/bin/pinot-admin.sh StartServer" ${ZOO} ${CLUSTER} ${CONF}
+ExecStop=/bin/sh -c "/opt/pinot/bin/pinot-admin.sh Stop" ${CONF}
+Restart=on-abnormal
+TimeoutSec=20
+TimeoutStopSec=30
+Restart=on-failure
+
+[Install]
+Alias=pinots
+WantedBy=multi-user.target
+

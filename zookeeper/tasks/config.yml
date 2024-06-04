@@ -1,0 +1,147 @@
+# Configure Zookeeper
+- name: craete link for /lib/zookeeper/conf to version
+  file:
+    src: /usr/lib/zookeeper/apache-zookeeper-{{ zookeeper_version }}-bin/conf
+    dest: /etc/zookeeper/conf
+    owner: zookeeper
+    group: zookeeper
+    state: link
+  become: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: myid
+  debug:
+    var: myid
+
+- name: set fact
+  set_fact:
+    myid: "{{ ansible_hostname[-1:] }}"
+
+- name: myid
+  debug:
+    var: myid
+
+- name: Create server myid files
+  file:
+    dest: "{{ zookeeper_data_dir }}/myid"
+    owner: zookeeper
+    group: zookeeper
+    state: touch
+    mode: u=rw,g=r,o=r
+  become: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: shell id to myid
+  shell: echo "{{ myid }}" >"{{ zookeeper_data_dir }}/myid"
+  become: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: check if zoo.cfg exists
+  stat:
+    path: "{{ zookeeper_conf_dir }}/zoo.cfg"
+  register: zoo_cfg
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: create zoo.cfg
+  file:
+    dest: "{{ zookeeper_conf_dir }}/zoo.cfg"
+    owner: zookeeper
+    group: zookeeper
+    mode: u=rw,g=r,o=r
+    state: touch
+  become: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: populate zookeeper conf file with config
+  template:
+    src: templates/zoo.cfg.j2
+    dest: "{{ zookeeper_conf_dir }}/zoo.cfg"
+    owner: zookeeper
+    group: zookeeper
+    mode: u=rw,g=r,o=r
+    backup: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: zookeeper service file
+  template:
+    src: templates/zookeeper.service.j2
+    dest: "/etc/systemd/system/zookeeper.service"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup:
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: create zookeeper enviroment file
+  file:
+    dest: "{{ zookeeper_conf_dir }}/zoo.env"
+    owner: zookeeper
+    group: zookeeper
+    state: touch
+    mode: u=rw,g=r,o=r
+  become: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: Install logback file
+  copy:
+    src: files/logback.xml
+    dest: "{{ zookeeper_conf_dir }}/logback.xml"
+    owner: zookeeper
+    group: zookeeper
+    mode: u=rw,g=r,o=r
+    backup: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: Install logback-test file
+  copy:
+    src: files/logback-test.xml
+    dest: "{{ zookeeper_conf_dir }}/logback-test.xml"
+    owner: zookeeper
+    group: zookeeper
+    mode: u=rw,g=r,o=r
+    backup: true
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: enable zookeeper service
+  systemd:
+    name: zookeeper
+    enabled: yes
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: reload systemd deamon
+  systemd:
+    daemon_reload: yes
+
