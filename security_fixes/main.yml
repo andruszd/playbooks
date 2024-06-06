@@ -14,13 +14,9 @@
       yum:
         name: '*'
         state: latest # noqa package-latest
-        upgrade: dist
-        autoremove: true
-        update_cache: true
-      failed_when: false
-      debug:
-        msg: "Failed to update packages"
-
+        failed_when: false
+        debug:
+            msg: "Failed to update packages"
 
   tasks:
     - name: Runing Play
@@ -45,26 +41,22 @@
         apply:
           tags:
             - users
-        failed_when: false
-        debug:
-        msg: "Failed to create users"
-
-
-    - name: Download Packages (None Package Manager)
+    # None Package Manager
+    - name: Download Packages
       include_tasks:
         file: tasks/download.yml
         apply:
           tags:
             - download
 
-    - name: Install Packages (None Package Manager)
+    - name: Install Packages
       include_tasks:
         file: tasks/install.yml
         apply:
           tags:
             - install
 
-    - name: Configure Packages (None Package Manager)
+    - name: Configure Packages
       include_tasks:
         file: tasks/config.yml
         apply:

@@ -4,6 +4,8 @@
     name: pox
     state: present
   become: true
+  when: test_group is defined
+
 
 - name: create test user
   user:
