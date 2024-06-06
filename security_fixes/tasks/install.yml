@@ -34,7 +34,7 @@
 # Install yara
 - name: Install Yara
   include_tasks:
-    file: tasks/yara.yml
+    file: yara.yml
     apply:
       tags:
         - yara
@@ -52,7 +52,7 @@
     backup: true
 
 # Firewall Configuration Files for OS
-- name: setup  firewall ports
+- name: setup firewall ports
   template:
     src: "files/spec.xml"
     dest: "/usr/lib/firewalld/services"
@@ -60,7 +60,7 @@
     group: root
     mode: u=rw,g=r,o=r
     backup: true
-  when: service_enabled == true
+  when: service_enabled = true
 
 - name: restart firewalld
   service:
@@ -75,7 +75,7 @@
     permanent: true
     state: enabled
     immediate: true
-  when: service_enabled == true
+  when: service_enabled = true
 
 # Reload the firewalld deamon
 - name: reload firewalld deamon

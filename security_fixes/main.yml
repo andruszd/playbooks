@@ -17,6 +17,10 @@
         upgrade: dist
         autoremove: true
         update_cache: true
+      failed_when: false
+      debug:
+        msg: "Failed to update packages"
+
 
   tasks:
     - name: Runing Play
@@ -41,6 +45,10 @@
         apply:
           tags:
             - users
+        failed_when: false
+        debug:
+        msg: "Failed to create users"
+
 
     - name: Download Packages (None Package Manager)
       include_tasks:
