@@ -10,13 +10,13 @@
 
   pre_tasks:
     # Remove the update task if your main yaml is already doing this , saves on time.
-    - name: update all packages
-      yum:
-        name: '*'
-        state: latest # noqa package-latest
-        upgrade: dist
-        autoremove: true
-        update_cache: true
+    # - name: update all packages
+    #   yum:
+    #     name: '*'
+    #     state: latest # noqa package-latest
+    #     upgrade: dist
+    #     autoremove: true
+    #     update_cache: true
 
   tasks:
     - name: Runing Play
@@ -64,7 +64,7 @@
             - config
 
   handlers:
-    - name: Restart Service <nanme>
+    - name: Restart Service <name>
       ansible.builtin.service:
         name: systemcld
         state: restarted

@@ -12,158 +12,112 @@
 #         mode: u=rw,g=r,o=r
 #         backup: true
 
-- name: Set up bash_rc
-  blockinfile:
-    path: /root/.bashrc
-    create: yes
-    backup: true
-    block: |
-       shopt -s histappend histreedit histverify
-       shopt -s no_empty_cmd_completion
-       export HISTCONTROL=ignoreboth:erasedups
-       export HISTTIMEFORMAT="%Y-%m-%d:%T:-> "
-       export HISTIGNORE="pwd:bg:fg:history"
-       export HISTFILE=$HOME/.bash_history
-       export HISTFILESIZE=1000000000
-       export HISTSIZE=10000000
+# - name: Set up bash_rc
+#   blockinfile:
+#     path: /root/.bashrc
+#     create: yes
+#     backup: true
+#     block: |
+#        shopt -s histappend histreedit histverify
+#        shopt -s no_empty_cmd_completion
+#        export HISTCONTROL=ignoreboth:erasedups
+#        export HISTTIMEFORMAT="%Y-%m-%d:%T:-> "
+#        export HISTIGNORE="pwd:bg:fg:history"
+#        export HISTFILE=$HOME/.bash_history
+#        export HISTFILESIZE=1000000000
+#        export HISTSIZE=10000000
 
 - name: Source the bashrc file
   shell: source /root/.bashrc
 
 # Create Directory Structure
-- name: create pinot config directory
+- name: create oscap directory
   file:
-    path: /etc/pinot/
+    path: /var/ossec/wodles/oscap/
     state: directory
-    owner: "{{ pinot_user }}"
-    group: "{{ pinot_group }}"
-    mode: u=rwx,g=rx,o=rx
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rwx,g=rx
   become: true
 
-- name: create zookeeper config directory
+- name: create oscap content directory
   file:
-    path: /etc/zookeeper/
+    path:  /var/ossec/wodles/oscap/content/
     state: directory
-    owner: "{{ zookeeper_user }}"
-    group: "{{ zookeeper_group }}"
-    mode: u=rwx,g=rx,o=rx
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rwx
   become: true
-  when: zookeeper_enabled == true
+  when: oscap_enabled == true
 
-- name: create zookeeper directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ zookeeper_user }}"
-    group: "{{ zookeeper_group }}"
-    mode: u=rwx,g=rx,o=rx
-  become: true
+- name: copy oscap content
+  copy:
+    remote_src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rwx
   with_items:
-  - "{{ zookeeper_data_dir }}"
-  - "{{ zookeeper_data_log_dir }}"
-  - "{{ zookeeper_log_dir }}"
-  - "{{ zookeeper_pid_dir }}"
-  when: zookeeper_user is defined and zookeeper_group is defined and zookeeper_enabled == true
+    - { src: "/usr/share/xml/scap/ssg/content/", dest: "/var/ossec/wodles/oscap/content/" }
+  when: oscap_enabled == true
 
-# Setup Appliacation Enviroment Files
-- name: Create  Zookeeper myid
-  file:
-    path: "{{ zookeeper_myid_file }}"
-    state: touch
-    owner: "{{ zookeeper_user }}"
-    group: "{{ zookeeper_group }}"
-    mode: u=rw,g=r,o=r
+- name: Copy Tailord xml files to oscap content directory
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rwx
+  with_items:
+    - { src: "files/U_Oracle_Linux_7_Trakm8_V1.xml", dest: "/var/ossec/wodles/oscap/content/U_Oracle_Linux_7_Trakm8_V1.xml" }
+    - { src: "files/U_Oracle_Linux_8_Trakm8_V1.xml", dest: "/var/ossec/wodles/oscap/content/U_Oracle_Linux_8_Trakm8_V1.xml" }
+    - { src: "files/U_Oracle_Linux_9_Trakm8_V1.xml", dest: "/var/ossec/wodles/oscap/content/U_Oracle_Linux_9_Trakm8_V1.xml" }
+  when: oscap_enabled == true
+
+- name: Copy oscap scripts
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rwx
+  with_items:
+    - { src: "files/oscap.py", dest: "/var/ossec/wodles/oscap/oscap.py" }
+  when: oscap_enabled == true
+
+- name: Copy Oscap Script Template Files
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rw
+  with_items:
+    - { src: "files/template_oval.xsl", dest: "/var/ossec/wodles/oscap/template_oval.xsl" }
+    - { src: "files/template_xccdf.xsl", dest: "/var/ossec/wodles/oscap/template_xccdf.xsl" }
+  when: oscap_enabled == true
+
+- name:  Copy Audit Rules
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ root_user }}"
+    group: "{{ root_group }}"
+    mode: u=rw
+  with_items:
+    - { src: "files/Audit_rules", dest: "/etc/audit/rules.d" }
+  when: oscap_enabled == true
+
+- name: Run augenrules to complie the audit rules and load them.
+  command: augenrules --load
   become: true
-  when: zookeeper_user is defined and zookeeper_group is defined and zookeeper_enabled == true
-
-- name: Set up java.sh in /etc/profile.d/
-  template:
-    src: "files/java.sh"
-    dest: "/etc/profile.d/java.sh"
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
-    backup: true
-
-- name: Set up hadoop.sh in /etc/profile.d
-  template:
-    src: "files/hadoop.sh"
-    dest: "/etc/profile.d/hadoop.sh"
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
-    backup: true
-  when: hdfs_enabled == true
-
-- name: Set up zookeeper.sh in /etc/profile.d
-  template:
-    src: "files/zookeeper.sh"
-    dest: "/etc/profile.d/zookeeper.sh"
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
-    backup: true
-  when: zookeeper_enabled == true
-
-# Firewall Configuration Files for OS
-- name: setup pinot firewall ports
-  template:
-    src: "files/pinot.xml"
-    dest: "/usr/lib/firewalld/services"
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
-    backup: true
-  when: pinot_enabled == true
-
-- name: setup hadoop firewall ports
-  template:
-    src: "files/hadoop.xml"
-    dest: "/usr/lib/firewalld/services"
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
-    backup: true
-  when: hdfs_enabled == true
+  when: oscap_enabled == true
 
 - name: restart firewalld
   service:
     name: firewalld
     state: restarted
     enabled: true
-
-# Activate Application Specific Firewall Rules.
-- name: add pinot service to firewalld
-  firewalld:
-    service: pinot
-    permanent: true
-    state: enabled
-    immediate: true
-  when: pinot_enabled == true
-
-- name: add hadoop service to firewalld
-  firewalld:
-    service: hadoop
-    permanent: true
-    state: enabled
-    immediate: true
-  when: hdfs_enabled == true
-
-- name: add kerberos service to firewalld
-  firewalld:
-    service: kerberos
-    permanent: true
-    state: enabled
-    immediate: true
-  when: kerberos_enabled == true
-
-- name: add ntfs service to firewalld
-  firewalld:
-    service: ntfs
-    permanent: true
-    state: enabled
-    immediate: true
-  when: deep_store == true
 
 - name: reload firewalld deamon
   firewalld:
