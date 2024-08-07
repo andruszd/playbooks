@@ -1,2 +1,2 @@
 # playbooks
-Ansible Playbooks
+Ansible Playbook Blank Template

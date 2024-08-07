@@ -1,0 +1,203 @@
+# Update OS configuration files
+
+# FIXME: hosts file is not updated. Need to fix this.
+#  hostname
+# - name: Updating /etc/hosts File on All Cluster Nodes
+#   template:
+#         src: "templates/hosts.j2"
+#         dest: "/etc/hosts"
+#         force: true
+#         owner: root
+#         group: root
+#         mode: u=rw,g=r,o=r
+#         backup: true
+
+# - name: Set up bash_rc
+#   blockinfile:
+#     path: /root/.bashrc
+#     create: yes
+#     backup: true
+#     block: |
+#        shopt -s histappend histreedit histverify
+#        shopt -s no_empty_cmd_completion
+#        export HISTCONTROL=ignoreboth:erasedups
+#        export HISTTIMEFORMAT="%Y-%m-%d:%T:-> "
+#        export HISTIGNORE="pwd:bg:fg:history"
+#        export HISTFILE=$HOME/.bash_history
+#        export HISTFILESIZE=1000000000
+#        export HISTSIZE=10000000
+
+- name: Source the bashrc file
+  shell: source /root/.bashrc
+
+# Create Directory Structure
+- name: create oscap directory
+  file:
+    path: /var/ossec/wodles/oscap/
+    state: directory
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rwx,g=rx
+  become: true
+
+- name: create oscap content directory
+  file:
+    path:  /var/ossec/wodles/oscap/content/
+    state: directory
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rwx
+  become: true
+  when: oscap_enabled == true
+
+- name: copy default oscap content
+  copy:
+    remote_src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rwx
+  with_items:
+    - { src: "/usr/share/xml/scap/ssg/content/", dest: "/var/ossec/wodles/oscap/content/" }
+  when: oscap_enabled == true
+
+- name: Copy Tailord xml files to oscap content directory
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rwx
+  with_items:
+    - { src: "files/U_Oracle_Linux_7_Trakm8_V1.xml", dest: "/var/ossec/wodles/oscap/content/U_Oracle_Linux_7_Trakm8_V1.xml" }
+    - { src: "files/U_Oracle_Linux_8_Trakm8_V1.xml", dest: "/var/ossec/wodles/oscap/content/U_Oracle_Linux_8_Trakm8_V1.xml" }
+    - { src: "files/U_Oracle_Linux_9_Trakm8_V1.xml", dest: "/var/ossec/wodles/oscap/content/U_Oracle_Linux_9_Trakm8_V1.xml" }
+  when: oscap_enabled == true
+
+- name : Copy oscap content
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rwx
+  with_items:
+    - { src: "files/rulesets/oscap", dest: "/var/ossec/wodles/oscap/content" }
+  when: oscap_overwrite_enabled == true
+
+- name: Copy oscap scripts
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rwx
+  with_items:
+    - { src: "files/oscap.py", dest: "/var/ossec/wodles/oscap/oscap.py" }
+  when: oscap_enabled == true
+
+- name: Copy Oscap Script Template Files
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rw
+  with_items:
+    - { src: "files/template_oval.xsl", dest: "/var/ossec/wodles/oscap/template_oval.xsl" }
+    - { src: "files/template_xccdf.xsl", dest: "/var/ossec/wodles/oscap/template_xccdf.xsl" }
+  when: oscap_enabled == true
+
+- name:  Copy Audit Rules
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ root_user }}"
+    group: "{{ root_group }}"
+    mode: u=rw
+  with_items:
+    - { src: "files/Audit_rules", dest: "/etc/audit/rules.d" }
+  when: oscap_enabled == true
+
+- name: Run augenrules to complie the audit rules and load them.
+  command: augenrules --load
+  become: true
+  when: oscap_enabled == true
+
+- Name: Remove Previous Yara Directory
+  command: "rm -rf /usr/local/bin/yara*"
+  become: true
+  when: ansible_distribution == "OracleLinux" >= '7' and yara_enabled == true
+  tags: [dependencies OracleLinux]
+
+- name: Install Yara
+  command: "tar -xvf /tmp/yara-{yara_version}.tar.gz -C  /usr/local/bin/"
+  become: true
+  when: ansible_distribution == "OracleLinux" >= '7'and yara_enabled == true
+  tags: [dependencies OracleLinux]
+
+- name: Remove Yara tar file
+  file: path=/tmp/yara-{version}.tar.gz
+  state: absent
+  become: true
+  when: ansible_distribution == "OracleLinux"  >= '7' and yara_enabled == true
+  tags: [dependencies OracleLinux]
+
+- name: Build Yara
+  command: "cd /usr/local/bin/yara-{yara_version} && ./bootstrap.sh && ./configure && make
+          && make install"
+  become: true
+  when: ansible_distribution == "OracleLinux" >= '7' and yara_enabled == true
+
+  tags: [dependencies OracleLinux]
+
+- name: Ld Yara Package
+  command: "echo /usr/local/lib > /etc/ld.so.conf && ldconfig"
+  become: true
+  when: ansible_distribution == "OracleLinux" >= '7' and yara_enabled == true
+  tags: [dependencies OracleLinux]
+
+- name: Create  Yara Rules Directory
+  file:
+    path: /var/ossec/wodles/yara-rules
+    state: directory
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rwx
+  become: true
+  when: ansible_distribution == "OracleLinux" >= '7' and  yara_enabled == true
+  tags: [dependencies OracleLinux]
+
+- name: Copy Yara Custom Rules
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rw
+  become: true
+  with_items:
+    - { src: "files/rulesets/yara", dest: "/var/ossec/wodles/yara-rules" }
+  when: yara_enabled == true
+  tags: [dependencies OracleLinux]
+
+# Update the firewall rules
+- name: reload firewalld deamon
+  firewalld:
+    daemon_reload: yes
+
+# Restart the firewalld service
+- name: restart firewalld
+  service:
+    name: firewalld
+    state: restarted
+    enabled: true
+
+# Cleanup the RAM
+# After installation clean the RAM so that we get the required free space.
+- name: Clean Ram Cache
+  copy:
+    content: 3
+    dest: /proc/sys/vm/drop_caches
+    unsafe_writes: true
+  become: true
