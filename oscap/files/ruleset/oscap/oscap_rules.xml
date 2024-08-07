@@ -1,0 +1,172 @@
+
+<wodle name="open-scap">
+    <disabled>no</disabled>
+    <timeout>1800</timeout>
+    <interval>1d</interval>
+    <scan-on-start>yes</scan-on-start>
+    <content type="xccdf" path="U_Apache_2-2_Server_UNIX_STIG_V1R11_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_Apache_2-2_Site_UNIX_STIG_V1R11_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_Apache_Server_2-4_UNIX_Server_STIG_V2R7_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_Apache_Server_2-4_UNIX_Site_STIG_V2R4_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_CD_PGSQL_STIG_V2R2_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_Container_Platform_SRG_V1R5_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_Database_SRG_V3R4_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_Docker_Enterprise_2-x_Linux-UNIX_STIG_V2R1_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_Domain_Name_System_V3R2_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_Firewall_SRG_V2R3_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_Kubernetes_STIG_V1R11_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_Network_Infrastructure_Policy_STIG_V10R6_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_Network_WLAN_AP-IG_Mgmt_STIG_V7R2_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_Network_WLAN_AP-IG_Platform_STIG_V7R3_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_Network_WLAN_AP-NIPR_Mgmt_STIG_V7R2_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_Network_WLAN_AP-NIPR_Platform_STIG_V7R3_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_Network_WLAN_Bridge_Mgmt_STIG_V7R2_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_Network_WLAN_Bridge_Platform_STIG_V7R2_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_Network_WLAN_Controller_Mgmt_STIG_V7R2_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_Network_WLAN_Controller_Platform_STIG_V7R3_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_PAN_IDPS_STIG_V2R3_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_PAN_NDM_STIG_V2R2_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_Palo_Alto_Networks_ALG_STIG_V2R4_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_VMW_vSphere_8-0-ESXi_STIG_V1R1_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_VMW_vSphere_8-0_VCSA_EAM_STIG_V1R1_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_VMW_vSphere_8-0_VCSA_Envoy_STIG_V1R1_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_VMW_vSphere_8-0_VCSA_Lookup_Svc_STIG_V1R1_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_VMW_vSphere_8-0_VCSA_Perfcharts_STIG_V1R1_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_VMW_vSphere_8-0_VCSA_Photon_OS_4-0_STIG_V1R1_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_VMW_vSphere_8-0_VCSA_PostgreSQL_STIG_V1R1_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_VMW_vSphere_8-0_VCSA_STS_STIG_V1R1_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_VMW_vSphere_8-0_VCSA_UI_STIG_V1R1_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_VMW_vSphere_8-0_VCSA_VAMI_STIG_V1R1_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_VMW_vSphere_8-0_Virtual_Machine_STIG_V1R1_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_VMW_vSphere_8-0_vCenter_STIG_V1R1_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_Virtual_Machine_Manager_V1R3_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="U_Web_Server_V3R3_Manual-xccdf.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="ssg-centos-7-ds.xml">
+        <timeout>120</timeout>
+        <profile>xccdf_org.ssgproject.content_profile_standard</profile>
+        <profile>xccdf_org.ssgproject.content_profile_pci-dss</profile>
+    </content>
+    <content type="xccdf" path="ssg-centos-8-ds.xml">
+        <timeout>120</timeout>
+        <profile>xccdf_org.ssgproject.content_profile_standard</profile>
+        <profile>xccdf_org.ssgproject.content_profile_pci-dss</profile>
+        <profile>xccdf_org.ssgproject.content_profile_cui</profile>
+        <profile>xccdf_org.ssgproject.content_profile_ospp</profile>
+        <profile>xccdf_org.ssgproject.content_profile_stig-rhel7-disa</profile>
+        <profile>xccdf_org.ssgproject.content_profile_stig-rhel7-server</profile>
+        <profile>xccdf_org.ssgproject.content_profile_stig-rhel7-server-upstream</profile>
+        <profile>xccdf_org.ssgproject.content_profile_stig-rhel7-server-upstream-openstack</profile>
+        <profile>xccdf_org.ssgproject.content_profile_stig-rhel7-server-upstream-ospp</profile>
+        <profile>xccdf_org.ssgproject.content_profile_stig-rhel7-server-upstream-ospp-pp</profile>
+        <profile>xccdf_org.ssgproject.content_profile_stig-rhel7-server-upstream-ospp-pp-no-docker</profile>
+    </content>
+    <content type="xccdf" path="ssg-cs9-ds.xml">
+        <timeout>120</timeout>
+    </content>
+    <content type="xccdf" path="ssg-debian10-ds.xml">
+        <timeout>120</timeout>
+        <cpe>ssg-debian10-cpe-dictionary.xml</cpe>
+    </content>
+    <content type="xccdf" path="ssg-debian11-ds.xml">
+        <timeout>120</timeout>
+        <cpe>ssg-debian11-cpe-dictionary.xml</cpe>
+    </content>
+    <content type="xccdf" path="ssg-fedora-ds.xml">
+        <timeout>120</timeout>
+        <cpe>ssg-fedora-cpe-dictionary.xml</cpe>
+    </content>
+    <content type="xccdf" path="ssg-firefox-ds.xml">
+        <timeout>120</timeout>
+        <cpe>ssg-firefox-cpe-dictionary.xml</cpe>
+    </content>
+    <content type="xccdf" path="ssg-macos1015-ds.xml">
+        <timeout>120</timeout>
+        <cpe>ssg-macos1015-cpe-dictionary.xml</cpe>
+    </content>
+    <content type="xccdf" path="ssg-ol7-ds.xml">
+        <timeout>120</timeout>
+        <cpe>ssg-ol7-cpe-dictionary.xml</cpe>
+    </content>
+    <content type="xccdf" path="ssg-ol8-ds.xml">
+        <timeout>120</timeout>
+        <cpe>ssg-ol8-cpe-dictionary.xml</cpe>
+    </content>
+    <content type="xccdf" path="ssg-ol9-ds.xml">
+        <timeout>120</timeout>
+        <cpe>ssg-ol9-cpe-dictionary.xml</cpe>
+    </content>
+</wodle>
