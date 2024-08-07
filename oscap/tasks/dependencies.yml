@@ -17,16 +17,11 @@
       - bcc-tools
       - python-bcc
       - openssl-devel
-      - redhat-lsb-core
-      - fuse
-      - elinks
       - autoconf
-      - krb5-workstation
-      - krb5-libs
-      - nfs-utils
-      - rpcbind
-      - nfs-utils
-      - samba
+      - libtool
+      - libssl-dev
+      - make
+      - gcc
       - tzdata-java
       - checkpolicy
       - secilc
@@ -50,7 +45,6 @@
       - unzip
       - tar
       - dnf
-      - pdsh
       - dos2unix
       - java-11-openjdk
       - java-11-openjdk-devel
@@ -64,16 +58,11 @@
       - bcc-tools
       - python-bcc
       - openssl-devel
-      - redhat-lsb-core
-      - fuse
-      - elinks
+      - make
+      - gcc
       - autoconf
-      - krb5-workstation
-      - krb5-libs
-      - nfs-utils
-      - rpcbind
-      - nfs-utils
-      - samba
+      - libtool
+      - libssl-dev
       - tzdata-java
       - checkpolicy
       - secilc
@@ -85,9 +74,6 @@
       - selinux-policy-minimum
       - selinux-policy-mls
       - selinux-policy-targeted
-      - fuse-common
-      - fuse-libs
-      - fuse-sshfs
       - policycoreutils
       - policycoreutils-python-utils
       - policycoreutils-python

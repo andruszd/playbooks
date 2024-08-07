@@ -50,7 +50,7 @@
   become: true
   when: oscap_enabled == true
 
-- name: copy oscap content
+- name: copy default oscap content
   copy:
     remote_src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -73,6 +73,17 @@
     - { src: "files/U_Oracle_Linux_8_Trakm8_V1.xml", dest: "/var/ossec/wodles/oscap/content/U_Oracle_Linux_8_Trakm8_V1.xml" }
     - { src: "files/U_Oracle_Linux_9_Trakm8_V1.xml", dest: "/var/ossec/wodles/oscap/content/U_Oracle_Linux_9_Trakm8_V1.xml" }
   when: oscap_enabled == true
+
+- name : Copy oscap content
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rwx
+  with_items:
+    - { src: "files/rulesets/oscap", dest: "/var/ossec/wodles/oscap/content" }
+  when: oscap_overwrite_enabled == true
 
 - name: Copy oscap scripts
   copy:
@@ -113,15 +124,74 @@
   become: true
   when: oscap_enabled == true
 
+- Name: Remove Previous Yara Directory
+  command: "rm -rf /usr/local/bin/yara*"
+  become: true
+  when: ansible_distribution == "OracleLinux" >= '7' and yara_enabled == true
+  tags: [dependencies OracleLinux]
+
+- name: Install Yara
+  command: "tar -xvf /tmp/yara-{yara_version}.tar.gz -C  /usr/local/bin/"
+  become: true
+  when: ansible_distribution == "OracleLinux" >= '7'and yara_enabled == true
+  tags: [dependencies OracleLinux]
+
+- name: Remove Yara tar file
+  file: path=/tmp/yara-{version}.tar.gz
+  state: absent
+  become: true
+  when: ansible_distribution == "OracleLinux"  >= '7' and yara_enabled == true
+  tags: [dependencies OracleLinux]
+
+- name: Build Yara
+  command: "cd /usr/local/bin/yara-{yara_version} && ./bootstrap.sh && ./configure && make
+          && make install"
+  become: true
+  when: ansible_distribution == "OracleLinux" >= '7' and yara_enabled == true
+
+  tags: [dependencies OracleLinux]
+
+- name: Ld Yara Package
+  command: "echo /usr/local/lib > /etc/ld.so.conf && ldconfig"
+  become: true
+  when: ansible_distribution == "OracleLinux" >= '7' and yara_enabled == true
+  tags: [dependencies OracleLinux]
+
+- name: Create  Yara Rules Directory
+  file:
+    path: /var/ossec/wodles/yara-rules
+    state: directory
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rwx
+  become: true
+  when: ansible_distribution == "OracleLinux" >= '7' and  yara_enabled == true
+  tags: [dependencies OracleLinux]
+
+- name: Copy Yara Custom Rules
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rw
+  become: true
+  with_items:
+    - { src: "files/rulesets/yara", dest: "/var/ossec/wodles/yara-rules" }
+  when: yara_enabled == true
+  tags: [dependencies OracleLinux]
+
+# Update the firewall rules
+- name: reload firewalld deamon
+  firewalld:
+    daemon_reload: yes
+
+# Restart the firewalld service
 - name: restart firewalld
   service:
     name: firewalld
     state: restarted
     enabled: true
-
-- name: reload firewalld deamon
-  firewalld:
-    daemon_reload: yes
 
 # Cleanup the RAM
 # After installation clean the RAM so that we get the required free space.
