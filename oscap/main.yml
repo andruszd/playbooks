@@ -9,14 +9,12 @@
     - vars/vars.yml
 
   pre_tasks:
-    # Remove the update task if your main yaml is already doing this , saves on time.
-    # - name: update all packages
-    #   yum:
-    #     name: '*'
-    #     state: latest # noqa package-latest
-    #     upgrade: dist
-    #     autoremove: true
-    #     update_cache: true
+  # Remove update packages if calling main already does this job
+    - name: update all packages
+      yum:
+        name: '*'
+        state: latest
+
   handlers:
     - import_tasks: handlers/handlers.yml
       when: handlers_file.stat.exists
@@ -28,40 +26,77 @@
         verbosity: 1
     - name: Os level
       debug:
-        msg: "Running on {{ ansible_distribution }} version {{ ansible_distribution_major_version }}"
+        msg: "Running on {{ansible_distribution }} version {{ansible_distribution_major_version}}"
         verbosity: 1
 
-    - name: Install Default Packages
+    - name: check variables
       include_tasks:
-        file: tasks/default_packages.yml
+        file: tasks/check_vars.yml
+        apply:
+          tags:
+            - check_vars
+
+    - name: install dependencies
+      include_tasks:
+        file: tasks/dependencies.yml
         apply:
           tags:
             - dependencies
 
-    - name: Create Users
+    - name: create users
       include_tasks:
         file: tasks/users.yml
         apply:
           tags:
             - users
 
-    - name: Download Packages (None Package Manager)
+    - name: download packages
       include_tasks:
         file: tasks/download.yml
         apply:
           tags:
             - download
 
-    - name: Install Packages (None Package Manager)
+    - name: install packages
       include_tasks:
         file: tasks/install.yml
         apply:
           tags:
             - install
 
-    - name: Configure Packages (None Package Manager)
+    - name: configure packages
       include_tasks:
         file: tasks/config.yml
         apply:
           tags:
             - config
+
+    - name: set enviroment variables
+      include_tasks:
+        file: tasks/env.yml
+        apply:
+          tags:
+            - env
+
+    - name: setup symbolic links
+      include_tasks:
+        file: tasks/link.yml
+        apply:
+          tags:
+            - link
+    # TODO: startup packages
+    #
+    # - name: startup packages
+    #   include_tasks:
+    #     file: tasks/startup.yml
+    #     apply:
+    #       tags:
+    #         - startup
+
+    # TODO: Cleanup packages
+    # - name: cleanup packages
+    #   include_tasks:
+    #     file: tasks/cleanup.yml
+    #     apply:
+    #       tags:
+    #         - cleanup
