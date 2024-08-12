@@ -1,0 +1,6 @@
+---
+domain_name: localdomain.com
+location: home
+# Environment Configuration = dev, test, prod, qa, uat
+sys_env: dev
+# MOVE THE ABOVE TO YOUR MAIN YML FILE
