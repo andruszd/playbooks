@@ -4,13 +4,11 @@
     name:
       - unzip
       - tar
-      - pdsh
       - dos2unix
       - git
-      - sshrc
       # change for which java version you want to install
-      - java-latest-openjdk
-      - java-latest-openjdk-devel
+      #- java-latest-openjdk
+      #- java-latest-openjdk-devel
       #- java-17-openjdk
       #- java-17-openjdk-devel
       - python3

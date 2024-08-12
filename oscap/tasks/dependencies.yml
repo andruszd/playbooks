@@ -5,8 +5,8 @@
       - unzip
       - tar
       - dos2unix
-      - java-11-openjdk
-      - java-11-openjdk-devel
+      #- java-11-openjdk
+      #- java-11-openjdk-devel
       - python3
       - htop
       - atop
@@ -46,8 +46,8 @@
       - tar
       - dnf
       - dos2unix
-      - java-11-openjdk
-      - java-11-openjdk-devel
+      #- java-11-openjdk
+      #- java-11-openjdk-devel
       - python3
       - htop
       - atop

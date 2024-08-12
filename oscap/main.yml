@@ -17,6 +17,9 @@
     #     upgrade: dist
     #     autoremove: true
     #     update_cache: true
+  handlers:
+    - import_tasks: handlers/handlers.yml
+      when: handlers_file.stat.exists
 
   tasks:
     - name: Runing Play
@@ -62,9 +65,3 @@
         apply:
           tags:
             - config
-
-  handlers:
-    - name: Restart Service <nanme>
-      ansible.builtin.service:
-        name: systemcld
-        state: restarted
