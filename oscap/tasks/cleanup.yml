@@ -11,3 +11,9 @@
     dest: /proc/sys/vm/drop_caches
     unsafe_writes: true
   become: true
+
+- name: Remove Yara tar file
+  file: path=/tmp/yara-{{version}}.tar.gz
+  state: absent
+  become: true
+  when: yara_enabled == true

@@ -155,7 +155,6 @@
   - yara_enabled == true
 
 - name: Build Yara
-
   command: "cd /usr/local/bin/yara-{yara_version} && ./bootstrap.sh && ./configure && make && make install"
   become: true
   when:
