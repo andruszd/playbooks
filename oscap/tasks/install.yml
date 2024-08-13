@@ -58,5 +58,28 @@
 # Add mount points
 # Create dummy files
 # Install Additional pckages
+- name: copy default oscap content
+  tags: oscap_content
+  copy:
+    remote_src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rwx
+  with_items:
+  - {src: "/usr/share/xml/scap/ssg/content/", dest: "/var/ossec/wodles/oscap/content/"}
+  when: oscap_enabled == true
+
+- name: Copy oscap content
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rwx
+  with_items:
+  - {src: files/rulesets/oscap, dest: /var/ossec/wodles/oscap/content}
+  when: oscap_overwrite_enabled == true
+
 # Set Premissions
 # Remove temp files
