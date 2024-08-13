@@ -1,0 +1,13 @@
+---
+wazuh_enabled: true
+oscap_enabled: true
+oscap_overwrite_enabled: false
+yara_enabled: true
+yara_version: 4.5.0
+root_user: root
+wazuah_user: wazuah
+wazuah_group: wazuah
+update: false
+yara_dpath: "https://github.com/VirusTotal/yara/archive/refs/tags/v"
+yara_download: "{{yara_dpath}}{{yara_version}}.tar.gz"
+bashrc: false

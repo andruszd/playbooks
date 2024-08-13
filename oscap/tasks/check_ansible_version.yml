@@ -1,0 +1,6 @@
+---
+- name: check_for_ansible_1x
+  fail:
+    msg: "Not Supported"
+  when:
+    - ansible_version.major < 2
