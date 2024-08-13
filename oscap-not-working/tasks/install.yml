@@ -34,19 +34,17 @@
 # Create Directory Structure
 - name: create oscap directory
   file:
-    path: /var/ossec/wodles/
+    path: /var/ossec/wodles/oscap
     state: directory
     owner: "{{ root_user }}"
     group: "{{ wazuh_group }}"
     mode: u=rwx,g=rx,o=rx
   become: true
-  when:
-  - wazuh_user is defined
-  - oscap_enabled == true
+  when: oscap_enabled == true
 
 - name: create oscap content directory
   file:
-    path: /var/ossec/wodles/oscap/content/
+    path: /var/ossec/wodles/oscap/content
     state: directory
     owner: "{{ root_user }}"
     group: "{{ wazuh_group }}"

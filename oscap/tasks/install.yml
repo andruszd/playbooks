@@ -1,4 +1,3 @@
----
 # Update OS configuration files
 
 # FIXME: hosts file is not updated. Need to fix this.
@@ -16,27 +15,46 @@
 - name: Set up bash_rc
   tags: bashrc
   blockinfile:
-     path: /root/.bashrc
-     create: true
-     backup: true
-     block: |
-        shopt -s histappend histreedit histverify
-        shopt -s no_empty_cmd_completion
-        export HISTCONTROL=ignoreboth:erasedups
-        export HISTTIMEFORMAT="%Y-%m-%d:%T:-> "
-        export HISTIGNORE="pwd:bg:fg:history"
-        export HISTFILE=$HOME/.bash_history
-        export HISTFILESIZE=1000000000
-        export HISTSIZE=10000000
-  when:
-     bashrc == true
+    path: /root/.bashrc
+    create: true
+    backup: true
+    block: |
+      shopt -s histappend histreedit histverify
+      shopt -s no_empty_cmd_completion
+      export HISTCONTROL=ignoreboth:erasedups
+      export HISTTIMEFORMAT="%Y-%m-%d:%T:-> "
+      export HISTIGNORE="pwd:bg:fg:history"
+      export HISTFILE=$HOME/.bash_history
+      export HISTFILESIZE=1000000000
+      export HISTSIZE=10000000
+  when: bashrc == true
 
 - name: Source the bashrc file
   shell: source /root/.bashrc
-  when:
-     bashrc == true
+  when: bashrc == true
 
 # Create Directory Structure for the Application
+- name: create oscap directory
+  tags: oscap_dir
+  file:
+    path: /var/ossec/wodles/oscap
+    state: directory
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rwx,g=rx,o=rx
+  become: true
+  when: oscap_enabled == true
+
+- name: create oscap content directory
+  tags: oscap_content_dir
+  file:
+    path: /var/ossec/wodles/oscap/content
+    state: directory
+    owner: "{{ root_user }}"
+    group: "{{ wazuh_group }}"
+    mode: u=rwx,g=rx,o=rx
+  become: true
+  when: oscap_enabled == true
 # Add mount points
 # Create dummy files
 # Install Additional pckages
