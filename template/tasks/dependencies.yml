@@ -1,0 +1,102 @@
+---
+# Install Basic Dependancies - system tools
+- name: deps
+  debug:
+    msg: "Installing Basic System Tools for Debuging"
+
+- name: install oracle7 dependencies
+  yum:
+    name:
+      - unzip
+      - tar
+      - dos2unix
+      - python3
+      - htop
+      - atop
+      - tree
+      - bcc
+      - bpfmon
+      - bpftool
+      - bcc-tools
+      - python-bcc
+      - openssl-devel
+      - autoconf
+      - libtool
+      - libssl-dev
+      - make
+      - gcc
+      - tzdata-java
+      - checkpolicy
+      - secilc
+      - secilc-doc
+      - setroubleshoot-server
+      - setroubleshoot
+      - selinux-policy
+      - selinux-policy-devel
+      - selinux-policy-minimum
+      - selinux-policy-mls
+      - selinux-policy-targeted
+    state: present
+  become: true
+  become_user: root
+  when: ansible_distribution == "OracleLinux" and
+        ansible_distribution_major_version == '7'
+  tags: [dependencies Oracle7]
+
+- name: install oracle8 dependencies
+  yum:
+    name:
+      - unzip
+      - tar
+      - dnf
+      - dos2unix
+      - python3
+      - htop
+      - atop
+      - tree
+      - bcc
+      - bpfmon
+      - bpftool
+      - bcc-tools
+      - make
+      - gcc
+      - autoconf
+      - libtool
+      - tzdata-java
+      - checkpolicy
+      - secilc
+      - secilc-doc
+      - setroubleshoot-server
+      - setroubleshoot
+      - selinux-policy
+      - selinux-policy-devel
+      - selinux-policy-minimum
+      - selinux-policy-mls
+      - selinux-policy-targeted
+      - policycoreutils
+      - policycoreutils-devel
+      - policycoreutils-sandbox
+      - policycoreutils-newrole
+      - policycoreutils-restorecond
+      - python3-policycoreutils
+      - python3-setools
+    state: present
+  become: true
+  become_user: root
+  when: ansible_distribution == "OracleLinux" and
+         ansible_distribution_major_version == '8'
+  tags: [dependencies Oracle8]
+
+- name: Install oracle9 dependancies
+  yum:
+    name:
+      - unzip
+      - tar
+      - dnf
+      - dos2unix
+    state: present
+  become: true
+  become_user: root
+  when: ansible_distribution == "OracleLinux" and
+        ansible_distribution_major_version == '9'
+  tags: [dependencies Oracle9]

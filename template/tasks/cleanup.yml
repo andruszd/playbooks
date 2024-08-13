@@ -1,0 +1,13 @@
+---
+# Cleanup the RAM
+# After installation clean the RAM so that we get the required free space.
+- name: cleanup
+  debug:
+    msg: "Cleaning up....."
+- name: Clean Ram Cache
+  tags: clean_ram
+  copy:
+    content: 3
+    dest: /proc/sys/vm/drop_caches
+    unsafe_writes: true
+  become: true

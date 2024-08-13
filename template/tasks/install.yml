@@ -1,0 +1,44 @@
+---
+# Update OS configuration files
+
+# FIXME: hosts file is not updated. Need to fix this.
+#  hostname
+# - name: Updating /etc/hosts File on All Cluster Nodes
+#   template:
+#         src: "templates/hosts.j2"
+#         dest: "/etc/hosts"
+#         force: true
+#         owner: root
+#         group: root
+#         mode: u=rw,g=r,o=r
+#         backup: true
+
+- name: Set up bash_rc
+  tags: bashrc
+  blockinfile:
+     path: /root/.bashrc
+     create: true
+     backup: true
+     block: |
+        shopt -s histappend histreedit histverify
+        shopt -s no_empty_cmd_completion
+        export HISTCONTROL=ignoreboth:erasedups
+        export HISTTIMEFORMAT="%Y-%m-%d:%T:-> "
+        export HISTIGNORE="pwd:bg:fg:history"
+        export HISTFILE=$HOME/.bash_history
+        export HISTFILESIZE=1000000000
+        export HISTSIZE=10000000
+  when:
+     bashrc == true
+
+- name: Source the bashrc file
+  shell: source /root/.bashrc
+  when:
+     bashrc == true
+
+# Create Directory Structure for the Application
+# Add mount points
+# Create dummy files
+# Install Additional pckages
+# Set Premissions
+# Remove temp files

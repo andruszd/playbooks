@@ -127,7 +127,7 @@
     mode: u=rw
   with_items:
   - {src: "files/Audit_rules", dest: "/etc/audit/rules.d"}
-  when: 
+  when:
   - oscap_enabled == true
 
 - name: Run augenrules to complie the audit rules and load them.

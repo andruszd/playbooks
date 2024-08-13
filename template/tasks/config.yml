@@ -1,0 +1,19 @@
+---
+# Configure Applications
+
+# - name: file
+#   template:
+#     src: templates/.service.j2
+#     dest: "/etc/systemd/system/.service"
+#     owner: root
+#     group: root
+#     mode: u=rw,g=r,o=r
+#     backup:
+#   when:
+#   - _user is defined
+#   - _group is defined
+#   - _enabled == true
+- name: configure applications
+  tags: config_apps
+  debug:
+    msg: "Configuring Applications"
