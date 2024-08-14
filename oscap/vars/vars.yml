@@ -9,7 +9,7 @@ update: false
 yara_dpath: "https://github.com/VirusTotal/yara/archive/refs/tags/v"
 yara_download: "{{yara_dpath}}{{yara_version}}.tar.gz"
 bashrc: false
-sca_overwrite_enabled: false
-scap_overwrite_enabled: false
-oscap_overwrite_enabled: false
-auditd_overwrite_enabled: false
+sca_overwrite_enabled: true
+scap_overwrite_enabled: true
+oscap_overwrite_enabled: true
+auditd_overwrite_enabled: true

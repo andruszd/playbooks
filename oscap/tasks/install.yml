@@ -55,8 +55,8 @@
   file:
     path: /var/ossec/wodles/oscap
     state: directory
-    owner: "{{ root_user }}"
-    group: "{{ wazuh_group }}"
+    owner: {{ root_user }}
+    group: {{ wazuh_group }}
     mode: u=rwx,g=rx,o=rx
   become: true
   when: oscap_enabled == true
@@ -66,8 +66,8 @@
   file:
     path: /var/ossec/wodles/oscap/content
     state: directory
-    owner: "{{ root_user }}"
-    group: "{{ wazuh_group }}"
+    owner: {{ root_user }}
+    group: {{ wazuh_group }}
     mode: u=rwx,g=rx,o=rx
   become: true
   when: oscap_enabled == true
@@ -76,8 +76,8 @@
   file:
     path: /var/ossec/wodles/yara-rules
     state: directory
-    owner: "{{ root_user }}"
-    group: "{{ wazuh_group }}"
+    owner: {{ root_user }}
+    group: {{ wazuh_group }}
     mode: u=rwx
   become: true
   when: yara_enabled == true
@@ -86,14 +86,14 @@
 # Install Additional pckages
 - name: Copy Audit Rules
   copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    owner: "{{ root_user }}"
-    group: "{{ root_group }}"
+    src: {{ item.src }}
+    dest: {{ item.dest }}
+    owner: {{ root_user }}
+    group: {{ root_group }}
     mode: u=rw
   with_items:
-    - {src: "files/ruleset/audit_rules",
-       dest: "/etc/audit/rules.d"}
+    - {src: files/ruleset/audit_rules/,
+       dest: /etc/audit/rules.d}
   when: auditd_overwrite_enabled == true
 
 - name: Run augenrules to complie the audit rules and load them.
@@ -104,89 +104,98 @@
 - name: copy default scap content
   tags: scap_content
   copy:
-    remote_src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    owner: "{{ root_user }}"
-    group: "{{ wazuh_group }}"
+    src: {{ item.src }}
+    dest: {{ item.dest }}
+    owner: {{ root_user }}
+    group: {{ wazuh_group }}
     mode: u=rwx
   with_items:
-    - {src: "/usr/share/xml/scap/ssg/content/",
-       dest: "/var/ossec/wodles/oscap/content/"}
+    - {src: files/ruleset/sca/,
+       dest: /var/ossec/wodles/oscap/content/}
   when: scap_overwrite_enabled == true
 
 - name: Copy oscap content
   copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    owner: "{{ root_user }}"
-    group: "{{ wazuh_group }}"
+    src: {{ item.src }}
+    dest: {{ item.dest }}
+    owner: {{ root_user }}
+    group: {{ wazuh_group }}
     mode: u=rwx
   with_items:
-    - {src: files/ruleset/oscap,
+    - {src: files/ruleset/oscap/,
        dest: /var/ossec/wodles/oscap/content}
   when: oscap_overwrite_enabled == true
 
 - name: Copy sca content
   copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    owner: "{{ root_user }}"
-    group: "{{ wazuh_group }}"
+    src: {{ item.src }}
+    dest: {{ item.dest }}
+    owner: {{ root_user }}
+    group: {{ wazuh_group }}
     mode: u=rwx
   with_items:
-    - {src: files/ruleset/sca,
+    - {src: files/ruleset/sca/,
        dest: /var/ossec/ruleset/sca}
   when: sca_overwrite_enabled == true
 
 - name: Copy Yara Custom Rules
   copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    owner: "{{ root_user }}"
-    group: "{{ wazuh_group }}"
+    src: {{ item.src }}
+    dest: {{ item.dest }}
+    owner: {{ root_user }}
+    group: {{ wazuh_group }}
     mode: u=rw
   become: true
   with_items:
-    - {src: "files/ruleset/yara",
-       dest: "/var/ossec/wodles/yara-rules"}
+    - {src: files/ruleset/yara/,
+       dest: /var/ossec/wodles/yara-rules}
   when: yara_enabled == true
 
 
 - name: Copy oscap scripts
   copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    owner: "{{ root_user }}"
-    group: "{{ wazuh_group }}"
+    src: {{ item.src }}
+    dest: {{ item.dest }}
+    owner: {{ root_user }}
+    group: {{ wazuh_group }}
     mode: u=rwx
   with_items:
-    - {src: "files/oscap.py",
-       dest: "/var/ossec/wodles/oscap/oscap.py"}
+    - {src: files/oscap.py,
+       dest: /var/ossec/wodles/oscap/oscap.py}
   when: oscap_enabled == true
 
 - name: Copy Oscap Script Template Files
   copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    owner: "{{ root_user }}"
-    group: "{{ wazuh_group }}"
+    src: {{ item.src }}
+    dest: {{ item.dest }}
+    owner: {{ root_user }}
+    group: {{ wazuh_group }}
     mode: u=rw
   with_items:
-    - {src: "files/template_oval.xsl",
-       dest: "/var/ossec/wodles/oscap/template_oval.xsl"}
+    - {src: files/template_oval.xsl,
+       dest: /var/ossec/wodles/oscap/template_oval.xsl}
     - {src: "files/template_xccdf.xsl",
-       dest: "/var/ossec/wodles/oscap/template_xccdf.xsl"}
+       dest: /var/ossec/wodles/oscap/template_xccdf.xsl}
   when: oscap_enabled == true
 
 # Install Yara
+- name: Create yara directory
+  tags: yara_dir
+  file:
+    path: /usr/local/bin/yara-{{yara_version}}
+    state: directory
+    owner: {{ root_user }}
+    group: {{ root_user }}
+    mode: u=rwx
+  become: true
+  when: yara_enabled == true
 
-
-- name: Install Yara
+- name: Extract Yara Tarball
   tags: yara_install
-  shell:
-    cmd: /bin/tar -xvf /tmp/yara-{{yara_version}}.tar.gz -C  /usr/local/bin/
-  args:
-    executable: /bin/bash
+  unarchive:
+    src: /tmp/yara-{{yara_version}}.tar.gz
+    dest: /usr/local/bin/yara-{{yara_version}}
+    creates: /usr/local/bin/yara-{{yara_version}}
   become: true
   when: yara_enabled == true
 
