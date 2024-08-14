@@ -241,10 +241,9 @@
   when: yara_enabled == true
 
 - name: Build Yara bootstrap
-  shell:
-    cmd: ./bootstrap.sh
-    chdir: /usr/local/bin/yara-{{yara_version}}
+  shell: bootstrap.sh
   args:
+    chdir: /usr/local/bin/yara-{{yara_version}}/
     executable: /bin/bash
   become: true
   when: yara_enabled == true
