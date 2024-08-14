@@ -84,7 +84,7 @@
 - name: Run augenrules to complie the audit rules and load them.
   command: augenrules --load
   become: true
-  when:  auditd_overwrite_enabled == true
+  when: auditd_overwrite_enabled == true
 
 - name: copy default scap content
   tags: scap_content
