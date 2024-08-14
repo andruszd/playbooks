@@ -45,6 +45,7 @@
   shell:
     cmd: /bin/rm -rf yara*
     chdir: /usr/local/bin/
+    warn: false
   args:
     executable: /bin/bash
   become: true
@@ -93,6 +94,7 @@
   shell:
     cmd: /bin/rm -rf rules.d.bak
     chdir: /etc/audit/
+    warn: false
   args:
     executable: /bin/bash
   become: true
@@ -201,6 +203,7 @@
     - {src: files/oscap.py,
        dest: /var/ossec/wodles/oscap/oscap.py}
   when: oscap_enabled == true
+  ignore_errors: true
 
 - name: Copy Oscap Script Template Files
   copy:
