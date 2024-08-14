@@ -107,7 +107,7 @@
     group: "{{ wazuh_group }}"
     mode: u=rwx
   with_items:
-    - {src: files/rulesets/oscap,
+    - {src: files/ruleset/oscap,
        dest: /var/ossec/wodles/oscap/content}
   when: oscap_overwrite_enabled == true
 
@@ -119,7 +119,7 @@
     group: "{{ wazuh_group }}"
     mode: u=rwx
   with_items:
-    - {src: files/rulesets/sca,
+    - {src: files/ruleset/sca,
        dest: /var/ossec/ruleset/sca}
   when: sca_overwrite_enabled == true
 
@@ -132,7 +132,7 @@
     mode: u=rw
   become: true
   with_items:
-    - {src: "files/rulesets/yara",
+    - {src: "files/ruleset/yara",
        dest: "/var/ossec/wodles/yara-rules"}
   when: yara_enabled == true
 
