@@ -164,7 +164,7 @@
   when: oscap_enabled == true
 
 # Install Yara
-- Name: Remove Previous Yara Directory
+- name: Remove Previous Yara Directory
   shell:
     cmd: /bin/rm -rf yara*
     chdir: /usr/local/bin/
