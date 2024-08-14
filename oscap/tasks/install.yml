@@ -116,12 +116,13 @@
 
 - name: Run augenrules to complie the audit rules and load them.
   shell:
-     cmd: augenrules --load
-     chdir: /etc/audit/
+     cmd: /sbin/augenrules --load
+     chdir: /etc/audit/rules.d
   args:
     executable: /bin/bash
   become: true
   when: auditd_overwrite_enabled == true
+  ignore_errors: true
 
 - name: copy default scap content
   tags: scap_content
