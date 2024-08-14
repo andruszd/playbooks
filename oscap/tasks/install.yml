@@ -84,6 +84,24 @@
 # Add mount points
 # Create dummy files
 # Install Additional pckages
+- name: Move Audit Rules
+  shell:
+    cmd: mv /etc/audit/rules.d/* /etc/audit/rules.d.bak
+  args:
+    executable: /bin/bash
+  become: true
+  when: auditd_overwrite_enabled == true
+
+- name: Create Audit Rules Directory
+  file:
+    path: /etc/audit/rules.d
+    state: directory
+    owner: "{{ root_user }}"
+    group: "{{ root_user }}"
+    mode: u=rwx,g=rx
+  become: true
+  when: auditd_overwrite_enabled == true
+
 - name: Copy Audit Rules
   copy:
     src:  "{{ item.src }}"
@@ -97,7 +115,11 @@
   when: auditd_overwrite_enabled == true
 
 - name: Run augenrules to complie the audit rules and load them.
-  command: augenrules --load
+  shell:
+     cmd: augenrules --load
+     chdir: /etc/audit/
+  args:
+    executable: /bin/bash
   become: true
   when: auditd_overwrite_enabled == true
 
