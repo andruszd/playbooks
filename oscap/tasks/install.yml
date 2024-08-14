@@ -97,7 +97,7 @@
     path: /etc/audit/rules.d
     state: directory
     owner: "{{ root_user }}"
-    group: "{{ root_user }}"
+    group: "{{ root_group }}"
     mode: u=rwx,g=rx
   become: true
   when: auditd_overwrite_enabled == true
@@ -107,7 +107,7 @@
     src:  "{{ item.src }}"
     dest:  "{{ item.dest }}"
     owner: "{{ root_user }}"
-    group: "{{ root_user }}"
+    group: "{{ root_group }}"
     mode: u=rw
   with_items:
     - {src: files/ruleset/audit_rules/,
@@ -121,6 +121,7 @@
   args:
     executable: /bin/bash
   become: true
+  become_user: root
   when: auditd_overwrite_enabled == true
   ignore_errors: true
 
@@ -153,7 +154,7 @@
   copy:
     src:  "{{ item.src }}"
     dest:  "{{ item.dest }}"
-    owner: "{{ root_user} }"
+    owner: "{{ root_user }}"
     group: "{{ wazuh_group }}"
     mode: u=rwx
   with_items:

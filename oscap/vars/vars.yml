@@ -3,6 +3,7 @@ oscap_enabled: true
 yara_enabled: true
 yara_version: 4.5.0
 root_user: root
+root_group: root
 wazuh_user: wazuh
 wazuh_group: wazuh
 update: false
