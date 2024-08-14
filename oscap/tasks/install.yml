@@ -165,38 +165,63 @@
 
 # Install Yara
 - Name: Remove Previous Yara Directory
-  shell: /bin/rm -rf /usr/local/bin/yara*
+  shell:
+      cmd: /bin/rm -rf yara*
+      chdir: /usr/local/bin/
+  args:
+    executable: /bin/bash
   become: true
   when: yara_enabled == true
 
 - name: Install Yara
   tags: yara_install
-  shell: /bin/tar -xvf /tmp/yara-{{yara_version}}.tar.gz -C  /usr/local/bin/
+  shell:
+      cmd: /bin/tar -xvf /tmp/yara-{{yara_version}}.tar.gz -C  /usr/local/bin/
+  args:
+    executable: /bin/bash
   become: true
   when: yara_enabled == true
 
 - name: Build Yara bootstrap
-  shell: cd /usr/local/bin/yara-{{yara_version}} && ./bootstrap.sh
+  shell:
+      cmd: bootstrap.sh
+      chdir: /usr/local/bin/yara-{{yara_version}}
+  args:
+    executable: /bin/bash
   become: true
   when: yara_enabled == true
 
 - name: Build Yara configure
-  shell: cd /usr/local/bin/yara-{{yara_version}} &&  ./configure
+  shell:
+      cmd: configure
+      chdir: /usr/local/bin/yara-{{yara_version}}
+  args:
+    executable: /bin/bash
   become: true
   when: yara_enabled == true
 
 - name: Build Yara make
-  shell: cd /usr/local/bin/yara-{yara_version} && make
+  shell:
+      cmd: make
+      chdir: /usr/local/bin/yara-{{yara_version}}
+  args:
+    executable: /bin/bash
   become: true
   when: yara_enabled == true
 
 - name: Build Yara make install
-  shell: cd /usr/local/bin/yara-{yara_version} && make install
+  shell:
+       cmd: make install
+  args:
+    executable: /bin/bash
   become: true
   when: yara_enabled == true
 
 - name: Ld Yara Package
-  shell: echo /usr/local/lib > /etc/ld.so.conf && ldconfig
+  shell:
+      cmd: echo /usr/local/lib > /etc/ld.so.conf && ldconfig
+  args:
+    executable: /bin/bash
   become: true
   when: yara_enabled == true
 # Set Premissions
