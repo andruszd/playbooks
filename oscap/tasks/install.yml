@@ -86,8 +86,8 @@
 # Install Additional pckages
 - name: Copy Audit Rules
   copy:
-    src: {{ item.src }}
-    dest: {{ item.dest }}
+    src:  "{{ item.src }}"
+    dest:  "{{ item.dest }}"
     owner: "{{ root_user }}"
     group: "{{ root_user }}"
     mode: u=rw
@@ -104,8 +104,8 @@
 - name: copy default scap content
   tags: scap_content
   copy:
-    src: {{ item.src }}
-    dest: {{ item.dest }}
+    src:  "{{ item.src }}"
+    dest:  "{{ item.dest }}"
     owner: "{{ root_user }}"
     group: "{{ wazuh_group }}"
     mode: u=rwx
@@ -116,8 +116,8 @@
 
 - name: Copy oscap content
   copy:
-    src: {{ item.src }}
-    dest: {{ item.dest }}
+    src:  "{{ item.src }}"
+    dest:  "{{ item.dest }}"
     owner: "{{ root_user }}"
     group: "{{ wazuh_group }}"
     mode: u=rwx
@@ -128,8 +128,8 @@
 
 - name: Copy sca content
   copy:
-    src: {{ item.src }}
-    dest: {{ item.dest }}
+    src:  "{{ item.src }}"
+    dest:  "{{ item.dest }}"
     owner: "{{ root_user} }"
     group: "{{ wazuh_group }}"
     mode: u=rwx
@@ -140,8 +140,8 @@
 
 - name: Copy Yara Custom Rules
   copy:
-    src: {{ item.src }}
-    dest: {{ item.dest }}
+    src:  "{{ item.src }}"
+    dest:  "{{ item.dest }}"
     owner: "{{ root_user }}"
     group: "{{ wazuh_group }}"
     mode: u=rw
@@ -154,8 +154,8 @@
 
 - name: Copy oscap scripts
   copy:
-    src: {{ item.src }}
-    dest: {{ item.dest }}
+    src:  "{{ item.src }}"
+    dest:  "{{ item.dest }}"
     owner: " {{root_user }}"
     group: "{{ wazuh_group }}"
     mode: u=rwx
@@ -166,8 +166,8 @@
 
 - name: Copy Oscap Script Template Files
   copy:
-    src: {{ item.src }}
-    dest: {{ item.dest }}
+    src:  "{{ item.src }}"
+    dest:  "{{ item.dest }}"
     owner: "{{root_user }}"
     group: "{{ wazuh_group }}"
     mode: u=rw
