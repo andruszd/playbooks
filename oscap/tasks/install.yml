@@ -34,6 +34,21 @@
   shell: source /root/.bashrc
   when: bashrc == true
 
+
+# Remove Direcotries if they exist
+- name: Check yara directory
+  stat: path=/usr/local/bin/yara-{{yara_version}}
+  register: yara_dir
+  when: yara_enabled == true
+
+- name: Remove Previous Yara Directory
+  shell:
+    cmd: /bin/rm -rf yara*
+    chdir: /usr/local/bin/
+  args:
+    executable: /bin/bash
+  become: true
+  when: yara_dir.stat.exists == true and yara_enabled == true
 # Create Directory Structure for the Application
 - name: create oscap directory
   tags: oscap_dir
@@ -164,14 +179,7 @@
   when: oscap_enabled == true
 
 # Install Yara
-- name: Remove Previous Yara Directory
-  shell:
-    cmd: /bin/rm -rf yara*
-    chdir: /usr/local/bin/
-  args:
-    executable: /bin/bash
-  become: true
-  when: yara_enabled == true
+
 
 - name: Install Yara
   tags: yara_install
