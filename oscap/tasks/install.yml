@@ -192,7 +192,7 @@
 
 - name: Build Yara bootstrap
   shell:
-    cmd: bootstrap.sh
+    cmd: ./bootstrap.sh
     chdir: /usr/local/bin/yara-{{yara_version}}
   args:
     executable: /bin/bash
@@ -201,7 +201,7 @@
 
 - name: Build Yara configure
   shell:
-    cmd: configure
+    cmd: ./configure
     chdir: /usr/local/bin/yara-{{yara_version}}
   args:
     executable: /bin/bash
