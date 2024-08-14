@@ -86,7 +86,7 @@
 # Install Additional pckages
 - name: Move Audit Rules
   shell:
-    cmd: mv /etc/audit/rules.d/* /etc/audit/rules.d.bak
+    cmd: mv /etc/audit/rules.d /etc/audit/rules.d.bak
   args:
     executable: /bin/bash
   become: true
