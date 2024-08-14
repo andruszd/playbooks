@@ -84,6 +84,20 @@
 # Add mount points
 # Create dummy files
 # Install Additional pckages
+- name: Check rules.d.bak directory
+  stat: path=/etc/audit/rules.d.bak
+  register: auditd_dir
+  when: auditd_overwrite_enabled == true
+
+- name: Remove Previous Audit Rules Directory
+  shell:
+    cmd: /bin/rm -rf rules.d.bak
+    chdir: /etc/audit/
+  args:
+    executable: /bin/bash
+  become: true
+  when: auditd_dir.stat.exists == true and auditd_overwrite_enabled == true
+
 - name: Move Audit Rules
   shell:
     cmd: mv /etc/audit/rules.d /etc/audit/rules.d.bak
