@@ -146,7 +146,7 @@
     mode: u=rwx
   with_items:
     - {src: "files/oscap.py",
-      dest: "/var/ossec/wodles/oscap/oscap.py"}
+       dest: "/var/ossec/wodles/oscap/oscap.py"}
   when: oscap_enabled == true
 
 - name: Copy Oscap Script Template Files
@@ -166,8 +166,8 @@
 # Install Yara
 - Name: Remove Previous Yara Directory
   shell:
-      cmd: /bin/rm -rf yara*
-      chdir: /usr/local/bin/
+    cmd: /bin/rm -rf yara*
+    chdir: /usr/local/bin/
   args:
     executable: /bin/bash
   become: true
@@ -176,7 +176,7 @@
 - name: Install Yara
   tags: yara_install
   shell:
-      cmd: /bin/tar -xvf /tmp/yara-{{yara_version}}.tar.gz -C  /usr/local/bin/
+    cmd: /bin/tar -xvf /tmp/yara-{{yara_version}}.tar.gz -C  /usr/local/bin/
   args:
     executable: /bin/bash
   become: true
@@ -184,8 +184,8 @@
 
 - name: Build Yara bootstrap
   shell:
-      cmd: bootstrap.sh
-      chdir: /usr/local/bin/yara-{{yara_version}}
+    cmd: bootstrap.sh
+    chdir: /usr/local/bin/yara-{{yara_version}}
   args:
     executable: /bin/bash
   become: true
@@ -193,8 +193,8 @@
 
 - name: Build Yara configure
   shell:
-      cmd: configure
-      chdir: /usr/local/bin/yara-{{yara_version}}
+    cmd: configure
+    chdir: /usr/local/bin/yara-{{yara_version}}
   args:
     executable: /bin/bash
   become: true
@@ -202,8 +202,8 @@
 
 - name: Build Yara make
   shell:
-      cmd: make
-      chdir: /usr/local/bin/yara-{{yara_version}}
+    cmd: make
+    chdir: /usr/local/bin/yara-{{yara_version}}
   args:
     executable: /bin/bash
   become: true
@@ -211,7 +211,7 @@
 
 - name: Build Yara make install
   shell:
-       cmd: make install
+    cmd: make install
   args:
     executable: /bin/bash
   become: true
@@ -219,7 +219,7 @@
 
 - name: Ld Yara Package
   shell:
-      cmd: echo /usr/local/lib > /etc/ld.so.conf && ldconfig
+    cmd: echo /usr/local/lib > /etc/ld.so.conf && ldconfig
   args:
     executable: /bin/bash
   become: true
