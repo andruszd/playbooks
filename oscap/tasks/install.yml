@@ -130,6 +130,8 @@
        dest: /etc/audit/rules.d}
   when: auditd_overwrite_enabled == true
 
+# Run augenrules to complie the audit rules and load them.
+# Ignores errors if the rules are not loaded/errors or there is no change in the rules.
 - name: Run augenrules to complie the audit rules and load them.
   shell:
      cmd: /sbin/augenrules --load
@@ -219,7 +221,8 @@
        dest: /var/ossec/wodles/oscap/template_xccdf.xsl}
   when: oscap_enabled == true
 
-# Install Yara
+# TODO:Install Yara
+#  Does not work with unarchive... need to fix
 # - name: Create yara directory
 #   tags: yara_dir
 #   file:
@@ -233,10 +236,11 @@
 
 - name: Extract Yara Tarball
   tags: yara_install
-  unarchive:
-    src: /tmp/yara-{{yara_version}}.tar.gz
-    dest: /usr/local/bin/yara-{{yara_version}}
-    creates: /usr/local/bin/yara-{{yara_version}}
+  shell:
+    cmd: tar -xvf /tmp/yara-{{yara_version}}.tar.gz -C /usr/local/bin/
+    chdir: /usr/local/bin/
+  args:
+    executable: /bin/bash
   become: true
   when: yara_enabled == true
 
@@ -281,5 +285,3 @@
     executable: /bin/bash
   become: true
   when: yara_enabled == true
-# Set Premissions
-# Remove temp files

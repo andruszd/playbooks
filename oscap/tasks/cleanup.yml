@@ -16,4 +16,4 @@
   file: path=/tmp/yara-{{version}}.tar.gz
   state: absent
   become: true
-  when: yara_enabled == true
+  ignore_errors:  true
