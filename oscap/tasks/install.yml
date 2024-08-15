@@ -273,6 +273,7 @@
 - name: Build Yara make install
   shell:
     cmd: "make install"
+    chdir: /usr/local/bin/yara-{{yara_version}}
   args:
     executable: /bin/bash
   become: true
