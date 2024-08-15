@@ -114,7 +114,6 @@
       - setroubleshoot
       - selinux-policy
       - selinux-policy-devel
-      - selinux-policy-minimum
       - selinux-policy-mls
       - selinux-policy-targeted
       - policycoreutils
