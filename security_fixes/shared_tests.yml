@@ -1,9 +1,0 @@
-failed_shared_test:
-  - assert_equal:
-      arg_name: msg
-      expected: "Failed to update packages"
-  - assert_equal:
-      arg_name: msg
-      expected: "Failed to create users"
-
-
