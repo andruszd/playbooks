@@ -16,4 +16,4 @@
   file: path=/tmp/yara-{{version}}.tar.gz
   state: absent
   become: true
-  ignore_errors: true
+  become_user: root
