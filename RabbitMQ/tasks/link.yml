@@ -1,0 +1,6 @@
+---
+# Add Symbolic and Hard Links here.
+- name: add links
+  tags: add_links
+  debug:
+     msg: "Adding Symbolic and Hard Links"
