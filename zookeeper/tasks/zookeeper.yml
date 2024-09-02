@@ -1,5 +1,5 @@
 ---
-# start hadoop zookeeper
+# start zookeeper
 - name: "Checking if Zookeeper service already running"
   command: "jps"
   become: true

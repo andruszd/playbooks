@@ -1,67 +1,58 @@
 ---
 - name: Zookeeper
-# Remove the next 3 line if you are calling  from another main.
   hosts: zookeeper
   gather_facts: true
   become: true
 
   vars_files:
     - vars/vars.yml
-
   pre_tasks:
-    # Remove the update task if your main yaml is already doing this , saves on time.
-    - name: update all packages
-      yum:
-        name: '*'
-        state: latest
-
-  tasks:
-    - name: Runing Play
-      debug:
-        msg: "Running {{ ansible_play_name }} on {{ inventory_hostname }}"
-        verbosity: 1
-    - name: Os level
-      debug:
-        msg: "Running on {{ansible_distribution }} version {{ansible_distribution_major_version}}"
-        verbosity: 1
-
-    - name: Install Default Packages
-      include_tasks:
-        file: tasks/default_packages.yml
-        apply:
-          tags:
-            - dependencies
-
-    - name: Create Users
-      include_tasks:
-        file: tasks/users.yml
-        apply:
-          tags:
-            - users
-
-    - name: Download Packages (None Package Manager)
-      include_tasks:
-        file: tasks/download.yml
-        apply:
-          tags:
-            - download
-
-    - name: Install Packages (None Package Manager)
-      include_tasks:
-        file: tasks/install.yml
-        apply:
-          tags:
-            - install
-
-    - name: Configure Packages (None Package Manager)
-      include_tasks:
-        file: tasks/config.yml
-        apply:
-          tags:
-            - config
+    - name: updates
+      tags: updates
+      include_tasks: tasks/update.yml
 
   handlers:
-    - name: Restart Service <nanme>
-      ansible.builtin.service:
-        name: systemcld
-        state: restarted
+    - import_tasks: handlers/handlers.yml
+      tags: handlers
+      when: handlers_file.stat.exists
+  tasks:
+    - name: check_ansible_version
+      tags: version
+      include_tasks:
+        file: tasks/check_ansible_version.yml
+    - name: install dependencies
+      tags: dependencies
+      include_tasks:
+        file: tasks/dependencies.yml
+    - name: create users
+      tags: crates_users
+      include_tasks:
+        file: tasks/users.yml
+    - name: download packages
+      tags: download_packages
+      include_tasks:
+        file: tasks/download.yml
+    - name: install packages
+      tags: install_packages
+      include_tasks:
+        file: tasks/install.yml
+    - name: configure packages
+      tags: configure_packages
+      include_tasks:
+        file: tasks/config.yml
+    - name: set enviroment variables
+      tags: set_env
+      include_tasks:
+        file: tasks/env.yml
+    - name: setup symbolic links
+      tags: setup_links
+      include_tasks:
+        file: tasks/link.yml
+    - name: services
+      tags: services
+      include_tasks:
+        file: tasks/services.yml
+    - name: cleanup
+      tags: cleanup
+      include_tasks:
+        file: tasks/cleanup.yml

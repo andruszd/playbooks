@@ -1,0 +1,56 @@
+---
+# Add Firewall Rules
+- name: setup zookeeper firewall ports
+  template:
+    src: "files/zookeeper.xml"
+    dest: "/usr/lib/firewalld/services"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup: true
+  when: zookeeper_enabled == true
+
+# Update the firewall rules
+- name: reload firewalld deamon
+  tags: reload_firewalld
+  systemd:
+    name: firewalld
+    daemon_reload: true
+    enabled: true
+
+# Restart the firewalld service
+- name: restart firewalld
+  tags: restart_firewalld
+  service:
+    name: firewalld
+    state: restarted
+    enabled: true
+
+# Add Services
+# - name: file
+#   template:
+#     src: templates/.service.j2
+#     dest: "/etc/systemd/system/.service"
+#     owner: root
+#     group: root
+#     mode: u=rw,g=r,o=r
+#     backup:
+#   when:
+#   - _user is defined
+#   - _group is defined
+#   - _enabled == true
+
+# Reload Systemd to pick up new config files
+- name: reload systemd deamon
+  systemd:
+    daemon_reload: true
+
+# Enable Services
+# - name: enable service
+#   systemd:
+#     name:
+#     enabled: yes
+#   when:
+#   - _user is defined
+#   - _group is defined
+#   - _enabled == true

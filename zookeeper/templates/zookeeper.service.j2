@@ -1,23 +1,23 @@
 [Unit]
-Description=Zookeeper Service
+Description=Zookeeper Daemon
+Documentation=http://zookeeper.apache.org
+Requires=network.target
+After=network.target
 
 [Service]
 Type=simple
 WorkingDirectory={{zookeeper_data_dir}}
-EnvironmentFile={{zookeeper_conf_dir}}/zoo.env
-Environment=CONF="--config {{zookeeper_conf_dir}}/zoo.cfg"
-PIDFile={{zookeeper_pid_dir}}/zookeeper_server.pid
+Environment=CONF="{{zookeeper_conf_dir}}/zoo.cfg"
 SyslogIdentifier=zookeeper
 User=zookeeper
 Group=zookeeper
-ExecStart={{zookeeper_home}}/bin/zkServer.sh  ${CONF} start
-ExecStop={{zookeeper_home}}/bin/zkServer.sh  ${CONF} stop
-ExecReload={{zookeeper_home}}bin/zkServer.sh  ${CONF} restart
+ExecStart={{zookeeper_home}}/bin/zkServer.sh  start  ${CONF}
+ExecStop={{zookeeper_home}}/bin/zkServer.sh   stop  ${CONF}
+ExecReload={{zookeeper_home}}bin/zkServer.sh  restart  ${CONF}
 Restart=always
 TimeoutSec=20
 SuccessExitStatus=130 143
 Restart=on-failure
 
 [Install]
-Alias=zook
 WantedBy=multi-user.target

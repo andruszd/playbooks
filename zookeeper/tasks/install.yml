@@ -69,43 +69,4 @@
     backup: true
   when: zookeeper_enabled == true
 
-# Firewall Configuration Files for OS
 
-- name: setup zookeeper firewall ports
-  template:
-    src: "files/zookeeper.xml"
-    dest: "/usr/lib/firewalld/services"
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
-    backup: true
-  when: zookeeper_enabled == true
-
-- name: restart firewalld
-  service:
-    name: firewalld
-    state: restarted
-    enabled: true
-
-# Activate Application Specific Firewall Rules.
-
-- name: add zookeeper service to firewalld
-  firewalld:
-    service: zookeeper
-    permanent: true
-    state: enabled
-    immediate: true
-  when: zookeeper_enabled == true
-
-- name: reload firewalld deamon
-  firewalld:
-    daemon_reload: yes
-
-# Cleanup the RAM
-# After installation clean the RAM so that we get the required free space.
-- name: Clean Ram Cache
-  copy:
-    content: 3
-    dest: /proc/sys/vm/drop_caches
-    unsafe_writes: true
-  become: true
