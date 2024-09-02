@@ -1,5 +1,5 @@
 ---
-- name: blank_playbook
+- name: RabbitMQ
   hosts: all
   gather_facts: true
   become: true

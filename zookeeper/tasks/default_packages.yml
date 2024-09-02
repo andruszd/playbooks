@@ -7,12 +7,11 @@
       - pdsh
       - dos2unix
       - git
-      - sshrc
+      - wget
+      - curl
       # change for which java version you want to install
       - java-latest-openjdk
       - java-latest-openjdk-devel
-      #- java-17-openjdk
-      #- java-17-openjdk-devel
       - python3
       # Performace Monitoring Tools
       - htop
@@ -24,7 +23,6 @@
       - bcc-tools
       - python-bcc
       - nmon
-      - openssl-devel
       - cowsay
       # VIM Specific plugins
       - vim
@@ -45,7 +43,7 @@
       - vim-trailing-whitespace
       - vim-syntastic-yaml
       - vim-syntastic-python
-      - vim-syntastic-bash  
+      - vim-syntastic-bash
       - vim-syntastic-xmllint
       - vim-syntastic-sh
       - vim-nerdtree

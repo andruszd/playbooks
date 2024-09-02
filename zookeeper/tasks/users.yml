@@ -1,7 +1,7 @@
 ---
 - name: ensure group zookeeper exists
   group:
-    name: zookeeper
+    name: "{{ zookeeper_group }}"
     state: present
   become: true
 
