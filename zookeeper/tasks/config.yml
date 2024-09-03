@@ -80,18 +80,7 @@
   - zookeeper_group is defined
   - zookeeper_enabled == true
 
-- name: zookeeper service file
-  template:
-    src: templates/zookeeper.service.j2
-    dest: "/etc/systemd/system/zookeeper.service"
-    owner: root
-    group: root
-    mode: u=rw,g=r,o=r
-    backup:
-  when:
-  - zookeeper_user is defined
-  - zookeeper_group is defined
-  - zookeeper_enabled == true
+
 
 - name: create zookeeper enviroment file
   file:
@@ -132,16 +121,5 @@
   - zookeeper_group is defined
   - zookeeper_enabled == true
 
-- name: enable zookeeper service
-  systemd:
-    name: zookeeper
-    enabled: yes
-  when:
-  - zookeeper_user is defined
-  - zookeeper_group is defined
-  - zookeeper_enabled == true
 
-- name: reload systemd deamon
-  systemd:
-    daemon_reload: yes
 

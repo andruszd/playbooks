@@ -26,6 +26,7 @@
     state: restarted
     enabled: true
 
+
 # Add Services
 # - name: file
 #   template:
@@ -39,6 +40,28 @@
 #   - _user is defined
 #   - _group is defined
 #   - _enabled == true
+- name: zookeeper service file
+  template:
+    src: templates/zookeeper.service.j2
+    dest: "/etc/systemd/system/zookeeper.service"
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup:
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
+- name: enable zookeeper service
+  systemd:
+    name: zookeeper
+    enabled: yes
+  when:
+  - zookeeper_user is defined
+  - zookeeper_group is defined
+  - zookeeper_enabled == true
+
 
 # Reload Systemd to pick up new config files
 - name: reload systemd deamon
@@ -54,3 +77,28 @@
 #   - _user is defined
 #   - _group is defined
 #   - _enabled == true
+# start zookeeper
+- name: "Checking if Zookeeper service already running"
+  command: "jps"
+  become: true
+  become_user: root
+  ignore_errors: true
+  changed_when: false
+  register: zookeeper_service_check
+- debug:
+            msg: " Zookeeper service already running"
+  when: zookeeper_service_check.stdout |
+   regex_search('(QuorumPeerMain)') == "QuorumPeerMain"
+- debug:
+            msg: "Zookeeper service not running"
+  when: zookeeper_service_check.stdout |
+    regex_search('(QuorumPeerMain)') != "QuorumPeerMain"
+
+- name: "Start Zookeeper"
+  command: "systemctl start zookeeper"
+  become: true
+  become_user: root
+  when:
+   - zookeeper_service_check.stdout |
+     regex_search('(QuorumPeerMain)') != "QuorumPeerMain"
+   - zookeeper_enabled == true
