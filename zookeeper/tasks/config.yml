@@ -9,9 +9,9 @@
     state: link
   become: true
   when:
-  - zookeeper_user is defined
-  - zookeeper_group is defined
-  - zookeeper_enabled == true
+    - zookeeper_user is defined
+    - zookeeper_group is defined
+    - zookeeper_enabled == true
 
 - name: myid
   debug:
@@ -34,26 +34,26 @@
     mode: u=rw,g=r,o=r
   become: true
   when:
-  - zookeeper_user is defined
-  - zookeeper_group is defined
-  - zookeeper_enabled == true
+    - zookeeper_user is defined
+    - zookeeper_group is defined
+    - zookeeper_enabled == true
 
 - name: shell id to myid
   shell: echo "{{ myid }}" >"{{ zookeeper_data_dir }}/myid"
   become: true
   when:
-  - zookeeper_user is defined
-  - zookeeper_group is defined
-  - zookeeper_enabled == true
+    - zookeeper_user is defined
+    - zookeeper_group is defined
+    - zookeeper_enabled == true
 
 - name: check if zoo.cfg exists
   stat:
     path: "{{ zookeeper_conf_dir }}/zoo.cfg"
   register: zoo_cfg
   when:
-  - zookeeper_user is defined
-  - zookeeper_group is defined
-  - zookeeper_enabled == true
+    - zookeeper_user is defined
+    - zookeeper_group is defined
+    - zookeeper_enabled == true
 
 - name: create zoo.cfg
   file:
@@ -64,9 +64,9 @@
     state: touch
   become: true
   when:
-  - zookeeper_user is defined
-  - zookeeper_group is defined
-  - zookeeper_enabled == true
+    - zookeeper_user is defined
+    - zookeeper_group is defined
+    - zookeeper_enabled == true
 
 - name: populate zookeeper conf file with config
   template:
@@ -77,11 +77,9 @@
     mode: u=rw,g=r,o=r
     backup: true
   when:
-  - zookeeper_user is defined
-  - zookeeper_group is defined
-  - zookeeper_enabled == true
-
-
+    - zookeeper_user is defined
+    - zookeeper_group is defined
+    - zookeeper_enabled == true
 
 - name: create zookeeper enviroment file
   file:
@@ -92,9 +90,9 @@
     mode: u=rw,g=r,o=r
   become: true
   when:
-  - zookeeper_user is defined
-  - zookeeper_group is defined
-  - zookeeper_enabled == true
+    - zookeeper_user is defined
+    - zookeeper_group is defined
+    - zookeeper_enabled == true
 
 - name: Install logback file
   copy:
@@ -105,9 +103,9 @@
     mode: u=rw,g=r,o=r
     backup: true
   when:
-  - zookeeper_user is defined
-  - zookeeper_group is defined
-  - zookeeper_enabled == true
+    - zookeeper_user is defined
+    - zookeeper_group is defined
+    - zookeeper_enabled == true
 
 - name: Install logback-test file
   copy:
@@ -118,6 +116,6 @@
     mode: u=rw,g=r,o=r
     backup: true
   when:
-  - zookeeper_user is defined
-  - zookeeper_group is defined
-  - zookeeper_enabled == true
+    - zookeeper_user is defined
+    - zookeeper_group is defined
+    - zookeeper_enabled == true

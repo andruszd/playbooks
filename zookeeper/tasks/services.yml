@@ -56,7 +56,7 @@
 - name: enable zookeeper service
   systemd:
     name: zookeeper
-    enabled: yes
+    enabled: true
   when:
     - zookeeper_user is defined
     - zookeeper_group is defined
@@ -86,11 +86,11 @@
   changed_when: false
   register: zookeeper_service_check
 - debug:
-            msg: " Zookeeper service already running"
+     msg: " Zookeeper service already running"
   when: zookeeper_service_check.stdout |
    regex_search('(QuorumPeerMain)') == "QuorumPeerMain"
 - debug:
-            msg: "Zookeeper service not running"
+    msg: "Zookeeper service not running"
   when: zookeeper_service_check.stdout |
     regex_search('(QuorumPeerMain)') != "QuorumPeerMain"
 
@@ -99,6 +99,6 @@
   become: true
   become_user: root
   when:
-   - zookeeper_service_check.stdout |
+    - zookeeper_service_check.stdout |
      regex_search('(QuorumPeerMain)') != "QuorumPeerMain"
-   - zookeeper_enabled == true
+    - zookeeper_enabled == true
