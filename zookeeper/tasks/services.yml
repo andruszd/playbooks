@@ -49,18 +49,18 @@
     mode: u=rw,g=r,o=r
     backup:
   when:
-  - zookeeper_user is defined
-  - zookeeper_group is defined
-  - zookeeper_enabled == true
+    - zookeeper_user is defined
+    - zookeeper_group is defined
+    - zookeeper_enabled == true
 
 - name: enable zookeeper service
   systemd:
     name: zookeeper
     enabled: yes
   when:
-  - zookeeper_user is defined
-  - zookeeper_group is defined
-  - zookeeper_enabled == true
+    - zookeeper_user is defined
+    - zookeeper_group is defined
+    - zookeeper_enabled == true
 
 
 # Reload Systemd to pick up new config files

@@ -1,3 +1,4 @@
+---
 # Configure Zookeeper
 - name: craete link for /lib/zookeeper/conf to version
   file:
@@ -120,6 +121,3 @@
   - zookeeper_user is defined
   - zookeeper_group is defined
   - zookeeper_enabled == true
-
-
-
