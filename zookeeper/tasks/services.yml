@@ -86,7 +86,7 @@
   changed_when: false
   register: zookeeper_service_check
 - debug:
-     msg: " Zookeeper service already running"
+    msg: " Zookeeper service already running"
   when: zookeeper_service_check.stdout |
    regex_search('(QuorumPeerMain)') == "QuorumPeerMain"
 - debug:
