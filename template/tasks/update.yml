@@ -1,2 +1,64 @@
 ---
 # Update Os and packages
+- name: Update yum cache
+  command: yum makecache
+  when:
+    - ansible_distribution_major_version == "7"
+    - ansible_distribution == "OracleLinux"
+    - update == true
+
+- name: Update dnf cache
+  command: dnf makecache
+  when:
+    - ansible_distribution_major_version == "8"
+    - ansible_distribution == "OracleLinux"
+    - update == true
+
+- name: Update dnf cache
+  command: dnf makecache
+  when:
+    - ansible_distribution_major_version == "9"
+    - ansible_distribution == "OracleLinux"
+    - update == true
+
+- name: Update all packages
+  command: yum update -y
+  when:
+    - ansible_distribution_major_version == "7"
+    - ansible_distribution == "OracleLinux"
+    - update == true
+
+- name: Update all packages
+  command: dnf update -y
+  when:
+    - ansible_distribution_major_version == "8"
+    - ansible_distribution == "OracleLinux"
+    - update == true
+
+- name: Update all packages
+  command: dnf update -y
+  when:
+    - ansible_distribution_major_version == "9"
+    - ansible_distribution == "OracleLinux"
+    - update == true
+
+- name: Remove Obsolete Packages
+  command: yum autoremove -y
+  when:
+    - ansible_distribution_major_version == "7"
+    - ansible_distribution == "OracleLinux"
+    - update == true
+
+- name: Remove Obsolete Packages
+  command: dnf autoremove -y
+  when:
+    - ansible_distribution_major_version == "8"
+    - ansible_distribution == "OracleLinux"
+    - update == true
+
+- name: Remove Obsolete Packages
+  command: dnf autoremove -y
+  when:
+    - ansible_distribution_major_version == "9"
+    - ansible_distribution == "OracleLinux"
+    - update == true
