@@ -38,7 +38,7 @@
     - add_channel == true
 
 - name: Add Server Manager Channel
-  command:  rhn-channel -u ol-svrmgr -p ol-svrmgr -a -c ol9_x86_64_latest
+  command: rhn-channel -u ol-svrmgr -p ol-svrmgr -a -c ol9_x86_64_latest
   when:
     - ansible_distribution_major_version == "9"
     - ansible_distribution == "OracleLinux"
@@ -60,7 +60,7 @@
     - add_optional_channel == true
 
 - name: Add Server Manager Channel
-  command:  rhn-channel -u ol-svrmgr -p ol-svrmgr -a -c remi-epel-el9
+  command: rhn-channel -u ol-svrmgr -p ol-svrmgr -a -c remi-epel-el9
   when:
     - ansible_distribution_major_version == "9"
     - ansible_distribution == "OracleLinux"
