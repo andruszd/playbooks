@@ -15,6 +15,6 @@ remove_repo: false
 # Update Os and packages
 update: false
 erlang_enabled: true
-rabbitmq_enabled:  true
+rabbitmq_enabled: true
 erlang_version: erlang
 rabbitmq_version: rabbitmq

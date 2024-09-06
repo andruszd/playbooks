@@ -65,7 +65,7 @@
 # Install Erlang
 - name: Install Erlang
   yum:
-    name: {{ erlang_version }}
+    name: {{erlang_version}}
     state: present
   become: true
   become_user: root
@@ -75,7 +75,7 @@
 # Install Erlang
 - name: Install Erlang
   dnf:
-    name: {{ erlang_version }}
+    name: {{erlang_version}}
     state: present
   become: true
   become_user: root
@@ -86,7 +86,7 @@
 # Install RabbitMQ
 - name: Install RabbitMQ
   yum:
-    name: {{ rabbitmq_version }}
+    name: {{rabbitmq_version}}
     state: present
   become: true
   become_user: root
@@ -97,7 +97,7 @@
 # Install RabbitMQ
 - name: Install RabbitMQ
   dnf:
-    name: {{ rabbitmq_version }}
+    name: {{rabbitmq_version}}
     state: present
   become: true
   become_user: root
