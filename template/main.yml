@@ -4,6 +4,10 @@
   gather_facts: true
   become: true
 
+- name: Start
+  debug:
+    msg: "Runing Playbook on host:" {{ansible.hostvar}} {{ansible_distribution}} {{ansible_distribution_major_version}}
+
   vars_files:
     - vars/vars.yml
   pre_tasks:
@@ -11,7 +15,6 @@
       tags: updates
       include_tasks:
         - tasks/update.yml
-
 
   handlers:
     - import_tasks: handlers/handlers.yml
@@ -58,7 +61,13 @@
       tags: services
       include_tasks:
         file: tasks/services.yml
+
+  post_tasks:
     - name: cleanup
       tags: cleanup
       include_tasks:
         file: tasks/cleanup.yml
+
+- name: End
+  debug:
+    msg: "Finished Playbook on host:" {{ansible.hostvar}} {{ansible_distribution}} {{ansible_distribution_major_version}}

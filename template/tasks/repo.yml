@@ -1,5 +1,8 @@
 ---
 # Add Server Manager Channels
+- name: Repos
+  debug:
+    msg: "Processing Repos"
 # Clean Cache First Before Adding Channels and Repos
 # Clean yum cache
 - name: Clean yum cache
@@ -87,6 +90,7 @@
     - ansible_distribution == "OracleLinux"
     - add_repo == true
 
+# Add None Server Manager Repo
 - name: Add Repo rpm
   command: dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm
   when:
@@ -94,7 +98,7 @@
     - ansible_distribution == "OracleLinux"
     - add_repo == true
 
-- name: Disable  the built-in PostgreSQL module
+- name: Disable the built-in PostgreSQL module
   command: dnf -qy module disable postgresql
   when:
     - ansible_distribution_major_version == "9"

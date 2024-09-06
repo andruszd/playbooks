@@ -1,5 +1,8 @@
 ---
 # Add Firewall Rules
+- name: Firewall
+  debug:
+    msg: "Processing Firewall Rules"
 # Update the firewall rules
 - name: reload firewalld deamon
   tags: reload_firewalld
@@ -16,6 +19,9 @@
     state: restarted
     enabled: true
 
+- name: Services
+  debug:
+    msg: "Processing Services"
 # Add Services
 # - name: file
 #   template:

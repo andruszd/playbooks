@@ -1,5 +1,8 @@
 ---
 # Update Os and packages
+- name: Updates
+  debug:
+    msg: "Processing Updates"
 - name: Update yum cache
   command: yum makecache
   when:
