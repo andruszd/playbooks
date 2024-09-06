@@ -22,10 +22,10 @@
 - name: Set up bash_rc
   tags: bashrc
   blockinfile:
-     path: /root/.bashrc
-     create: true
-     backup: true
-     block: |
+    path: /root/.bashrc
+    create: true
+    backup: true
+    block: |
         shopt -s histappend histreedit histverify
         shopt -s no_empty_cmd_completion
         export HISTCONTROL=ignoreboth:erasedups
@@ -35,12 +35,12 @@
         export HISTFILESIZE=1000000000
         export HISTSIZE=10000000
   when:
-     bashrc == true
+    bashrc == true
 
 - name: Source the bashrc file
   shell: source /root/.bashrc
   when:
-     bashrc == true
+    bashrc == true
 
 # Create Directory Structure for the Application
 - name: Create Application Directory Structure

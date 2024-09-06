@@ -6,7 +6,7 @@
 
 - name: Start
   debug:
-    msg: "Runing Playbook on host:" {{ansible.hostvar}} {{ansible_distribution}} {{ansible_distribution_major_version}}
+    msg: "Runing Playbook on host: {{ansible_hostvar}} {{ansible_distribution}} {{ansible_distribution_major_version}}"
 
   vars_files:
     - vars/vars.yml
@@ -70,4 +70,4 @@
 
 - name: End
   debug:
-    msg: "Finished Playbook on host:" {{ansible.hostvar}} {{ansible_distribution}} {{ansible_distribution_major_version}}
+    msg: "Finished Playbook on host: {{ansible_hostvar}} {{ansible_distribution}} {{ansible_distribution_major_version}}"
