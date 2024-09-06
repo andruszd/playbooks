@@ -9,7 +9,9 @@
   pre_tasks:
     - name: updates
       tags: updates
-      include_tasks: tasks/update.yml
+      include_tasks:
+        - tasks/update.yml
+
 
   handlers:
     - import_tasks: handlers/handlers.yml
@@ -20,6 +22,10 @@
       tags: version
       include_tasks:
         file: tasks/check_ansible_version.yml
+    - name: repos
+      tags: repos
+      include_tasks:
+        file: tasks/repo.yml
     - name: install dependencies
       tags: dependencies
       include_tasks:
