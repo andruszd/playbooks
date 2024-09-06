@@ -1,15 +1,30 @@
 ---
 # Add Firewall Rules
-- name: Firewall
-  debug:
-    msg: "Processing Firewall Rules"
-# Update the firewall rules
-- name: reload firewalld deamon
+- name: Rabbitmq Firewall Rules
+  tags: rabbitmq_firewall
+  src: files/rabbitmq-fire-rule.xml
+  dest: /etc/firewalld/services/rabbitmq.xml
+  owner: root
+  group: root
+  mode: u=rw,g=r,o=r
+  backup: true
+  when:
+    rabbitmq_firewall == true
+  notify: restart firewalld
+
+# Reload the firewalld service
+- name: reload firewalld
   tags: reload_firewalld
-  systemd:
+  service:
     name: firewalld
-    daemon_reload: true
+    state: reloaded
     enabled: true
+
+# Acctivate the firewalld service
+- name: acctivate firewall rule
+  command: firewall-cmd --add-service=rabbitmq --permanent
+  when:
+    rabbitmq_firewall == true
 
 # Restart the firewalld service
 - name: restart firewalld
@@ -45,11 +60,11 @@
 - name: enable service
   systemd:
     name: rabbitmq-server
-    enabled: yes
+    enabled: ture
   when:
-  - rabbitmq_user is defined
-  - rabbitmq_group is defined
-  - rabbitmq_enabled == true
+    - rabbitmq_user is defined
+    - rabbitmq_group is defined
+    - rabbitmq_enabled == true
 
 # Start Services
 - name: start service
@@ -57,9 +72,9 @@
     name: rabbitmq-server
     state: started
   when:
-  - rabbitmq_user is defined
-  - rabbitmq_group is defined
-  - rabbitmq_started == true
+    - rabbitmq_user is defined
+    - rabbitmq_group is defined
+    - rabbitmq_started == true
 
 # Status of the Service
 - name: status of the service
@@ -67,6 +82,6 @@
     name: rabbitmq-server
     state: status
   when:
-  - rabbitmq_user is defined
-  - rabbitmq_group is defined
-  - rabbitmq_status == true
+    - rabbitmq_user is defined
+    - rabbitmq_group is defined
+    - rabbitmq_status == true

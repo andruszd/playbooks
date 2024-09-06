@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+    <short>rabbitmq</short>
+    <description>RabbitMQ Ports</description>
+    <port port="25672" protocol="tcp"/>
+    <port port="5672" protocol="tcp"/>
+    <port port="5671" protocol="tcp"/>
+    <port port="15672" protocol="tcp"/>
+    <port port="1567" protocol="tcp"/>
+    <port port="1883" protocol="tcp"/>
+</service>
