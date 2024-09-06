@@ -4,8 +4,3 @@
   debug:
     msg: "Downloading Files"
 # Add Downloads to the list
-- name: download yara
-  tags: yara_download
-  get_url:
-    url: https://github.com/VirusTotal/yara/archive/refs/tags/v{{yara_version}}.tar.gz
-    dest: /tmp/yara-{{yara_version}}.tar.gz

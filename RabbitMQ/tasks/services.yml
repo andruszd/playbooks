@@ -42,11 +42,31 @@
     daemon_reload: true
 
 # Enable Services
-# - name: enable service
-#   systemd:
-#     name:
-#     enabled: yes
-#   when:
-#   - _user is defined
-#   - _group is defined
-#   - _enabled == true
+- name: enable service
+  systemd:
+    name: rabbitmq-server
+    enabled: yes
+  when:
+  - rabbitmq_user is defined
+  - rabbitmq_group is defined
+  - rabbitmq_enabled == true
+
+# Start Services
+- name: start service
+  systemd:
+    name: rabbitmq-server
+    state: started
+  when:
+  - rabbitmq_user is defined
+  - rabbitmq_group is defined
+  - rabbitmq_started == true
+
+# Status of the Service
+- name: status of the service
+  systemd:
+    name: rabbitmq-server
+    state: status
+  when:
+  - rabbitmq_user is defined
+  - rabbitmq_group is defined
+  - rabbitmq_status == true

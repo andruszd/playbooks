@@ -8,6 +8,9 @@
   yum:
     name:
       - unzip
+      - curl
+      - wget
+      - bzip2
       - tar
       - dos2unix
       - python3
@@ -36,6 +39,8 @@
       - selinux-policy-minimum
       - selinux-policy-mls
       - selinux-policy-targeted
+      - socat
+      - logrotate
     state: present
   become: true
   become_user: root
@@ -47,6 +52,9 @@
   yum:
     name:
       - unzip
+      - curl
+      - wget
+      - bzip2
       - tar
       - dnf
       - dos2unix
@@ -80,6 +88,8 @@
       - policycoreutils-restorecond
       - python3-policycoreutils
       - python3-setools
+      - socat
+      - logrotate
     state: present
   become: true
   become_user: root
@@ -91,9 +101,27 @@
   yum:
     name:
       - unzip
+      - curl
+      - wget
+      - bzip2
       - tar
       - dnf
       - dos2unix
+      - python3
+      - htop
+      - atop
+      - tree
+      - bcc
+      - bpfmon
+      - bpftool
+      - bcc-tools
+      - make
+      - gcc
+      - autoconf
+      - libtool
+      - tzdata-java
+      - logroate
+      - socat
     state: present
   become: true
   become_user: root

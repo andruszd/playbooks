@@ -17,3 +17,17 @@
   tags: config_apps
   debug:
     msg: "Configuring Applications"
+
+# RabbitMQ Limits Configuration
+- name: RabbitMQ Limits Configuration
+  tags: rabbitmq_limits
+  copy:
+    src: files/limits.conf
+    dest: /etc/systemd/system/rabbitmq-server.service.d/limits.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup: yes
+  when:
+    rabbitmq_limits == true
+  notify: reload systemd

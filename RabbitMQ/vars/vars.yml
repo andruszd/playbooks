@@ -2,13 +2,19 @@
 # User and Group
 root_user: root
 root_group: root
+rabbitmq_user: rabbitmq
+rabbitmq_group: rabbitmq
 # Shell and Profile
 bashrc: false
 # Channels and Repos
-add_channel: false
+add_channel: true
 add_optional_channel: false
 add_repo: false
 remove_channel: false
 remove_repo: false
 # Update Os and packages
 update: false
+erlang_enabled: true
+rabbitmq_enabled:  true
+erlang_version: erlang
+rabbitmq_version: rabbitmq

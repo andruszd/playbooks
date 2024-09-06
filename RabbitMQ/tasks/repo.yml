@@ -25,85 +25,50 @@
     - ansible_distribution_major_version == "9"
     - ansible_distribution == "OracleLinux"
 
-# Add Server Manager Defualt Channel
+# Add Server Manager Erlang Channel
 - name: Add Server Manager Channel
-  command: rhn-channel -u ol-svrmgr -p ol-svrmgr -a -c ol7_x86_64_latest
+  command: rhn-channel -u ol-svrmgr -p ol-svrmgr -a -c erlang-ol7_x86_64_latest
   when:
     - ansible_distribution_major_version == "7"
     - ansible_distribution == "OracleLinux"
     - add_channel == true
 
 - name: Add Server Manager Channel
-  command: rhn-channel -u ol-svrmgr -p ol-svrmgr -a -c ol8_x86_64_latest
+  command: rhn-channel -u ol-svrmgr -p ol-svrmgr -a -c erlang-ol8_x86_64_latest
   when:
     - ansible_distribution_major_version == "8"
     - ansible_distribution == "OracleLinux"
     - add_channel == true
 
 - name: Add Server Manager Channel
-  command: rhn-channel -u ol-svrmgr -p ol-svrmgr -a -c ol9_x86_64_latest
+  command: rhn-channel -u ol-svrmgr -p ol-svrmgr -a -c erlang-ol9_x86_64_latest
   when:
     - ansible_distribution_major_version == "9"
     - ansible_distribution == "OracleLinux"
     - add_channel == true
 
-# Add Server Manager Remi Channel
+# Add Server Manager RabbitMQ Channel
 - name: Add Server Manager Channel
-  command: rhn-channel -u ol-svrmgr -p ol-svrmgr -a -c remi-epel-el7
+  command: rhn-channel -u ol-svrmgr -p ol-svrmgr -a -c rabbitmq-ol7_x86_64_latest
   when:
     - ansible_distribution_major_version == "7"
     - ansible_distribution == "OracleLinux"
-    - add_optional_channel == true
+    - add_channel == true
 
 - name: Add Server Manager Channel
-  command: rhn-channel -u ol-svrmgr -p ol-svrmgr -a -c remi-epel-el8
+  command: rhn-channel -u ol-svrmgr -p ol-svrmgr -a -c rabbitmq-ol8_x86_64_latest
   when:
     - ansible_distribution_major_version == "8"
     - ansible_distribution == "OracleLinux"
-    - add_optional_channel == true
+    - add_channel == true
 
 - name: Add Server Manager Channel
-  command: rhn-channel -u ol-svrmgr -p ol-svrmgr -a -c remi-epel-el9
+  command: rhn-channel -u ol-svrmgr -p ol-svrmgr -a -c rabbitmq-ol9_x86_64_latest
   when:
     - ansible_distribution_major_version == "9"
     - ansible_distribution == "OracleLinux"
-    - add_optional_channel == true
+    - add_channel == true
 
-#  Add Repo Files
-- name: Add Server Manager Repo
-  copy:
-    src: "files/ol7-svrmgr.repo"
-    dest: "/etc/yum.repos.d/ol7-svrmgr.repo"
-    owner: root
-    group: root
-    mode: u=rw, g=r, o=r
-  when:
-    - ansible_distribution_major_version == "7"
-    - ansible_distribution == "OracleLinux"
-    - add_repo == true
-
-# Enable Server Manager Repo
-- name: Enable Server Manager Repo
-  command: yum-config-manager --enable ol7-svrmgr
-  when:
-    - ansible_distribution_major_version == "7"
-    - ansible_distribution == "OracleLinux"
-    - add_repo == true
-
-# Add None Server Manager Repo
-- name: Add Repo rpm
-  command: dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm
-  when:
-    - ansible_distribution_major_version == "9"
-    - ansible_distribution == "OracleLinux"
-    - add_repo == true
-
-- name: Disable the built-in PostgreSQL module
-  command: dnf -qy module disable postgresql
-  when:
-    - ansible_distribution_major_version == "9"
-    - ansible_distribution == "OracleLinux"
-    - add_repo == true
 
 # Refresh the cache...
 # Update yum cache
