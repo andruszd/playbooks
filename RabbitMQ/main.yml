@@ -1,6 +1,6 @@
 ---
-- name: blank_playbook
-  hosts: all
+- name: RabbitMQ
+  hosts: rabbit
   gather_facts: true
   become: true
 
@@ -29,6 +29,7 @@
       tags: repos
       include_tasks:
         file: tasks/repo.yml
+        when: add_channel == true or add_optional_channel == true or add_repo == true
     - name: install dependencies
       tags: dependencies
       include_tasks:
