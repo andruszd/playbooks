@@ -69,6 +69,18 @@
     - ansible_distribution == "OracleLinux"
     - add_channel == true
 
+# Add None Server Manager Repos
+- name: Add None Server Manager Repo
+  file:
+    src: files/rabbitmq-el9.repo
+    dest: /etc/yum.repos.d/rabbitmq-el9.repo
+    owner: {{root_user}}
+    group: {{root_group}}
+    mode:  u=rw,g=r,o=r
+  when:
+    - ansible_distribution_major_version == "9"
+    - ansible_distribution == "OracleLinux"
+    - add_channel == false or add_optional_channel == false or add_repo == true
 
 # Refresh the cache...
 # Update yum cache
@@ -106,7 +118,7 @@
 
 # Remove Repo
 - name: Remove Server Manager Repo
-  command: rm -f /etc/yum.repos.d/ol7-svrmgr.repo
+  command: rm -f /etc/yum.repos.d/rabbitmq-el9.repo
   when:
     - ansible_distribution_major_version == "7"
     - ansible_distribution == "OracleLinux"

@@ -120,7 +120,7 @@
       - autoconf
       - libtool
       - tzdata-java
-      - logroate
+      - logrotate
       - socat
     state: present
   become: true

@@ -62,20 +62,22 @@
   tags: additional_packages
   debug:
     msg: "Installing Additional Packages"
+
 # Install Erlang
 - name: Install Erlang
   yum:
-    name: {{erlang_version}}
+    name: "{{ erlang_version }}"
     state: present
   become: true
   become_user: root
   tags: [erlang]
   when: ansible_distribution == "OracleLinux" and
         ansible_distribution_major_version <= '7'
+
 # Install Erlang
 - name: Install Erlang
   dnf:
-    name: {{erlang_version}}
+    name: "{{ erlang_version }}"
     state: present
   become: true
   become_user: root
@@ -86,7 +88,7 @@
 # Install RabbitMQ
 - name: Install RabbitMQ
   yum:
-    name: {{rabbitmq_version}}
+    name: "{{ rabbitmq_version }}"
     state: present
   become: true
   become_user: root
@@ -97,7 +99,7 @@
 # Install RabbitMQ
 - name: Install RabbitMQ
   dnf:
-    name: {{rabbitmq_version}}
+    name: "{{rabbitmq_version}}"
     state: present
   become: true
   become_user: root

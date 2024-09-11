@@ -7,7 +7,7 @@ rabbitmq_group: rabbitmq
 # Shell and Profile
 bashrc: false
 # Channels and Repos
-add_channel: true
+add_channel: false
 add_optional_channel: false
 add_repo: false
 remove_channel: false

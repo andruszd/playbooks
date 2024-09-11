@@ -4,7 +4,6 @@
   gather_facts: true
   become: true
 
-- name: Start
   debug:
     msg: "Runing Playbook on host: {{ansible_hostvar}} {{ansible_distribution}} {{ansible_distribution_major_version}}"
 
@@ -29,7 +28,6 @@
       tags: repos
       include_tasks:
         file: tasks/repo.yml
-        when: add_channel == true or add_optional_channel == true or add_repo == true
     - name: install dependencies
       tags: dependencies
       include_tasks:
@@ -69,6 +67,5 @@
       include_tasks:
         file: tasks/cleanup.yml
 
-- name: End
   debug:
     msg: "Finished Playbook on host: {{ansible_hostvar}} {{ansible_distribution}} {{ansible_distribution_major_version}}"
