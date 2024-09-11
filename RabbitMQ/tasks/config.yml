@@ -18,16 +18,23 @@
   debug:
     msg: "Configuring Applications"
 
+- name: service directory for rabbitmq
+  file:
+    path: /etc/systemd/system/rabbitmq-server.service.d/
+    state: directory
+    owner: "{{ root_user }}"
+    group: "{{ root_group }}"
+    mode: u=rwx,g=rx,o=rx
+
 # RabbitMQ Limits Configuration
 - name: RabbitMQ Limits Configuration
   tags: rabbitmq_limits
-  copy:
+  template:
     src: files/limits.conf
     dest: /etc/systemd/system/rabbitmq-server.service.d/limits.conf
-    owner: root
-    group: root
+    owner: "{{ root_user }}"
+    group: "{{ root_group }}"
     mode: u=rw,g=r,o=r
     backup: true
   when:
     rabbitmq_limits == true
-  notify: reload systemd

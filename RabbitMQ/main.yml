@@ -4,22 +4,22 @@
   gather_facts: true
   become: true
 
-  debug:
-    msg: "Runing Playbook on host: {{ansible_hostvar}} {{ansible_distribution}} {{ansible_distribution_major_version}}"
-
   vars_files:
     - vars/vars.yml
   pre_tasks:
     - name: updates
       tags: updates
       include_tasks:
-        - tasks/update.yml
+        tasks/update.yml
 
   handlers:
     - import_tasks: handlers/handlers.yml
       tags: handlers
       when: handlers_file.stat.exists
   tasks:
+    - name: Start
+      debug:
+        msg: "Runing Playbook"
     - name: check_ansible_version
       tags: version
       include_tasks:
@@ -66,6 +66,6 @@
       tags: cleanup
       include_tasks:
         file: tasks/cleanup.yml
-
-  debug:
-    msg: "Finished Playbook on host: {{ansible_hostvar}} {{ansible_distribution}} {{ansible_distribution_major_version}}"
+    - name: Finish
+      debug:
+        msg: "Finished Playbook"

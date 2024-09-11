@@ -1,9 +1,10 @@
 ---
 # Cleanup the RAM
 # After installation clean the RAM so that we get the required free space.
-- name: cleanup
+- name: Cleanup
   debug:
     msg: "Cleaning up....."
+
 - name: Clean Ram Cache
   tags: clean_ram
   copy:

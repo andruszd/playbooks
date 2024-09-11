@@ -2,15 +2,16 @@
 # Add Firewall Rules
 - name: Rabbitmq Firewall Rules
   tags: rabbitmq_firewall
-  src: files/rabbitmq-fire-rule.xml
-  dest: /etc/firewalld/services/rabbitmq.xml
-  owner: root
-  group: root
-  mode: u=rw,g=r,o=r
-  backup: true
+  template:
+    src: files/rabbitmq-fire-rule.xml
+    dest: /usr/lib/firewalld/services/rabbitmq.xml
+    owner: "{{ root_user }}"
+    group: "{{ root_group }}"
+    mode: u=rw,g=r,o=r
+    backup: true
   when:
     rabbitmq_firewall == true
-  notify: restart firewalld
+
 
 # Reload the firewalld service
 - name: reload firewalld
@@ -60,7 +61,7 @@
 - name: enable service
   systemd:
     name: rabbitmq-server
-    enabled: ture
+    enabled: true
   when:
     - rabbitmq_user is defined
     - rabbitmq_group is defined
@@ -71,17 +72,8 @@
   systemd:
     name: rabbitmq-server
     state: started
+    enabled: true
   when:
     - rabbitmq_user is defined
     - rabbitmq_group is defined
-    - rabbitmq_started == true
-
-# Status of the Service
-- name: status of the service
-  systemd:
-    name: rabbitmq-server
-    state: status
-  when:
-    - rabbitmq_user is defined
-    - rabbitmq_group is defined
-    - rabbitmq_status == true
+    - rabbitmq_enabled == true

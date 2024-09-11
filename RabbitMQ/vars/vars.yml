@@ -17,4 +17,6 @@ update: false
 erlang_enabled: true
 rabbitmq_enabled: true
 erlang_version: erlang
-rabbitmq_version: rabbitmq
+rabbitmq_version: rabbitmq-server
+rabbitmq_limits: true
+rabbitmq_firewall: true

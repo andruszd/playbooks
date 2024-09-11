@@ -71,12 +71,13 @@
 
 # Add None Server Manager Repos
 - name: Add None Server Manager Repo
-  file:
+  template:
     src: files/rabbitmq-el9.repo
     dest: /etc/yum.repos.d/rabbitmq-el9.repo
-    owner: {{root_user}}
-    group: {{root_group}}
-    mode:  u=rw,g=r,o=r
+    owner: "{{ root_user }}"
+    group: "{{ root_group }}"
+    mode: u=rw,g=r,o=r
+    backup: true
   when:
     - ansible_distribution_major_version == "9"
     - ansible_distribution == "OracleLinux"
