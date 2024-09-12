@@ -1,0 +1,19 @@
+---
+# - name: ensure group pinot exists
+#   group:
+#     name: "{{_group }}"
+#     state: present
+#   become: true
+
+# - name: create pinot user
+#   user:
+#     name: "{{_user }}"
+#     group: "{{_group }}"
+#     state: present
+#     create_home: true
+#   become: true
+#   when: _user is defined and _group is defined
+- name: User Creation
+  tags: user_creation
+  debug:
+     msg: "Creating Users"

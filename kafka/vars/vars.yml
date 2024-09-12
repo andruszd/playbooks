@@ -1,0 +1,14 @@
+---
+# User and Group
+root_user: root
+root_group: root
+# Shell and Profile
+bashrc: false
+# Channels and Repos
+add_channel: false
+add_optional_channel: false
+add_repo: false
+remove_channel: false
+remove_repo: false
+# Update Os and packages
+update: false

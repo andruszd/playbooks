@@ -1,0 +1,70 @@
+---
+- name: kafka
+  hosts: all
+  gather_facts: true
+  become: true
+
+  vars_files:
+    - vars/vars.yml
+  pre_tasks:
+    - name: updates
+      tags: updates
+      include_tasks:
+         file: tasks/update.yml
+  handlers:
+    - import_tasks: handlers/handlers.yml
+      tags: handlers
+      when: handlers_file.stat.exists
+  tasks:
+    - name: Start
+      debug:
+        msg: "Runing Playbook "
+    - name: check_ansible_version
+      tags: version
+      include_tasks:
+        file: tasks/check_ansible_version.yml
+    - name: repos
+      tags: repos
+      include_tasks:
+        file: tasks/repo.yml
+    - name: install dependencies
+      tags: dependencies
+      include_tasks:
+        file: tasks/dependencies.yml
+    - name: create users
+      tags: crates_users
+      include_tasks:
+        file: tasks/users.yml
+    - name: download packages
+      tags: download_packages
+      include_tasks:
+        file: tasks/download.yml
+    - name: install packages
+      tags: install_packages
+      include_tasks:
+        file: tasks/install.yml
+    - name: configure packages
+      tags: configure_packages
+      include_tasks:
+        file: tasks/config.yml
+    - name: set enviroment variables
+      tags: set_env
+      include_tasks:
+        file: tasks/env.yml
+    - name: setup symbolic links
+      tags: setup_links
+      include_tasks:
+        file: tasks/link.yml
+    - name: services
+      tags: services
+      include_tasks:
+        file: tasks/services.yml
+
+  post_tasks:
+    - name: cleanup
+      tags: cleanup
+      include_tasks:
+        file: tasks/cleanup.yml
+    - name: End
+      debug:
+        msg: "Finished Playbook"

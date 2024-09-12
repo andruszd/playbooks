@@ -1,0 +1,74 @@
+---
+- name: Install
+  debug:
+    msg: "Installing Packages"
+# Update OS configuration files
+- name: Update OS Configuration Files
+  tags: update_os
+  debug:
+    msg: "Updating OS Configuration Files"
+# FIXME: hosts file is not updated. Need to fix this.
+#  hostname
+# - name: Updating /etc/hosts File on All Cluster Nodes
+#   template:
+#         src: "templates/hosts.j2"
+#         dest: "/etc/hosts"
+#         force: true
+#         owner: root
+#         group: root
+#         mode: u=rw,g=r,o=r
+#         backup: true
+
+- name: Set up bash_rc
+  tags: bashrc
+  blockinfile:
+    path: /root/.bashrc
+    create: true
+    backup: true
+    block: |
+        shopt -s histappend histreedit histverify
+        shopt -s no_empty_cmd_completion
+        export HISTCONTROL=ignoreboth:erasedups
+        export HISTTIMEFORMAT="%Y-%m-%d:%T:-> "
+        export HISTIGNORE="pwd:bg:fg:history"
+        export HISTFILE=$HOME/.bash_history
+        export HISTFILESIZE=1000000000
+        export HISTSIZE=10000000
+  when:
+    bashrc == true
+
+- name: Source the bashrc file
+  shell: source /root/.bashrc
+  when:
+    bashrc == true
+
+# Create Directory Structure for the Application
+- name: Create Application Directory Structure
+  tags: create_directories
+  debug:
+    msg: "Creating Application Directory Structure"
+# Add mount points
+- name: Add Mount Points
+  tags: mount_points
+  debug:
+    msg: "Adding Mount Points"
+# Create dummy files
+- name: Create Dummy Files
+  tags: dummy_files
+  debug:
+    msg: "Creating Dummy Files"
+# Install Additional pckages
+- name: Install Additional Packages
+  tags: additional_packages
+  debug:
+    msg: "Installing Additional Packages"
+# Set Premissions
+- name: Set Permissions
+  tags: set_permissions
+  debug:
+    msg: "Setting Permissions"
+# Remove temp files
+- name: Remove Temp Files
+  tags: remove_temp_files
+  debug:
+    msg: "Removing Temp Files"
