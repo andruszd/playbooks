@@ -6,7 +6,7 @@
 
 - name: Start
   debug:
-    msg: "Runing Playbook on host: {{ansible_hostvar}} {{ansible_distribution}} {{ansible_distribution_major_version}}"
+    msg: "Running Playbook on host: {{ansible_hostvar}} {{ansible_distribution}} {{ansible_distribution_major_version}}"
 
   vars_files:
     - vars/vars.yml
@@ -50,7 +50,7 @@
       tags: configure_packages
       include_tasks:
         file: tasks/config.yml
-    - name: set enviroment variables
+    - name: set environment variables
       tags: set_env
       include_tasks:
         file: tasks/env.yml

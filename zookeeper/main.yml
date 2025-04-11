@@ -40,7 +40,7 @@
       tags: configure_packages
       include_tasks:
         file: tasks/config.yml
-    - name: set enviroment variables
+    - name: set environment variables
       tags: set_env
       include_tasks:
         file: tasks/env.yml

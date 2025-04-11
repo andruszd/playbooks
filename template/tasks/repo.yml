@@ -147,7 +147,7 @@
     - ansible_distribution == "OracleLinux"
     - remove_repo == true
 
-# Allways Clean Cache After Removing Channels and Repos to avoid conflicts.
+# Always Clean Cache After Removing Channels and Repos to avoid conflicts.
 # Clean yum cache
 - name: Clean yum cache
   command: yum clean all

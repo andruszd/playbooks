@@ -57,12 +57,12 @@
   tags: dummy_files
   debug:
     msg: "Creating Dummy Files"
-# Install Additional pckages
+# Install Additional packages
 - name: Install Additional Packages
   tags: additional_packages
   debug:
     msg: "Installing Additional Packages"
-# Set Premissions
+# Set Permissions
 - name: Set Permissions
   tags: set_permissions
   debug:
